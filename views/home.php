@@ -29,9 +29,11 @@ $prev     = array_slice($featured, 0, 4);
     <div class="he-viewport">
       <div class="he-rig">
         <div class="he-device">
+          <div class="he-frame" aria-hidden="true"></div>
           <div class="he-island" aria-hidden="true"></div>
 
           <div class="he-screen">
+            <div class="he-screen__bg" aria-hidden="true"></div>
             <div class="he-content">
               <!-- 0 mobile -->
               <div class="he-stage">
@@ -70,8 +72,6 @@ $prev     = array_slice($featured, 0, 4);
           <!-- physical parts (silhouette) -->
           <div class="he-hinge" aria-hidden="true"></div>
           <div class="he-deck" aria-hidden="true"><div class="he-keys"></div><div class="he-trackpad"></div></div>
-          <div class="he-neck" aria-hidden="true"></div>
-          <div class="he-base" aria-hidden="true"></div>
         </div>
       </div>
 
