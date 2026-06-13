@@ -1,17 +1,28 @@
 /* home.css — hero + entrance */
 .home-stage{min-height:100dvh;padding:calc(var(--nav-h) + clamp(8px,4vh,48px)) clamp(20px,5vw,64px) 0;display:flex;flex-direction:column}
-.home-hero{max-width:16ch;flex:0 0 auto}
-@media (min-width:800px){.home-hero{max-width:22ch}}
-.home-hero__title{font-family:var(--font-display);font-weight:800;font-size:clamp(2.7rem,8.2vw,6.8rem);
-  line-height:1.02;letter-spacing:-.04em;margin:0;color:var(--text-primary);text-wrap:balance}
-.home-hero__title .line{display:block;overflow:clip}
+
+.home-hero{flex:0 0 auto}
+
+.home-hero__title{
+  font-family:var(--font-display);font-weight:800;
+  font-size:clamp(2rem,8vw,6.6rem);
+  line-height:1.04;letter-spacing:-.04em;margin:0;color:var(--text-primary);
+  width:max-content;max-width:100%;          /* shrink to the widest line, never exceed viewport */
+}
+.home-hero__title .line{
+  display:block;overflow:clip;               /* clips only the vertical reveal now */
+  padding-bottom:.14em;margin-bottom:-.14em; /* give descenders (p, y) room inside the clip box */
+}
 .home-hero__title .line>span{display:inline-block;will-change:transform}
+
 .accent-word{position:relative;white-space:nowrap}
-.accent-word .underline{position:absolute;left:-2%;bottom:-.16em;width:104%;height:.34em;overflow:visible;pointer-events:none}
+.accent-word .underline{position:absolute;left:-2%;bottom:-.02em;width:104%;height:.34em;overflow:visible;pointer-events:none}
 .accent-word .underline path{fill:none;stroke:var(--blue);stroke-width:9;stroke-linecap:round;
   stroke-dasharray:320;stroke-dashoffset:320;transition:stroke-dashoffset 700ms var(--ease-out);transition-delay:760ms}
+
 .home-hero__sub{margin:clamp(22px,3.5vh,36px) 0 0;max-width:54ch;font-size:clamp(1rem,1.35vw,1.22rem);
   line-height:1.55;color:var(--text-secondary);text-wrap:pretty}
+
 /* entrance (needs .js on <html>) */
 .js .home-hero__title .line>span,.js .home-hero__sub,.js .home-work{opacity:0}
 .js .home-hero__title .line>span{transform:translateY(115%)}
