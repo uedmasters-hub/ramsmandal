@@ -1,0 +1,6 @@
+/* base.css — shared typography + layout primitives */
+h1,h2,h3{font-family:var(--font-display);letter-spacing:-0.03em;line-height:1.1;text-wrap:balance}
+p{line-height:1.55}
+.prose{max-width:var(--reading-width)}
+.prose p+p{margin-top:var(--space-4)}
+main{display:block}

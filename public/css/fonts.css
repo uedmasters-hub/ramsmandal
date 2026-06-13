@@ -1,0 +1,8 @@
+/* =========================================================================
+   fonts.css — self-hosted Inter + Manrope. Drop the woff2 into public/fonts/.
+   Falls back to system stack until the files exist, so nothing breaks.
+   ========================================================================= */
+@font-face { font-family:"Inter"; font-style:normal; font-weight:300 700; font-display:swap;
+  src:url("../fonts/Inter-Variable.woff2") format("woff2"); }
+@font-face { font-family:"Manrope"; font-style:normal; font-weight:500 800; font-display:swap;
+  src:url("../fonts/Manrope-Variable.woff2") format("woff2"); }

@@ -1,0 +1,31 @@
+/* home.css — hero + entrance */
+.home-stage{min-height:100dvh;padding:calc(var(--nav-h) + clamp(8px,4vh,48px)) clamp(20px,5vw,64px) 0;display:flex;flex-direction:column}
+.home-hero{max-width:16ch;flex:0 0 auto}
+@media (min-width:800px){.home-hero{max-width:22ch}}
+.home-hero__title{font-family:var(--font-display);font-weight:800;font-size:clamp(2.7rem,8.2vw,6.8rem);
+  line-height:1.02;letter-spacing:-.04em;margin:0;color:var(--text-primary);text-wrap:balance}
+.home-hero__title .line{display:block;overflow:clip}
+.home-hero__title .line>span{display:inline-block;will-change:transform}
+.accent-word{position:relative;white-space:nowrap}
+.accent-word .underline{position:absolute;left:-2%;bottom:-.16em;width:104%;height:.34em;overflow:visible;pointer-events:none}
+.accent-word .underline path{fill:none;stroke:var(--blue);stroke-width:9;stroke-linecap:round;
+  stroke-dasharray:320;stroke-dashoffset:320;transition:stroke-dashoffset 700ms var(--ease-out);transition-delay:760ms}
+.home-hero__sub{margin:clamp(22px,3.5vh,36px) 0 0;max-width:54ch;font-size:clamp(1rem,1.35vw,1.22rem);
+  line-height:1.55;color:var(--text-secondary);text-wrap:pretty}
+/* entrance (needs .js on <html>) */
+.js .home-hero__title .line>span,.js .home-hero__sub,.js .home-work{opacity:0}
+.js .home-hero__title .line>span{transform:translateY(115%)}
+.js .home-hero__sub{transform:translateY(18px)}
+.js .home-work{transform:translateY(28px)}
+.js .home-hero__title .line>span,.js .home-hero__sub,.js .home-work{transition:transform 820ms var(--ease-spring),opacity 620ms var(--ease-out)}
+.js.is-ready .home-hero__title .line>span,.js.is-ready .home-hero__sub,.js.is-ready .home-work{transform:none;opacity:1}
+.js.is-ready .home-hero__title .line:nth-child(1)>span{transition-delay:80ms}
+.js.is-ready .home-hero__title .line:nth-child(2)>span{transition-delay:180ms}
+.js.is-ready .home-hero__title .line:nth-child(3)>span{transition-delay:280ms}
+.js.is-ready .home-hero__sub{transition-delay:520ms}
+.js.is-ready .home-work{transition-delay:620ms}
+.js.is-ready .accent-word .underline path{stroke-dashoffset:0}
+@media (prefers-reduced-motion:reduce){
+  .js .home-hero__title .line>span,.js .home-hero__sub,.js .home-work{opacity:1!important;transform:none!important}
+  .accent-word .underline path{stroke-dashoffset:0!important}
+}

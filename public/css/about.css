@@ -1,0 +1,12 @@
+/* about.css */
+.about{max-width:var(--reading-width);margin:0 auto;padding:calc(var(--nav-h) + clamp(24px,6vh,64px)) clamp(20px,5vw,64px) 0}
+.about__head h1{font-size:clamp(2.4rem,6vw,4.4rem);letter-spacing:-.04em;margin-bottom:24px}
+.about__head p{color:var(--text-secondary);font-size:1.1rem;line-height:1.6;margin-bottom:16px}
+.about__exp{margin-top:clamp(40px,7vh,80px)}
+.about__exp h2{font-size:1.5rem;margin-bottom:24px}
+.about__exp ol{list-style:none;margin:0;padding:0;display:grid;gap:28px}
+.about__exp-top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.about__exp-top strong{font-family:var(--font-display);font-size:1.1rem}
+.about__exp-top span{color:var(--text-muted);font-size:14px}
+.about__exp-role{color:var(--text-secondary);font-size:14px;margin:4px 0 8px}
+.about__exp li p{color:var(--text-secondary);line-height:1.55}

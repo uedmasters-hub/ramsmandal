@@ -1,0 +1,7 @@
+/* footer.css */
+.site-footer{padding:clamp(40px,8vh,96px) clamp(20px,5vw,64px) clamp(28px,5vh,56px)}
+.site-footer__inner{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  border-top:1px solid var(--border);padding-top:24px}
+.site-footer__line{font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;font-size:clamp(1rem,2vw,1.25rem);color:var(--text-primary)}
+.site-footer__mail{font-size:14px;color:var(--text-muted);transition:color var(--t-base) var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.site-footer__mail:hover{color:var(--text-primary)}}
