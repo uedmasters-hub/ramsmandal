@@ -5,7 +5,3 @@
 .contact__direct{margin-top:32px;font-family:var(--font-display);font-size:1.3rem;line-height:2}
 .contact__direct a{color:var(--blue)}
 .contact__sent{margin-top:24px;color:var(--blue);font-weight:600}
-/* shared 404 */
-.notfound{min-height:70dvh;display:grid;place-content:center;text-align:center;gap:12px}
-.notfound h1{font-size:clamp(4rem,16vw,9rem);letter-spacing:-.05em}
-.notfound a{color:var(--blue);font-weight:600}
