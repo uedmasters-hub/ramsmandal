@@ -7,24 +7,32 @@
 .intro,.work,.scale,.cta{max-width:1320px;margin-inline:auto}
 
 /* ---------- HERO ---------- */
-.hero{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;
-  padding-top:calc(var(--nav-h) + 24px);padding-bottom:48px;max-width:1320px;margin-inline:auto}
-.hero__inner{max-width:18ch}
-.hero__role{font-size:14px;color:var(--text-muted);margin:0 0 clamp(18px,3vh,28px);font-weight:500}
+.hero{min-height:100dvh;display:flex;flex-direction:column;
+  padding-top:calc(var(--nav-h) + clamp(20px,5vh,52px));padding-bottom:clamp(28px,5vh,56px);
+  max-width:1320px;margin-inline:auto}
+.hero__role{font-size:14px;color:var(--text-muted);font-weight:500;margin:0}
+
 .hero__statement{
   font-family:var(--font-display);font-weight:800;
-  font-size:clamp(2.6rem,7.4vw,6rem);line-height:1.04;letter-spacing:-.035em;
-  margin:0;color:var(--text-primary);text-wrap:balance;max-width:15ch;
+  font-size:clamp(2.3rem,7.6vw,6rem);line-height:1.02;letter-spacing:-.04em;
+  margin:clamp(20px,4vh,40px) 0 0;color:var(--text-primary);
+  width:max-content;max-width:100%;        /* sizes to the widest line, never overflows */
 }
-.kw{color:var(--text-primary)}
 .kw--accent{position:relative;white-space:nowrap}
-.kw--accent::after{content:"";position:absolute;left:.02em;right:.02em;bottom:.02em;height:.07em;
+.kw--accent::after{content:"";position:absolute;left:.02em;right:.04em;bottom:.04em;height:.055em;
   background:var(--blue);border-radius:2px;transform:scaleX(0);transform-origin:left;
-  transition:transform .75s var(--ease-out) .7s}
-.hero__sub{margin:clamp(26px,4vh,40px) 0 0;max-width:50ch;color:var(--text-secondary);
-  font-size:clamp(1.02rem,1.3vw,1.2rem);line-height:1.55;text-wrap:pretty}
-.hero__cue{margin-top:auto;display:inline-flex;align-items:center;gap:9px;width:max-content;
-  color:var(--text-muted);font-size:14px;transition:color var(--t-base) var(--ease-out),gap var(--t-base) var(--ease-out)}
+  transition:transform .8s var(--ease-out) .75s}
+
+.hero__foot{margin-top:auto;padding-top:clamp(32px,6vh,72px);
+  display:flex;align-items:flex-end;justify-content:space-between;gap:24px 56px;flex-wrap:wrap}
+.hero__sub{margin:0;max-width:44ch;color:var(--text-secondary);
+  font-size:clamp(1rem,1.25vw,1.18rem);line-height:1.55;text-wrap:pretty}
+.hero__aside{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+@media (min-width:760px){.hero__aside{align-items:flex-end;text-align:right}}
+.hero__now{margin:0;font-size:14px;color:var(--text-muted)}
+.hero__now span{color:var(--text-primary);font-weight:500}
+.hero__cue{display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);font-size:14px;width:max-content;
+  transition:color var(--t-base) var(--ease-out)}
 .hero__cue svg{transition:transform var(--t-base) var(--ease-spring)}
 @media (hover:hover) and (pointer:fine){.hero__cue:hover{color:var(--text-primary)}.hero__cue:hover svg{transform:translateY(3px)}}
 
@@ -96,14 +104,14 @@
 @media (hover:hover) and (pointer:fine){.cta__mail:hover{color:var(--text-primary)}}
 
 /* ---------- HERO entrance (needs .js on <html>) ---------- */
-.js .hero__role,.js .hero__statement,.js .hero__sub,.js .hero__cue{opacity:0;transform:translateY(20px);
+.js .hero__role,.js .hero__statement,.js .hero__sub,.js .hero__aside{opacity:0;transform:translateY(20px);
   transition:opacity .7s var(--ease-out),transform .9s var(--ease-spring)}
 .js.is-ready .hero__role{opacity:1;transform:none;transition-delay:.05s}
 .js.is-ready .hero__statement{opacity:1;transform:none;transition-delay:.15s}
-.js.is-ready .hero__sub{opacity:1;transform:none;transition-delay:.42s}
-.js.is-ready .hero__cue{opacity:1;transform:none;transition-delay:.62s}
+.js.is-ready .hero__sub{opacity:1;transform:none;transition-delay:.5s}
+.js.is-ready .hero__aside{opacity:1;transform:none;transition-delay:.62s}
 .is-ready .kw--accent::after{transform:scaleX(1)}
 @media (prefers-reduced-motion:reduce){
-  .js .hero__role,.js .hero__statement,.js .hero__sub,.js .hero__cue{opacity:1!important;transform:none!important}
+  .js .hero__role,.js .hero__statement,.js .hero__sub,.js .hero__aside{opacity:1!important;transform:none!important}
   .kw--accent::after{transform:scaleX(1)!important;transition:none!important}
 }

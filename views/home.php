@@ -14,15 +14,20 @@ $featured = array_values(array_filter($all, fn($p) => !empty($p['featured'])));
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero__inner">
-    <p class="hero__role">Experience Architect</p>
-    <h1 class="hero__statement">I transform <span class="kw">complexity</span> into <span class="kw kw--accent">clarity</span>.</h1>
+  <p class="hero__role">Experience Architect</p>
+
+  <h1 class="hero__statement">I transform<br>complexity into<br><span class="kw--accent">clarity</span>.</h1>
+
+  <div class="hero__foot">
     <p class="hero__sub">Seventeen years across aviation, SaaS, and enterprise platforms. I shape the systems, products, and decisions behind experiences used by millions.</p>
+    <div class="hero__aside">
+      <p class="hero__now">Currently Sr. Manager UI/UX at <span>Intelegencia</span></p>
+      <a class="hero__cue" href="#work">
+        <span>Selected work</span>
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+      </a>
+    </div>
   </div>
-  <a class="hero__cue" href="#work">
-    <span>Selected work</span>
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-  </a>
 </section>
 
 <!-- POSITIONING -->
