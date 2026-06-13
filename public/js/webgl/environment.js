@@ -1,130 +1,103 @@
 /* =========================================================================
-   webgl/environment.js
-   A living atmosphere, not a particle toy. One full-frame plane runs a slow
-   domain-warped flow field. As progress climbs 0 -> 1 the field gains
-   structure (filaments / nodes): focused craft becoming a connected system.
-
-   Budget: single WebGLRenderer, DPR capped at 1.75, paused when hidden,
-   no continuous loop under reduced motion. 60fps target on a 2-octave warp.
+   webgl/environment.js  — LIVING SYSTEMS NETWORK
+   Not a shader. A 3D field of nodes connected by edges: a living organization.
+   Nodes breathe, connections flex, the whole field drifts with depth fog.
+   Progress 0->1 grows density and brightness (focused craft -> connected system).
+   Budget: single renderer, DPR<=1.75, ~92 nodes/capped edges, paused when hidden,
+   static single frame under reduced motion. Theme-aware colours.
    ========================================================================= */
 
 import * as THREE from "three";
 
-const VERT = /* glsl */ `
-  varying vec2 vUv;
-  void main() { vUv = uv; gl_Position = vec4(position, 1.0); }
-`;
-
-const FRAG = /* glsl */ `
-  precision highp float;
-  varying vec2 vUv;
-  uniform vec2  uRes;
-  uniform float uTime;
-  uniform float uProgress;   // 0..1 scroll progress
-  uniform vec3  uBg;
-  uniform vec3  uInk;
-  uniform vec3  uAccent;
-
-  // hash / value noise
-  float hash(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
-  float noise(vec2 p){
-    vec2 i = floor(p), f = fract(p);
-    float a = hash(i), b = hash(i+vec2(1,0)), c = hash(i+vec2(0,1)), d = hash(i+vec2(1,1));
-    vec2 u = f*f*(3.0-2.0*f);
-    return mix(mix(a,b,u.x), mix(c,d,u.x), u.y);
-  }
-  float fbm(vec2 p){
-    float v = 0.0, a = 0.5;
-    for(int i=0;i<4;i++){ v += a*noise(p); p *= 2.0; a *= 0.5; }
-    return v;
-  }
-
-  void main(){
-    vec2 uv = vUv;
-    float agitate = mix(0.6, 1.6, uProgress);
-
-    // domain warp -> flowing field
-    vec2 q = vec2(fbm(uv*2.0 + uTime*0.03), fbm(uv*2.0 - uTime*0.025 + 7.3));
-    float f = fbm(uv*3.0 + q*agitate + uTime*0.02);
-
-    // base atmosphere: bg <-> ink, very low contrast
-    vec3 col = mix(uBg, uInk, smoothstep(0.35, 0.85, f) * 0.16);
-
-    // filaments / connective structure emerge with progress
-    float ridges = abs(fbm(uv*4.0 + q*2.0 - uTime*0.04) - 0.5);
-    float fil = smoothstep(0.06, 0.0, ridges) * smoothstep(0.15, 0.9, uProgress);
-    col = mix(col, uAccent, fil * 0.5);
-
-    // soft node glints late in the journey
-    float nodes = smoothstep(0.86, 0.99, noise(uv*9.0 + floor(uTime*0.4))) * smoothstep(0.55, 1.0, uProgress);
-    col += uAccent * nodes * 0.35;
-
-    // gentle vignette for depth
-    float vig = smoothstep(1.2, 0.2, length(uv-0.5));
-    col = mix(col*0.96, col, vig);
-
-    gl_FragColor = vec4(col, 1.0);
-  }
-`;
-
 export class Environment {
   constructor(canvas) {
     this.canvas = canvas;
-    this.enabled = !!canvas && this._supportsWebGL();
-    this._raf = 0;
-    this._visible = true;
-    this._progress = 0;
-    this._target = 0;
+    this.enabled = !!canvas && this._supports();
+    this._raf = 0; this._visible = true; this._t = 0;
+    this._progress = 0; this._target = 0;
     this._clock = new THREE.Clock();
     if (this.enabled) this._init();
   }
 
-  _supportsWebGL() {
-    try { return !!document.createElement("canvas").getContext("webgl2"); }
+  _supports() {
+    try { return !!document.createElement("canvas").getContext("webgl"); }
     catch (e) { return false; }
   }
 
   _init() {
-    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: false, alpha: false });
+    const w = this.canvas.clientWidth || window.innerWidth;
+    const h = this.canvas.clientHeight || window.innerHeight;
+
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+    this.renderer.setSize(w, h, false);
+
     this.scene = new THREE.Scene();
-    this.camera = new THREE.Camera();
+    this.camera = new THREE.PerspectiveCamera(58, w / h, 0.1, 200);
+    this.camera.position.set(0, 0, 46);
 
-    this.uniforms = {
-      uRes:      { value: new THREE.Vector2(1, 1) },
-      uTime:     { value: 0 },
-      uProgress: { value: 0 },
-      uBg:       { value: new THREE.Color(0xf5f5f3) },
-      uInk:      { value: new THREE.Color(0x0f0f0f) },
-      uAccent:   { value: new THREE.Color(0x1a46c9) },
-    };
-    const mat = new THREE.ShaderMaterial({ vertexShader: VERT, fragmentShader: FRAG, uniforms: this.uniforms });
-    this.scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat));
+    this.group = new THREE.Group();
+    this.scene.add(this.group);
 
+    this._buildNetwork();
     this.setThemeFromCSS();
-    this.resize();
+
     window.addEventListener("resize", this._onResize = () => this.resize());
     document.addEventListener("visibilitychange", this._onVis = () => {
       this._visible = !document.hidden;
       if (this._visible) this._loop(); else cancelAnimationFrame(this._raf);
     });
 
-    // reduced motion: render one static frame and stop
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      this.uniforms.uProgress.value = 0.5;
-      this.renderer.render(this.scene, this.camera);
-    } else {
-      this._loop();
+      this._progress = 0.4; this._update(0); this.renderer.render(this.scene, this.camera);
+    } else { this._loop(); }
+  }
+
+  _buildNetwork() {
+    const N = 92;
+    const spread = new THREE.Vector3(58, 34, 30);
+    this.base = [];
+    for (let i = 0; i < N; i++) {
+      this.base.push(new THREE.Vector3(
+        (Math.random() - 0.5) * spread.x,
+        (Math.random() - 0.5) * spread.y,
+        (Math.random() - 0.5) * spread.z
+      ));
     }
+    const threshold = 13, maxPer = 3;
+    this.edges = [];
+    for (let i = 0; i < N; i++) {
+      let added = 0; const order = [];
+      for (let j = i + 1; j < N; j++) order.push([j, this.base[i].distanceTo(this.base[j])]);
+      order.sort((a, b) => a[1] - b[1]);
+      for (const pair of order) { if (added >= maxPer) break; if (pair[1] < threshold) { this.edges.push([i, pair[0]]); added++; } }
+    }
+
+    this.nodePos = new Float32Array(N * 3);
+    const pg = new THREE.BufferGeometry();
+    pg.setAttribute("position", new THREE.BufferAttribute(this.nodePos, 3));
+    this.pointsMat = new THREE.PointsMaterial({ size: 1.5, sizeAttenuation: true, transparent: true, opacity: 0.9 });
+    this.points = new THREE.Points(pg, this.pointsMat);
+    this.group.add(this.points);
+
+    this.linePos = new Float32Array(this.edges.length * 2 * 3);
+    const lg = new THREE.BufferGeometry();
+    lg.setAttribute("position", new THREE.BufferAttribute(this.linePos, 3));
+    this.lineMat = new THREE.LineBasicMaterial({ transparent: true, opacity: 0.18 });
+    this.lines = new THREE.LineSegments(lg, this.lineMat);
+    this.group.add(this.lines);
   }
 
   setThemeFromCSS() {
     if (!this.enabled) return;
     const cs = getComputedStyle(document.documentElement);
     const read = (n, fb) => (cs.getPropertyValue(n).trim() || fb);
-    this.uniforms.uBg.value.set(read("--bg", "#f5f5f3"));
-    this.uniforms.uInk.value.set(read("--text-primary", "#0f0f0f"));
-    this.uniforms.uAccent.value.set(read("--blue", "#1a46c9"));
+    const bg     = new THREE.Color(read("--bg", "#f5f5f3"));
+    const ink    = new THREE.Color(read("--text-primary", "#0f0f0f"));
+    const accent = new THREE.Color(read("--blue", "#1a46c9"));
+    this.scene.fog = new THREE.Fog(bg.getHex(), 40, 96);
+    this.pointsMat.color = ink;
+    this.lineMat.color = accent;
   }
 
   setProgress(p) { this._target = Math.max(0, Math.min(1, p)); }
@@ -134,16 +107,42 @@ export class Environment {
     const w = this.canvas.clientWidth || window.innerWidth;
     const h = this.canvas.clientHeight || window.innerHeight;
     this.renderer.setSize(w, h, false);
-    this.uniforms.uRes.value.set(w, h);
+    this.camera.aspect = w / h; this.camera.updateProjectionMatrix();
+  }
+
+  _update(dt) {
+    this._t += dt;
+    this._progress += (this._target - this._progress) * 0.07;
+    const p = this._progress;
+
+    for (let i = 0; i < this.base.length; i++) {
+      const b = this.base[i], o = i * 3, amp = 0.6 + p * 0.7;
+      this.nodePos[o]   = b.x + Math.sin(this._t * 0.4 + i) * amp;
+      this.nodePos[o+1] = b.y + Math.cos(this._t * 0.33 + i * 1.3) * amp;
+      this.nodePos[o+2] = b.z + Math.sin(this._t * 0.28 + i * 0.7) * amp;
+    }
+    this.points.geometry.attributes.position.needsUpdate = true;
+
+    for (let e = 0; e < this.edges.length; e++) {
+      const a = this.edges[e][0], b = this.edges[e][1], o = e * 6;
+      this.linePos[o]   = this.nodePos[a*3];   this.linePos[o+1] = this.nodePos[a*3+1]; this.linePos[o+2] = this.nodePos[a*3+2];
+      this.linePos[o+3] = this.nodePos[b*3];   this.linePos[o+4] = this.nodePos[b*3+1]; this.linePos[o+5] = this.nodePos[b*3+2];
+    }
+    this.lines.geometry.attributes.position.needsUpdate = true;
+
+    this.group.scale.setScalar(1 + p * 0.18);
+    this.group.rotation.y += dt * (0.02 + p * 0.03);
+    this.group.rotation.x = Math.sin(this._t * 0.05) * 0.06;
+    this.lineMat.opacity = 0.12 + p * 0.30;
+    this.pointsMat.opacity = 0.55 + p * 0.4;
+    this.pointsMat.size = 1.4 + p * 1.2;
+    this.camera.position.z = 46 - p * 8;
   }
 
   _loop() {
     if (!this.enabled || !this._visible) return;
     this._raf = requestAnimationFrame(() => this._loop());
-    this.uniforms.uTime.value += this._clock.getDelta();
-    // ease progress toward target for buttery scrub
-    this._progress += (this._target - this._progress) * 0.08;
-    this.uniforms.uProgress.value = this._progress;
+    this._update(Math.min(this._clock.getDelta(), 0.05));
     this.renderer.render(this.scene, this.camera);
   }
 

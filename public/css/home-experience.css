@@ -1,75 +1,119 @@
 /* =========================================================================
-   home-experience.css — cinematic scroll hero.
-   Fallback first: with no JS / reduced motion the stages render as a clean
-   stacked narrative. JS enhances into the pinned scrub.
+   home-experience.css — physical device rig that morphs phone -> tablet ->
+   laptop -> desktop, over a living-systems network. Geometry is driven by
+   CSS vars set from JS (the STAGES config). Parts: frame, screen, island,
+   hinge, keyboard deck, trackpad, monitor neck + base.
    ========================================================================= */
 
 .he{position:relative}
 .he-pin{position:relative;min-height:100dvh;overflow:hidden}
 .he-env{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
 .he-viewport{position:relative;z-index:1;min-height:100dvh;display:grid;place-items:center;
-  padding:calc(var(--nav-h) + 24px) clamp(20px,5vw,64px) 48px;perspective:1500px}
+  padding:var(--nav-h) clamp(16px,4vw,48px) 0;perspective:1700px;perspective-origin:50% 42%}
 
-/* abstract content surface (NOT a device mockup) */
-.he-device{position:relative;width:min(92vw,1040px);aspect-ratio:16/10;
-  border:1px solid var(--border);border-radius:20px;background:var(--bg-elevated);
-  box-shadow:0 40px 120px -40px rgba(0,0,0,.28);transform-style:preserve-3d;will-change:transform;overflow:hidden}
-:root[data-theme="dark"] .he-device{box-shadow:0 40px 120px -40px rgba(0,0,0,.6)}
+/* responsive fit: largest composition ~1000x820 must fit the viewport */
+.he-rig{position:relative;transform:scale(min(clamp(.38,calc(92vw / 1000),1),clamp(.38,calc(78vh / 820),1)));
+  transform-origin:center;will-change:transform}
 
-.he-stages{position:relative;width:100%;height:100%}
-.he-stage{position:absolute;inset:0;display:grid;align-content:center;gap:clamp(14px,2vh,22px);
-  padding:clamp(24px,5%,64px)}
+/* ---------- the device body (frame) ---------- */
+.he-device{
+  --w:280px; --h:584px; --r:46px; --bezel:12px; --tilt:0; --island:1; --deck:0; --stand:0;
+  position:relative;width:var(--w);height:var(--h);
+  border-radius:var(--r);padding:var(--bezel);
+  background:linear-gradient(145deg,#3a3a40,#161619 42%,#0c0c0e);
+  box-shadow:0 2px 2px rgba(255,255,255,.18) inset, 0 -2px 3px rgba(0,0,0,.6) inset,
+             0 50px 90px -30px rgba(0,0,0,.55);
+  transform-style:preserve-3d;transform:rotateX(calc(var(--tilt) * 1deg));
+  margin-inline:auto}
 
-/* --- stage content scales: minimal -> dense --- */
-.he-eyebrow{font-size:13px;color:var(--text-muted);font-weight:500;margin:0}
-.he-headline{font-family:var(--font-display);font-weight:800;letter-spacing:-.035em;line-height:1.04;
-  color:var(--text-primary);margin:0;font-size:clamp(1.8rem,4.4vw,3.4rem);max-width:16ch}
-.he-headline .kw-accent{color:var(--blue)}
-.he-sub{margin:0;max-width:48ch;color:var(--text-secondary);font-size:clamp(.98rem,1.2vw,1.12rem);line-height:1.5}
+/* contact shadow on the "ground" */
+.he-device::before{content:"";position:absolute;left:8%;right:8%;bottom:-26px;height:40px;z-index:-1;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.32),transparent 70%);
+  filter:blur(6px);transform:scaleX(calc(1 + var(--stand) * .4))}
 
-.he-previews{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:6px}
-.he-prev{border:1px solid var(--border);border-radius:12px;padding:16px}
-.he-prev b{display:block;font-family:var(--font-display);font-weight:700;font-size:1rem;letter-spacing:-.01em;color:var(--text-primary)}
-.he-prev span{font-size:13px;color:var(--text-muted)}
+/* ---------- the screen (glass) ---------- */
+.he-screen{position:relative;width:100%;height:100%;overflow:hidden;
+  border-radius:calc(var(--r) - 6px);
+  background:radial-gradient(120% 90% at 30% 0%,#12161f,#0a0c11 60%,#070809);
+  box-shadow:0 0 0 1px rgba(255,255,255,.04) inset}
+/* glass sheen */
+.he-screen::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(120deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,0) 32%,rgba(255,255,255,0) 100%);
+  mix-blend-mode:screen}
 
-.he-regions{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 28px}
-@media (min-width:1100px){.he-regions{grid-template-columns:repeat(3,1fr)}}
-.he-region{border-top:1px solid var(--border);padding-top:12px}
-.he-region b{display:block;font-family:var(--font-display);font-weight:700;font-size:1.05rem;color:var(--text-primary)}
-.he-region span{font-size:13px;color:var(--text-secondary);line-height:1.45}
+/* dynamic island / camera (phone) */
+.he-island{position:absolute;top:calc(var(--bezel) + 8px);left:50%;transform:translateX(-50%);
+  width:84px;height:24px;border-radius:14px;background:#000;opacity:var(--island);z-index:5;
+  box-shadow:0 0 0 1px rgba(255,255,255,.05)}
+.he-island::after{content:"";position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#22405e,#05070b)}
 
-/* --- payoff: inside the system --- */
-.he-ecosystem{position:absolute;inset:0;z-index:2;display:grid;place-items:center;text-align:center;
+/* ---------- laptop: hinge + keyboard deck ---------- */
+.he-hinge{position:absolute;left:4%;right:4%;top:100%;height:10px;margin-top:2px;border-radius:3px;
+  background:linear-gradient(#34343a,#0e0e10);opacity:var(--deck);z-index:-1}
+.he-deck{position:absolute;left:50%;top:100%;transform-origin:top center;
+  transform:translateX(-50%) rotateX(72deg);
+  width:calc(var(--w) + var(--bezel) * 2 + 60px);height:calc(var(--deck) * 168px);
+  border-radius:0 0 16px 16px;opacity:var(--deck);z-index:-2;
+  background:linear-gradient(#26262b,#101012 60%,#070708);
+  box-shadow:0 2px 2px rgba(255,255,255,.12) inset, 0 30px 50px -20px rgba(0,0,0,.6)}
+.he-keys{position:absolute;inset:16% 10% 34% 10%;border-radius:6px;
+  background:repeating-linear-gradient(90deg,#1b1b1f 0 6.4%,#0c0c0e 6.4% 8%),
+             repeating-linear-gradient(#1b1b1f 0 22%,#0c0c0e 22% 26%);
+  background-blend-mode:lighten;opacity:.9}
+.he-trackpad{position:absolute;left:50%;bottom:12%;transform:translateX(-50%);
+  width:34%;height:22%;border-radius:8px;background:#141417;box-shadow:0 0 0 1px rgba(255,255,255,.05) inset}
+
+/* ---------- desktop: monitor neck + base ---------- */
+.he-neck{position:absolute;left:50%;top:100%;transform:translateX(-50%);
+  width:36px;height:calc(var(--stand) * 70px);opacity:var(--stand);z-index:-2;
+  background:linear-gradient(#2c2c31,#131315)}
+.he-base{position:absolute;left:50%;top:calc(100% + var(--stand) * 70px);transform:translateX(-50%);
+  width:calc(var(--stand) * 220px);height:14px;border-radius:50%;opacity:var(--stand);z-index:-2;
+  background:radial-gradient(ellipse at 50% 30%,#34343a,#0e0e10);
+  box-shadow:0 12px 24px -10px rgba(0,0,0,.5)}
+
+/* ---------- content inside the screen (always a dark display) ---------- */
+.he-content{position:absolute;inset:0}
+.he-stage{position:absolute;inset:0;display:grid;align-content:center;gap:clamp(12px,2vh,20px);
+  padding:clamp(20px,6%,56px);color:#f4f4f1}
+.he-eyebrow{margin:0;font-size:12px;font-weight:500;color:#8a8f99}
+.he-headline{margin:0;font-family:var(--font-display);font-weight:800;letter-spacing:-.03em;line-height:1.05;
+  font-size:clamp(1.5rem,3.4vw,2.8rem);color:#f6f7f9;max-width:18ch}
+.he-headline .kw-accent{color:#6f93ff}
+.he-sub{margin:0;max-width:46ch;color:#aab0ba;font-size:clamp(.92rem,1.1vw,1.05rem);line-height:1.5}
+.he-previews{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.he-prev{border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px}
+.he-prev b{display:block;font-weight:700;font-size:.92rem;color:#f6f7f9}
+.he-prev span{font-size:12px;color:#8a8f99}
+.he-regions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 20px}
+.he-region{border-top:1px solid rgba(255,255,255,.12);padding-top:8px}
+.he-region b{display:block;font-weight:700;font-size:.92rem;color:#f6f7f9}
+.he-region span{font-size:11px;color:#8a8f99;line-height:1.35}
+
+/* ---------- payoff: inside the system ---------- */
+.he-ecosystem{position:absolute;inset:0;z-index:3;display:grid;place-items:center;text-align:center;
   padding:clamp(24px,6vw,80px);pointer-events:none}
-.he-ecosystem__title{font-family:var(--font-display);font-weight:800;letter-spacing:-.03em;line-height:1.08;
-  font-size:clamp(2rem,5.4vw,4rem);color:var(--text-primary);margin:0;max-width:18ch;text-wrap:balance}
+.he-ecosystem__title{margin:0;font-family:var(--font-display);font-weight:800;letter-spacing:-.03em;line-height:1.08;
+  font-size:clamp(2rem,5.4vw,4rem);color:var(--text-primary);max-width:18ch;text-wrap:balance}
 .he-ecosystem__nodes{position:absolute;inset:0;z-index:-1}
 .he-node{position:absolute;font-size:13px;font-weight:600;color:var(--text-secondary);
   border:1px solid var(--border);background:var(--bg-elevated);border-radius:999px;padding:8px 15px;white-space:nowrap}
-.he-node:nth-child(1){top:18%;left:12%}
-.he-node:nth-child(2){top:30%;right:10%}
-.he-node:nth-child(3){bottom:24%;left:16%}
-.he-node:nth-child(4){bottom:18%;right:18%}
-.he-node:nth-child(5){top:14%;right:30%}
-.he-node:nth-child(6){bottom:32%;left:42%}
+.he-node:nth-child(1){top:18%;left:12%}.he-node:nth-child(2){top:30%;right:10%}
+.he-node:nth-child(3){bottom:24%;left:16%}.he-node:nth-child(4){bottom:18%;right:18%}
+.he-node:nth-child(5){top:14%;right:30%}.he-node:nth-child(6){bottom:34%;left:44%}
 
-/* ---------- MOBILE: horizontal narrative ---------- */
+/* ---------- MOBILE ---------- */
 @media (max-width:900px){
-  .he-device{display:contents}                 /* drop the surface frame */
-  .he-stages{display:flex;width:max-content;height:auto}
-  .he-stage{position:relative;inset:auto;width:100vw;min-height:70dvh;padding:clamp(28px,7vw,48px)}
-  .he-ecosystem{position:relative;inset:auto;min-height:70dvh}
+  .he-rig{transform:scale(min(clamp(.5,calc(92vw / 360),1),1))}
+  .he-deck,.he-neck,.he-base,.he-hinge{display:none}
 }
 
 /* ---------- STATIC FALLBACK (no-js / reduced motion) ---------- */
-.no-js .he-pin,
-.he:not(.he-ready) .he-pin{overflow:visible}
-.no-js .he-stages{display:block}
-.no-js .he-stage{position:relative;inset:auto;border-bottom:1px solid var(--border)}
-.no-js .he-ecosystem{position:relative;inset:auto}
+.no-js .he-pin,.he:not(.he-ready) .he-pin{overflow:visible}
+.no-js .he-deck,.no-js .he-neck,.no-js .he-base,.no-js .he-hinge{display:none}
+.no-js .he-stage{position:relative;inset:auto;opacity:1}
 @media (prefers-reduced-motion:reduce){
-  .he-stages{display:block}
-  .he-stage{position:relative;inset:auto;opacity:1!important}
-  .he-device{aspect-ratio:auto}
+  .he-deck,.he-neck,.he-base,.he-hinge{display:none}
   .he-ecosystem{position:relative;inset:auto;margin-top:32px}
 }

@@ -27,53 +27,55 @@ $prev     = array_slice($featured, 0, 4);
   <div class="he-pin">
     <canvas class="he-env" aria-hidden="true"></canvas>
     <div class="he-viewport">
-      <div class="he-device">
-        <div class="he-stages">
+      <div class="he-rig">
+        <div class="he-device">
+          <div class="he-island" aria-hidden="true"></div>
 
-          <!-- Stage 1 — Mobile: focused -->
-          <div class="he-stage he-stage--mobile">
-            <p class="he-eyebrow">Experience Architect</p>
-            <h1 class="he-headline">I transform complexity into <span class="kw-accent">clarity</span>.</h1>
-          </div>
-
-          <!-- Stage 2 — Tablet: context -->
-          <div class="he-stage he-stage--tablet">
-            <h2 class="he-headline">From a single screen to a working system.</h2>
-            <p class="he-sub">Seventeen years across aviation, SaaS, and enterprise platforms, shaping products used by millions.</p>
-          </div>
-
-          <!-- Stage 3 — Laptop: selected work -->
-          <div class="he-stage he-stage--laptop">
-            <h2 class="he-headline">A designer makes screens.</h2>
-            <div class="he-previews">
-              <?php foreach (array_slice($prev, 0, 3) as $p): ?>
-              <div class="he-prev"><b><?= e($p['title']) ?></b><span><?= e($p['company']) ?></span></div>
-              <?php endforeach; ?>
+          <div class="he-screen">
+            <div class="he-content">
+              <!-- 0 mobile -->
+              <div class="he-stage">
+                <p class="he-eyebrow">Experience Architect</p>
+                <h1 class="he-headline">I transform complexity into <span class="kw-accent">clarity</span>.</h1>
+              </div>
+              <!-- 1 tablet -->
+              <div class="he-stage">
+                <h2 class="he-headline">From a single screen to a working system.</h2>
+                <p class="he-sub">Seventeen years across aviation, SaaS, and enterprise platforms, shaping products used by millions.</p>
+              </div>
+              <!-- 2 laptop -->
+              <div class="he-stage">
+                <h2 class="he-headline">A designer makes screens.</h2>
+                <div class="he-previews">
+                  <?php foreach (array_slice($prev, 0, 3) as $p): ?>
+                  <div class="he-prev"><b><?= e($p['title']) ?></b><span><?= e($p['company']) ?></span></div>
+                  <?php endforeach; ?>
+                </div>
+              </div>
+              <!-- 3 desktop -->
+              <div class="he-stage">
+                <h2 class="he-headline">An experience architect makes ecosystems.</h2>
+                <div class="he-regions">
+                  <div class="he-region"><b>Work</b><span>Products at scale</span></div>
+                  <div class="he-region"><b>Systems</b><span>Design infrastructure</span></div>
+                  <div class="he-region"><b>Thinking</b><span>Decisions, tradeoffs</span></div>
+                  <div class="he-region"><b>Leadership</b><span>Teams of 15+</span></div>
+                  <div class="he-region"><b>Impact</b><span>Measured outcomes</span></div>
+                  <div class="he-region"><b>Strategy</b><span>Complexity to clarity</span></div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Stage 4 — Desktop: the ecosystem dimensions -->
-          <div class="he-stage he-stage--desktop">
-            <h2 class="he-headline">An experience architect makes ecosystems.</h2>
-            <div class="he-regions">
-              <div class="he-region"><b>Work</b><span>Products at scale</span></div>
-              <div class="he-region"><b>Systems</b><span>Design infrastructure</span></div>
-              <div class="he-region"><b>Thinking</b><span>Decisions and tradeoffs</span></div>
-              <div class="he-region"><b>Leadership</b><span>Teams of 15+</span></div>
-              <div class="he-region"><b>Impact</b><span>Measured in outcomes</span></div>
-              <div class="he-region"><b>Strategy</b><span>Complexity to clarity</span></div>
-            </div>
-          </div>
-
-          <!-- Stage 5 — held for the dissolve -->
-          <div class="he-stage he-stage--final">
-            <h2 class="he-headline">You're no longer looking at a screen.</h2>
-          </div>
-
+          <!-- physical parts (silhouette) -->
+          <div class="he-hinge" aria-hidden="true"></div>
+          <div class="he-deck" aria-hidden="true"><div class="he-keys"></div><div class="he-trackpad"></div></div>
+          <div class="he-neck" aria-hidden="true"></div>
+          <div class="he-base" aria-hidden="true"></div>
         </div>
       </div>
 
-      <!-- Payoff: inside the system -->
+      <!-- payoff -->
       <div class="he-ecosystem" aria-hidden="true">
         <div class="he-ecosystem__nodes">
           <?php foreach (array_slice($featured, 0, 6) as $p): ?>
