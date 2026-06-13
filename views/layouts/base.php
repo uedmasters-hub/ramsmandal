@@ -46,6 +46,9 @@ $current = $currentKey         ?? '';
   <?php foreach ($styles as $s): ?>
   <link rel="stylesheet" href="<?= asset("css/{$s}.css") ?>">
   <?php endforeach; ?>
+  <?php if (!empty($page['importmap'])): ?>
+  <script type="importmap"><?= $page['importmap'] ?></script>
+  <?php endif; ?>
 </head>
 <body class="<?= e($bodyCls) ?>">
 
@@ -61,6 +64,9 @@ $current = $currentKey         ?? '';
   <script src="<?= asset('js/core/menu.js') ?>" defer></script>
   <?php foreach ($scripts as $j): ?>
   <script src="<?= asset("js/{$j}.js") ?>" defer></script>
+  <?php endforeach; ?>
+  <?php foreach (($page['modules'] ?? []) as $m): ?>
+  <script type="module" src="<?= asset("js/{$m}.js") ?>"></script>
   <?php endforeach; ?>
 
 </body>

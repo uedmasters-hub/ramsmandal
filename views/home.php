@@ -1,31 +1,87 @@
 <?php
-/* views/home.php — editorial, multi-section home */
+/* views/home.php — cinematic experience hero + editorial sections */
 $site = content('site');
 $page = [
   'title'      => $site['meta']['default_title'],
   'desc'       => $site['meta']['default_desc'],
   'body_class' => 'page-home',
-  'styles'     => ['home'],
+  'styles'     => ['home', 'home-experience'],
   'scripts'    => ['core/reveal'],
+  'modules'    => ['home-experience'],
+  'importmap'  => json_encode([
+    'imports' => [
+      'three'              => 'https://unpkg.com/three@0.160.0/build/three.module.js',
+      'lenis'              => 'https://unpkg.com/lenis@1.1.20/dist/lenis.mjs',
+      'gsap'               => 'https://unpkg.com/gsap@3.12.5/index.js',
+      'gsap/ScrollTrigger' => 'https://unpkg.com/gsap@3.12.5/ScrollTrigger.js',
+    ],
+  ], JSON_UNESCAPED_SLASHES),
 ];
 $all      = $projects ?? [];
 $featured = array_values(array_filter($all, fn($p) => !empty($p['featured'])));
+$prev     = array_slice($featured, 0, 4);
 ?>
 
-<!-- HERO -->
-<section class="hero">
-  <p class="hero__role">Experience Architect</p>
+<!-- CINEMATIC EXPERIENCE HERO -->
+<section id="home-experience" class="he">
+  <div class="he-pin">
+    <canvas class="he-env" aria-hidden="true"></canvas>
+    <div class="he-viewport">
+      <div class="he-device">
+        <div class="he-stages">
 
-  <h1 class="hero__statement">I transform<br>complexity into<br><span class="kw--accent">clarity</span>.</h1>
+          <!-- Stage 1 — Mobile: focused -->
+          <div class="he-stage he-stage--mobile">
+            <p class="he-eyebrow">Experience Architect</p>
+            <h1 class="he-headline">I transform complexity into <span class="kw-accent">clarity</span>.</h1>
+          </div>
 
-  <div class="hero__foot">
-    <p class="hero__sub">Seventeen years across aviation, SaaS, and enterprise platforms. I shape the systems, products, and decisions behind experiences used by millions.</p>
-    <div class="hero__aside">
-      <p class="hero__now">Currently Sr. Manager UI/UX at <span>Intelegencia</span></p>
-      <a class="hero__cue" href="#work">
-        <span>Selected work</span>
-        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-      </a>
+          <!-- Stage 2 — Tablet: context -->
+          <div class="he-stage he-stage--tablet">
+            <h2 class="he-headline">From a single screen to a working system.</h2>
+            <p class="he-sub">Seventeen years across aviation, SaaS, and enterprise platforms, shaping products used by millions.</p>
+          </div>
+
+          <!-- Stage 3 — Laptop: selected work -->
+          <div class="he-stage he-stage--laptop">
+            <h2 class="he-headline">A designer makes screens.</h2>
+            <div class="he-previews">
+              <?php foreach (array_slice($prev, 0, 3) as $p): ?>
+              <div class="he-prev"><b><?= e($p['title']) ?></b><span><?= e($p['company']) ?></span></div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+
+          <!-- Stage 4 — Desktop: the ecosystem dimensions -->
+          <div class="he-stage he-stage--desktop">
+            <h2 class="he-headline">An experience architect makes ecosystems.</h2>
+            <div class="he-regions">
+              <div class="he-region"><b>Work</b><span>Products at scale</span></div>
+              <div class="he-region"><b>Systems</b><span>Design infrastructure</span></div>
+              <div class="he-region"><b>Thinking</b><span>Decisions and tradeoffs</span></div>
+              <div class="he-region"><b>Leadership</b><span>Teams of 15+</span></div>
+              <div class="he-region"><b>Impact</b><span>Measured in outcomes</span></div>
+              <div class="he-region"><b>Strategy</b><span>Complexity to clarity</span></div>
+            </div>
+          </div>
+
+          <!-- Stage 5 — held for the dissolve -->
+          <div class="he-stage he-stage--final">
+            <h2 class="he-headline">You're no longer looking at a screen.</h2>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Payoff: inside the system -->
+      <div class="he-ecosystem" aria-hidden="true">
+        <div class="he-ecosystem__nodes">
+          <?php foreach (array_slice($featured, 0, 6) as $p): ?>
+          <span class="he-node"><?= e($p['title']) ?></span>
+          <?php endforeach; ?>
+        </div>
+        <h2 class="he-ecosystem__title">You're inside the system.</h2>
+      </div>
     </div>
   </div>
 </section>
