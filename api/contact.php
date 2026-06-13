@@ -100,7 +100,7 @@ $mail_sent = false;
 /* Method 1: Try PHP mail() with proper headers */
 $headers  = "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-$headers .= "From: Portfolio Contact <noreply@ramesh-mandal.com>\r\n";
+$headers .= "From: Portfolio Contact <ramsmandal@gmail.com>\r\n";
 $headers .= "Reply-To: {$name} <{$email}>\r\n";
 $headers .= "X-Mailer: PHP/" . PHP_VERSION . "\r\n";
 
