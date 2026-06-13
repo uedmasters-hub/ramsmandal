@@ -19,7 +19,7 @@
   font-size:clamp(1.25rem,2vw,1.7rem);line-height:1.08;letter-spacing:-.02em;color:#fff;transform:translateY(8px);opacity:0;
   transition:transform 420ms var(--ease-spring),opacity var(--t-base) var(--ease-out)}
 .work-tile__thumb .metric small{display:block;margin-top:7px;font-family:var(--font-body);font-weight:500;font-size:12px;color:rgba(255,255,255,.78)}
-.tone-0{background:#1a46c9}.tone-1{background:#2c2c2a}.tone-2{background:#1f5e57}.tone-3{background:#8a5a1e}.tone-4{background:#3b4250}
+.tone-0{background:#1c1c1a}.tone-1{background:#262a30}.tone-2{background:#1c3633}.tone-3{background:#322b23}.tone-4{background:#222536}
 .work-tile__meta{padding:13px 2px 0}
 .work-tile__meta .title{font-weight:600;font-size:15px;color:var(--text-primary);letter-spacing:-.01em}
 .work-tile__meta .org{font-size:13px;color:var(--home-muted);margin-top:3px}

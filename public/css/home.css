@@ -1,42 +1,109 @@
-/* home.css — hero + entrance */
-.home-stage{min-height:100dvh;padding:calc(var(--nav-h) + clamp(8px,4vh,48px)) clamp(20px,5vw,64px) 0;display:flex;flex-direction:column}
+/* =========================================================================
+   home.css — editorial multi-section home. Restrained, typographic, mature.
+   ========================================================================= */
 
-.home-hero{flex:0 0 auto}
+/* ---------- shared rhythm ---------- */
+.hero,.intro,.work,.scale,.cta{padding-left:clamp(20px,5vw,64px);padding-right:clamp(20px,5vw,64px)}
+.intro,.work,.scale,.cta{max-width:1320px;margin-inline:auto}
 
-.home-hero__title{
+/* ---------- HERO ---------- */
+.hero{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;
+  padding-top:calc(var(--nav-h) + 24px);padding-bottom:48px;max-width:1320px;margin-inline:auto}
+.hero__inner{max-width:18ch}
+.hero__role{font-size:14px;color:var(--text-muted);margin:0 0 clamp(18px,3vh,28px);font-weight:500}
+.hero__statement{
   font-family:var(--font-display);font-weight:800;
-  font-size:clamp(2rem,8vw,6.6rem);
-  line-height:1.04;letter-spacing:-.04em;margin:0;color:var(--text-primary);
-  width:max-content;max-width:100%;          /* shrink to the widest line, never exceed viewport */
+  font-size:clamp(2.6rem,7.4vw,6rem);line-height:1.04;letter-spacing:-.035em;
+  margin:0;color:var(--text-primary);text-wrap:balance;max-width:15ch;
 }
-.home-hero__title .line{
-  display:block;overflow:clip;               /* clips only the vertical reveal now */
-  padding-bottom:.14em;margin-bottom:-.14em; /* give descenders (p, y) room inside the clip box */
+.kw{color:var(--text-primary)}
+.kw--accent{position:relative;white-space:nowrap}
+.kw--accent::after{content:"";position:absolute;left:.02em;right:.02em;bottom:.02em;height:.07em;
+  background:var(--blue);border-radius:2px;transform:scaleX(0);transform-origin:left;
+  transition:transform .75s var(--ease-out) .7s}
+.hero__sub{margin:clamp(26px,4vh,40px) 0 0;max-width:50ch;color:var(--text-secondary);
+  font-size:clamp(1.02rem,1.3vw,1.2rem);line-height:1.55;text-wrap:pretty}
+.hero__cue{margin-top:auto;display:inline-flex;align-items:center;gap:9px;width:max-content;
+  color:var(--text-muted);font-size:14px;transition:color var(--t-base) var(--ease-out),gap var(--t-base) var(--ease-out)}
+.hero__cue svg{transition:transform var(--t-base) var(--ease-spring)}
+@media (hover:hover) and (pointer:fine){.hero__cue:hover{color:var(--text-primary)}.hero__cue:hover svg{transform:translateY(3px)}}
+
+/* ---------- POSITIONING ---------- */
+.intro{padding-top:clamp(64px,12vh,160px);padding-bottom:clamp(48px,8vh,96px);
+  display:grid;gap:clamp(28px,5vw,72px);grid-template-columns:1fr}
+@media (min-width:900px){.intro{grid-template-columns:1.5fr 1fr;align-items:start}}
+.intro__lead{font-family:var(--font-display);font-weight:500;letter-spacing:-.02em;
+  font-size:clamp(1.4rem,3vw,2.3rem);line-height:1.3;color:var(--text-primary);max-width:24ch;margin:0}
+.intro__disciplines{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 10px;align-content:start}
+.intro__disciplines li{font-size:14px;color:var(--text-secondary);border:1px solid var(--border);
+  padding:7px 14px;border-radius:var(--radius-pill)}
+
+/* ---------- WORK INDEX ---------- */
+.work{padding-top:clamp(48px,8vh,96px);padding-bottom:clamp(48px,8vh,96px)}
+.work__head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:clamp(20px,3vh,36px)}
+.work__head h2{font-family:var(--font-display);font-weight:700;font-size:clamp(1.1rem,2vw,1.35rem);letter-spacing:-.01em;color:var(--text-primary)}
+.work__all{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-muted);
+  transition:color var(--t-base) var(--ease-out),gap var(--t-base) var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.work__all:hover{color:var(--text-primary);gap:9px}}
+
+.work-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--border)}
+.work-list__row{border-bottom:1px solid var(--border)}
+.work-list__link{display:grid;align-items:center;gap:6px 28px;padding:clamp(22px,3.4vh,34px) 8px;
+  grid-template-columns:1fr;color:var(--text-primary);
+  transition:padding-left var(--t-base) var(--ease-spring)}
+.work-list__year{font-size:13px;color:var(--text-muted);font-variant-numeric:tabular-nums;order:1}
+.work-list__title{font-family:var(--font-display);font-weight:700;letter-spacing:-.025em;
+  font-size:clamp(1.6rem,4.2vw,2.8rem);line-height:1.05;order:2}
+.work-list__meta{font-size:14px;color:var(--text-secondary);order:3}
+.work-list__metric{font-size:14px;color:var(--text-muted);order:4}
+.work-list__metric b{color:var(--text-primary);font-weight:600}
+.work-list__arrow{display:none;color:var(--text-muted)}
+@media (min-width:860px){
+  .work-list__link{grid-template-columns:84px minmax(0,1fr) 220px 200px 28px;gap:0 28px}
+  .work-list__year{order:0}.work-list__title{order:0}.work-list__meta{order:0;text-align:left}
+  .work-list__metric{order:0;text-align:right}
+  .work-list__arrow{order:0;display:grid;place-items:center;opacity:0;transform:translate(-6px,2px);
+    transition:opacity var(--t-base) var(--ease-out),transform var(--t-base) var(--ease-spring)}
 }
-.home-hero__title .line>span{display:inline-block;will-change:transform}
+@media (hover:hover) and (pointer:fine){
+  .work-list__link:hover{padding-left:18px}
+  .work-list__link:hover .work-list__title{color:var(--blue)}
+  .work-list__link:hover .work-list__arrow{opacity:1;transform:none;color:var(--blue)}
+}
+.work-list__link:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
 
-.accent-word{position:relative;white-space:nowrap}
-.accent-word .underline{position:absolute;left:-2%;bottom:-.02em;width:104%;height:.34em;overflow:visible;pointer-events:none}
-.accent-word .underline path{fill:none;stroke:var(--blue);stroke-width:9;stroke-linecap:round;
-  stroke-dasharray:320;stroke-dashoffset:320;transition:stroke-dashoffset 700ms var(--ease-out);transition-delay:760ms}
+/* ---------- SCALE / CREDIBILITY ---------- */
+.scale{padding-top:clamp(56px,10vh,140px);padding-bottom:clamp(56px,10vh,140px);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.scale__line{font-family:var(--font-display);font-weight:600;letter-spacing:-.02em;
+  font-size:clamp(1.5rem,3.4vw,2.6rem);line-height:1.2;color:var(--text-primary);max-width:20ch;margin:0 0 clamp(28px,5vh,56px)}
+.scale__orgs{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:clamp(24px,5vw,72px);align-items:baseline}
+.scale__orgs li{font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;
+  font-size:clamp(1.1rem,2.2vw,1.6rem);color:var(--text-secondary)}
 
-.home-hero__sub{margin:clamp(22px,3.5vh,36px) 0 0;max-width:54ch;font-size:clamp(1rem,1.35vw,1.22rem);
-  line-height:1.55;color:var(--text-secondary);text-wrap:pretty}
+/* ---------- CONTACT CTA ---------- */
+.cta{padding-top:clamp(64px,14vh,180px);padding-bottom:clamp(48px,8vh,96px);text-align:left}
+.cta__title{font-family:var(--font-display);font-weight:800;letter-spacing:-.03em;
+  font-size:clamp(2rem,5.4vw,4.2rem);line-height:1.06;color:var(--text-primary);max-width:18ch;text-wrap:balance}
+.cta__actions{margin-top:clamp(28px,5vh,52px);display:flex;flex-wrap:wrap;align-items:center;gap:18px 40px}
+.cta__link{display:inline-flex;align-items:center;gap:9px;background:var(--text-primary);color:var(--bg);
+  padding:15px 26px;border-radius:var(--radius-pill);font-weight:600;font-size:15px;
+  transition:transform var(--t-fast) var(--ease-out),background var(--t-base) var(--ease-out)}
+.cta__link svg{transition:transform var(--t-base) var(--ease-spring)}
+@media (hover:hover) and (pointer:fine){.cta__link:hover{transform:translateY(-2px)}.cta__link:hover svg{transform:translateX(3px)}}
+.cta__link:active{transform:scale(.98)}
+.cta__mail{font-size:15px;color:var(--text-secondary);transition:color var(--t-base) var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.cta__mail:hover{color:var(--text-primary)}}
 
-/* entrance (needs .js on <html>) */
-.js .home-hero__title .line>span,.js .home-hero__sub,.js .home-work{opacity:0}
-.js .home-hero__title .line>span{transform:translateY(115%)}
-.js .home-hero__sub{transform:translateY(18px)}
-.js .home-work{transform:translateY(28px)}
-.js .home-hero__title .line>span,.js .home-hero__sub,.js .home-work{transition:transform 820ms var(--ease-spring),opacity 620ms var(--ease-out)}
-.js.is-ready .home-hero__title .line>span,.js.is-ready .home-hero__sub,.js.is-ready .home-work{transform:none;opacity:1}
-.js.is-ready .home-hero__title .line:nth-child(1)>span{transition-delay:80ms}
-.js.is-ready .home-hero__title .line:nth-child(2)>span{transition-delay:180ms}
-.js.is-ready .home-hero__title .line:nth-child(3)>span{transition-delay:280ms}
-.js.is-ready .home-hero__sub{transition-delay:520ms}
-.js.is-ready .home-work{transition-delay:620ms}
-.js.is-ready .accent-word .underline path{stroke-dashoffset:0}
+/* ---------- HERO entrance (needs .js on <html>) ---------- */
+.js .hero__role,.js .hero__statement,.js .hero__sub,.js .hero__cue{opacity:0;transform:translateY(20px);
+  transition:opacity .7s var(--ease-out),transform .9s var(--ease-spring)}
+.js.is-ready .hero__role{opacity:1;transform:none;transition-delay:.05s}
+.js.is-ready .hero__statement{opacity:1;transform:none;transition-delay:.15s}
+.js.is-ready .hero__sub{opacity:1;transform:none;transition-delay:.42s}
+.js.is-ready .hero__cue{opacity:1;transform:none;transition-delay:.62s}
+.is-ready .kw--accent::after{transform:scaleX(1)}
 @media (prefers-reduced-motion:reduce){
-  .js .home-hero__title .line>span,.js .home-hero__sub,.js .home-work{opacity:1!important;transform:none!important}
-  .accent-word .underline path{stroke-dashoffset:0!important}
+  .js .hero__role,.js .hero__statement,.js .hero__sub,.js .hero__cue{opacity:1!important;transform:none!important}
+  .kw--accent::after{transform:scaleX(1)!important;transition:none!important}
 }

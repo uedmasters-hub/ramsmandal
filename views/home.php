@@ -1,50 +1,90 @@
 <?php
-/* views/home.php */
+/* views/home.php — editorial, multi-section home */
 $site = content('site');
 $page = [
   'title'      => $site['meta']['default_title'],
   'desc'       => $site['meta']['default_desc'],
   'body_class' => 'page-home',
-  'styles'     => ['home', 'work-rail'],
+  'styles'     => ['home'],
   'scripts'    => ['core/reveal'],
 ];
-$rail = array_slice($projects ?? [], 0, 5);
+$all      = $projects ?? [];
+$featured = array_values(array_filter($all, fn($p) => !empty($p['featured'])));
 ?>
-<section class="home-stage">
-  <div class="home-hero">
-    <h1 class="home-hero__title">
-      <span class="line"><span>I transform</span></span>
-      <span class="line"><span>complexity into</span></span>
-      <span class="line"><span class="accent-word">clarity<svg class="underline" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16 C 70 6, 150 6, 230 12 S 290 18, 296 14"/></svg></span>.</span></span>
-    </h1>
-    <p class="home-hero__sub">
-      Experience Architect with 17 years across aviation, SaaS, and enterprise platforms.
-      I shape the systems, products, and decisions behind experiences used by millions, at IndiGo, Intelegencia, and Quikr.
-    </p>
-  </div>
 
-  <section class="home-work" aria-label="Selected work">
-    <div class="home-work__head">
-      <span class="label">Selected work</span>
-      <a class="all" href="<?= url('/work') ?>">View all
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__inner">
+    <p class="hero__role">Experience Architect</p>
+    <h1 class="hero__statement">I transform <span class="kw">complexity</span> into <span class="kw kw--accent">clarity</span>.</h1>
+    <p class="hero__sub">Seventeen years across aviation, SaaS, and enterprise platforms. I shape the systems, products, and decisions behind experiences used by millions.</p>
+  </div>
+  <a class="hero__cue" href="#work">
+    <span>Selected work</span>
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+  </a>
+</section>
+
+<!-- POSITIONING -->
+<section class="intro">
+  <p class="intro__lead" data-reveal>
+    I don't design screens. I design the experiences, systems, and outcomes behind products that operate at scale, and the judgment that holds them together under real constraint.
+  </p>
+  <ul class="intro__disciplines" data-reveal>
+    <li>Product design</li>
+    <li>Enterprise UX</li>
+    <li>Design systems</li>
+    <li>Product strategy</li>
+    <li>Design engineering</li>
+    <li>Leadership</li>
+  </ul>
+</section>
+
+<!-- WORK INDEX -->
+<section class="work" id="work">
+  <header class="work__head" data-reveal>
+    <h2>Selected work</h2>
+    <a class="work__all" href="<?= url('/work') ?>">All work
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </header>
+
+  <ul class="work-list">
+    <?php foreach ($featured as $p): ?>
+    <li class="work-list__row" data-reveal>
+      <a class="work-list__link" href="<?= url('/work/' . $p['slug']) ?>">
+        <span class="work-list__year"><?= e($p['year']) ?></span>
+        <span class="work-list__title"><?= e($p['title']) ?></span>
+        <span class="work-list__meta"><?= e($p['company']) ?> &middot; <?= e($p['category']) ?></span>
+        <span class="work-list__metric">
+          <?php if (!empty($p['metric'])): ?><b><?= e($p['metric']['value']) ?></b> <?= e($p['metric']['label']) ?><?php endif; ?>
+        </span>
+        <span class="work-list__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </span>
       </a>
-    </div>
-    <div class="home-rail">
-      <?php foreach ($rail as $p): ?>
-      <a class="work-tile" href="<?= url('/work/' . $p['slug']) ?>">
-        <div class="work-tile__thumb tone-<?= (int)($p['tone'] ?? 0) ?>">
-          <span class="tag"><?= e($p['company']) ?></span>
-          <?php if (!empty($p['metric'])): ?>
-          <p class="metric"><?= e($p['metric']['value']) ?><small><?= e($p['metric']['label']) ?></small></p>
-          <?php endif; ?>
-        </div>
-        <div class="work-tile__meta">
-          <div class="title"><?= e($p['title']) ?></div>
-          <div class="org"><?= e($p['category']) ?></div>
-        </div>
-      </a>
-      <?php endforeach; ?>
-    </div>
-  </section>
+    </li>
+    <?php endforeach; ?>
+  </ul>
+</section>
+
+<!-- SCALE / CREDIBILITY -->
+<section class="scale" data-reveal>
+  <p class="scale__line">Seventeen years. Aviation, SaaS, and enterprise. Products used by millions.</p>
+  <ul class="scale__orgs">
+    <li>IndiGo</li>
+    <li>Intelegencia</li>
+    <li>Quikr</li>
+  </ul>
+</section>
+
+<!-- CONTACT CTA -->
+<section class="cta" data-reveal>
+  <h2 class="cta__title">Have a complex problem worth solving?</h2>
+  <div class="cta__actions">
+    <a class="cta__link" href="<?= url('/contact') ?>">Start a conversation
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <a class="cta__mail" href="mailto:<?= e($site['contact']['email']) ?>"><?= e($site['contact']['email']) ?></a>
+  </div>
 </section>

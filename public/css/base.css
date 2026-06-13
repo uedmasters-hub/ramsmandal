@@ -4,3 +4,9 @@ p{line-height:1.55}
 .prose{max-width:var(--reading-width)}
 .prose p+p{margin-top:var(--space-4)}
 main{display:block}
+
+/* scroll reveal (driven by core/reveal.js IntersectionObserver) */
+[data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease-out),transform .8s var(--ease-spring)}
+[data-reveal].in-view{opacity:1;transform:none}
+.no-js [data-reveal]{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1!important;transform:none!important}}
