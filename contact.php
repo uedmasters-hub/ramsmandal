@@ -166,7 +166,7 @@ $pageDesc  = "Hire Ramesh Mandal — UX Design Agency in Gurgaon. Open to senior
                 <div>
                   <span class="contact-detail__label">LinkedIn</span>
                   <a href="https://in.linkedin.com/in/ramsmandal" target="_blank" rel="noopener">
-                    <span class="contact-detail__value">linkedin.com/in/rameshmandal</span>
+                    <span class="contact-detail__value">linkedin.com/in/ramsmandal</span>
                   </a>
                 </div>
               </div>
