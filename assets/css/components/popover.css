@@ -1,0 +1,315 @@
+/* =========================================
+   CHIP POPOVER — popover.css
+   ========================================= */
+
+/* ── OVERLAY ─────────────────────────────── */
+
+.chip-overlay {
+  position:   fixed;
+  inset:      0;
+  z-index:    500;
+  background: rgba(8, 8, 8, 0.40);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity:    0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.chip-overlay.is-open {
+  opacity:        1;
+  pointer-events: all;
+}
+
+/* ── PANEL ───────────────────────────────── */
+
+.chip-panel {
+  position:   fixed;
+  top:        0;
+  right:      0;
+  bottom:     0;
+  z-index:    600;
+  width:      min(680px, 100vw);
+  background: #ffffff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transform:  translateX(100%);
+  visibility: hidden;             /* hidden when off-screen — prevents Android overflow */
+  transition:
+    transform   0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility  0s   linear 0.5s; /* delay visibility until after slide-out */
+  display:    flex;
+  flex-direction: column;
+  box-shadow: -24px 0 80px rgba(0,0,0,0.12), -1px 0 0 rgba(0,0,0,0.06);
+}
+
+.chip-panel.is-open {
+  transform:  translateX(0);
+  visibility: visible;
+  transition:
+    transform  0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0s   linear 0s;   /* immediately visible when opening */
+}
+
+/* ── PANEL HEADER ────────────────────────── */
+
+.chip-panel__header {
+  position:   sticky;
+  top:        0;
+  z-index:    10;
+  display:    flex;
+  align-items: center;
+  justify-content: space-between;
+  padding:    20px 36px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.chip-panel__label {
+  font-size:      11px;
+  font-weight:    600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color:          var(--blue);
+}
+
+.chip-panel__close {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           36px;
+  height:          36px;
+  border-radius:   50%;
+  background:      transparent;
+  border:          1px solid rgba(0,0,0,0.10);
+  cursor:          pointer;
+  font-size:       18px;
+  color:           var(--text-muted);
+  line-height:     1;
+  transition:
+    background   var(--t-fast) ease,
+    color        var(--t-fast) ease,
+    border-color var(--t-fast) ease;
+}
+
+.chip-panel__close:hover {
+  background:   var(--text-primary);
+  color:        #fff;
+  border-color: var(--text-primary);
+}
+
+/* ── PANEL BODY ──────────────────────────── */
+
+.chip-panel__body {
+  flex:    1;
+  padding: 48px 36px 64px;
+  display: flex;
+  flex-direction: column;
+  gap:     48px;
+}
+
+/* ── HERO BLOCK ──────────────────────────── */
+
+.cp-hero {
+  padding-bottom: 40px;
+  border-bottom:  1px solid rgba(0,0,0,0.06);
+  display:        flex;
+  flex-direction: column;
+  gap:            16px;
+}
+
+.cp-hero__tagline {
+  font-size:      clamp(1.8rem, 3.5vw, 2.6rem);
+  line-height:    1.10;
+  letter-spacing: -0.04em;
+  font-weight:    300;
+  color:          var(--text-primary);
+}
+
+.cp-hero__summary {
+  font-size:   16px;
+  line-height: 1.7;
+  color:       var(--text-secondary);
+}
+
+/* ── SECTION LABEL ───────────────────────── */
+
+.cp-section {
+  display:        flex;
+  flex-direction: column;
+  gap:            12px;
+}
+
+.cp-section-label {
+  font-size:      10px;
+  font-weight:    600;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+}
+
+.cp-what__text {
+  font-size:   15px;
+  line-height: 1.7;
+  color:       var(--text-secondary);
+}
+
+/* ── PILLARS GRID ────────────────────────── */
+
+.cp-pillars__grid {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   2px;
+  border:                1px solid rgba(0,0,0,0.07);
+  border-radius:         12px;
+  overflow:              hidden;
+}
+
+.cp-pillar {
+  padding:    22px 20px;
+  background: #f9f9f9;
+  display:    flex;
+  flex-direction: column;
+  gap:        8px;
+  transition: background var(--t-fast) ease;
+}
+
+.cp-pillar:hover { background: #f2f2f2; }
+
+.cp-pillar__icon {
+  font-size:   18px;
+  color:       var(--blue);
+  line-height: 1;
+}
+
+.cp-pillar__title {
+  font-size:   13px;
+  font-weight: 600;
+  color:       var(--text-primary);
+}
+
+.cp-pillar__desc {
+  font-size:   12px;
+  line-height: 1.55;
+  color:       var(--text-muted);
+}
+
+/* ── IMPACT STATS ────────────────────────── */
+
+.cp-impact__grid {
+  display:               grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:                   1px;
+  background:            rgba(0,0,0,0.07);
+  border-radius:         12px;
+  overflow:              hidden;
+}
+
+.cp-impact__stat {
+  background: #f9f9f9;
+  padding:    22px 18px;
+  display:    flex;
+  flex-direction: column;
+  gap:        4px;
+}
+
+.cp-impact__value {
+  font-size:      2rem;
+  font-weight:    700;
+  letter-spacing: -0.04em;
+  color:          var(--text-primary);
+  line-height:    1;
+}
+
+.cp-impact__label {
+  font-size:   12px;
+  line-height: 1.4;
+  color:       var(--text-muted);
+}
+
+/* ── EXAMPLE QUOTE ───────────────────────── */
+
+.cp-example__quote {
+  padding:       22px 24px;
+  background:    rgba(26,70,201,0.04);
+  border-left:   3px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+  font-size:     15px;
+  line-height:   1.75;
+  color:         var(--text-secondary);
+  font-style:    italic;
+}
+
+/* ── CTA ─────────────────────────────────── */
+
+.cp-cta {
+  display:   flex;
+  gap:       10px;
+  flex-wrap: wrap;
+}
+
+.cp-cta__btn {
+  display:         inline-flex;
+  align-items:     center;
+  padding:         12px 24px;
+  border-radius:   var(--radius-pill);
+  font-size:       12px;
+  font-weight:     600;
+  letter-spacing:  0.06em;
+  text-transform:  uppercase;
+  cursor:          pointer;
+  transition:
+    background   var(--t-fast) ease,
+    color        var(--t-fast) ease,
+    border-color var(--t-fast) ease;
+}
+
+.cp-cta__btn--primary {
+  background:   var(--blue);
+  color:        #fff;
+  border:       1.5px solid var(--blue);
+}
+
+.cp-cta__btn--primary:hover {
+  background:   #1339a8;
+  border-color: #1339a8;
+}
+
+.cp-cta__btn--ghost {
+  background:   transparent;
+  color:        var(--text-primary);
+  border:       1.5px solid rgba(0,0,0,0.14);
+}
+
+.cp-cta__btn--ghost:hover {
+  background:   var(--text-primary);
+  color:        #fff;
+  border-color: var(--text-primary);
+}
+
+/* ── BODY LOCK ───────────────────────────── */
+
+body.panel-open { overflow: hidden; }
+
+/* ── RESPONSIVE ──────────────────────────── */
+
+@media (max-width: 768px) {
+
+  .chip-panel        { width: 100vw; }
+  .chip-panel__header { padding: 16px 20px; }
+  .chip-panel__body   { padding: 32px 20px 48px; gap: 32px; }
+
+  .cp-pillars__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cp-impact__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cp-impact__grid .cp-impact__stat:last-child {
+    grid-column: 1 / -1;
+  }
+
+}

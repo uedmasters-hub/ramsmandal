@@ -1,0 +1,173 @@
+/* =========================================
+   PRELOADER — preloader.css
+   ========================================= */
+
+/* ── SCROLL LOCK — Android-safe ──────────── */
+/* Using position:fixed + stored scrollY is the only reliable
+   way to prevent scroll-behind on Android Chrome.
+   JS (preloader.js) sets body.style.top = -scrollY before adding
+   this class, then restores window.scrollTo(0, scrollY) on unlock. */
+
+body.is-loading {
+  overflow: hidden;
+  position: fixed;
+  width:    100%;
+  /* top is set inline by preloader.js: body.style.top = "-Npx" */
+}
+
+/* ── PRELOADER OVERLAY ───────────────────── */
+
+.preloader {
+  position:        fixed;
+  inset:           0;
+  z-index:         9999;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  background:      #f5f5f3;
+  overflow:        hidden;   /* clip any child bleeds */
+  transition:      opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.preloader.is-done {
+  opacity:        0;
+  visibility:     hidden;
+  pointer-events: none;
+}
+
+/* ── INNER ───────────────────────────────── */
+
+.preloader__inner {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            32px;
+}
+
+/* ── LOGO MARK ───────────────────────────── */
+
+.preloader__mark {
+  width:           56px;
+  height:          56px;
+  border-radius:   12px;
+  background:      var(--text-primary);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  font-size:       18px;
+  font-weight:     700;
+  letter-spacing:  0.02em;
+  color:           #ffffff;
+  transform:       scale(0.8);
+  opacity:         0;
+  animation:       markIn 0.6s var(--ease-out) 0.1s forwards;
+}
+
+@keyframes markIn {
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ── NAME ────────────────────────────────── */
+
+.preloader__name {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            4px;
+  overflow:       hidden;
+}
+
+.preloader__name-text {
+  font-size:      clamp(1.4rem, 4vw, 2rem);
+  font-weight:    300;
+  letter-spacing: -0.04em;
+  color:          var(--text-primary);
+  transform:      translateY(100%);
+  animation:      slideUp 0.7s var(--ease-out) 0.3s forwards;
+}
+
+.preloader__name-role {
+  font-size:      12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+  transform:      translateY(100%);
+  animation:      slideUp 0.7s var(--ease-out) 0.45s forwards;
+}
+
+@keyframes slideUp {
+  to { transform: translateY(0); }
+}
+
+/* ── PROGRESS BAR ────────────────────────── */
+
+.preloader__bar-wrap {
+  width:         min(200px, 60vw);
+  height:        1.5px;
+  background:    rgba(0,0,0,0.08);
+  border-radius: 2px;
+  overflow:      hidden;
+  opacity:       0;
+  animation:     fadeIn 0.4s ease 0.6s forwards;
+}
+
+.preloader__bar {
+  height:        100%;
+  width:         0%;
+  background:    var(--blue);
+  border-radius: 2px;
+  transition:    width 0.4s ease;
+}
+
+/* ── COUNTER ─────────────────────────────── */
+
+.preloader__counter {
+  font-size:      11px;
+  letter-spacing: 0.12em;
+  color:          var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  opacity:        0;
+  animation:      fadeIn 0.4s ease 0.6s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* ── GRID LINES ──────────────────────────── */
+
+.preloader__grid {
+  position:   absolute;
+  inset:      0;
+  background-image: linear-gradient(
+    to right,
+    rgba(0,0,0,0.03) 1px,
+    transparent 1px
+  );
+  background-size: 12.5% 100%;
+  pointer-events: none;
+}
+
+/* ── PAGE REVEAL ─────────────────────────── */
+
+.page-wrapper {
+  opacity:    0;
+  transition: opacity 0.7s var(--ease-out);
+}
+
+.page-wrapper.is-revealed {
+  opacity: 1;
+}
+
+/* ── REDUCED MOTION ──────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader          { transition: none; }
+  .preloader__mark    { animation: none; opacity: 1; transform: scale(1); }
+  .preloader__name-text,
+  .preloader__name-role { animation: none; transform: translateY(0); }
+  .preloader__bar-wrap,
+  .preloader__counter { animation: none; opacity: 1; }
+  .page-wrapper       { opacity: 1; transition: none; }
+}

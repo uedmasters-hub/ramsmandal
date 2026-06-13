@@ -1,0 +1,390 @@
+<?php
+/* =========================================
+   DATA / PSYCHOLOGY.PHP
+   ========================================= */
+
+$psychologyMeta = [
+  "title"   => "UX Psychology",
+  "tagline" => "The invisible forces behind every click, scroll, and decision.",
+  "desc"    => "Every interface decision triggers a psychological response. Understanding these forces is what separates designers who make things look good from designers who make things work.",
+  "stats"   => [
+    ["value" => "24",    "label" => "Principles documented"],
+    ["value" => "0.05s", "label" => "Time to form first impression"],
+    ["value" => "94%",   "label" => "Of first impressions are design-driven"],
+    ["value" => "3×",    "label" => "ROI of UX investment"],
+  ],
+];
+
+$categories = [
+  ["id" => "attention",  "label" => "Attention",  "icon" => "◉", "desc" => "What draws the eye"],
+  ["id" => "decision",   "label" => "Decision",   "icon" => "⬡", "desc" => "How choices are made"],
+  ["id" => "memory",     "label" => "Memory",     "icon" => "◈", "desc" => "What gets remembered"],
+  ["id" => "trust",      "label" => "Trust",      "icon" => "⟡", "desc" => "Why users believe"],
+  ["id" => "motivation", "label" => "Motivation", "icon" => "⬟", "desc" => "What drives action"],
+  ["id" => "emotion",    "label" => "Emotion",    "icon" => "◎", "desc" => "How feelings shape UX"],
+];
+
+$principles = [
+
+  // ── ATTENTION ─────────────────────────────────────────────────
+
+  [
+    "id"         => "visual-hierarchy",
+    "category"   => "attention",
+    "name"       => "Visual Hierarchy",
+    "latin"      => "",
+    "tagline"    => "The eye always follows a path. You either design it or chaos does.",
+    "definition" => "Visual hierarchy is the arrangement of elements to show order of importance. Size, contrast, color, and position work together to guide the user's eye through a composition in a deliberate sequence.",
+    "why"        => "The brain processes visual information in under 50ms — long before conscious thought kicks in. Without hierarchy, users scan randomly and miss critical information. With it, you control the narrative.",
+    "ux_use"     => "I used visual hierarchy in the IndiGo booking redesign to guide users from flight selection → passenger details → payment in one natural eye path. Conversion improved because users never got lost.",
+    "example"    => "The F-pattern reading pattern shows users scan headlines, then the first few words of body copy, then the left margin. Design your hierarchy to match this, not fight it.",
+    "do"         => ["Make the most important element 2–3× larger than the next", "Use contrast, not just size, to signal importance", "Leave whitespace around key elements to isolate them"],
+    "dont"       => ["Use the same font size for everything", "Add visual weight to secondary elements", "Fight the natural reading direction"],
+    "real_world" => "Apple's product pages: massive product image, large product name, single CTA. Three hierarchy levels. You always know where to look.",
+    "impact"     => "High",
+    "effort"     => "Low",
+    "color"      => "blue",
+  ],
+
+  [
+    "id"         => "von-restorff",
+    "category"   => "attention",
+    "name"       => "Von Restorff Effect",
+    "latin"      => "Isolation Effect",
+    "tagline"    => "The odd one out is always remembered.",
+    "definition" => "When multiple similar objects are present, the one that differs from the rest is most likely to be remembered — and noticed first.",
+    "why"        => "Our brains are pattern-recognition machines. Patterns become invisible (attention blindness). Breaks in patterns fire survival signals — 'something changed, pay attention.'",
+    "ux_use"     => "In pricing tables, the recommended plan stands out with a different background color. In IndiGo's ancillary flow, the 'most popular' meal option was visually isolated — attachment increased 14%.",
+    "example"    => "A row of grey buttons with one blue button. A list of regular prices with one crossed-out price. A wall of text with one bold sentence. The different element captures 3× more attention.",
+    "do"         => ["Use color, size, or shape to differentiate critical elements", "Apply sparingly — one isolated element per screen", "Use for the action you most want users to take"],
+    "dont"       => ["Isolate multiple elements — everything special = nothing special", "Use it for secondary information", "Create visual noise by overusing contrast"],
+    "real_world" => "Spotify's mid-tier pricing plan — slightly larger card, different background, 'Most Popular' badge. You look at it first. Every time.",
+    "impact"     => "High",
+    "effort"     => "Low",
+    "color"      => "blue",
+  ],
+
+  [
+    "id"         => "banner-blindness",
+    "category"   => "attention",
+    "name"       => "Banner Blindness",
+    "latin"      => "",
+    "tagline"    => "Users have learned to unsee what looks like an ad.",
+    "definition" => "Users ignore content that resembles advertising — banner-shaped elements, content in traditional ad positions (top, right sidebar), and anything that looks promotional rather than informational.",
+    "why"        => "After years of internet use, users have trained themselves to ignore peripheral visual noise. This suppression is automatic and unconscious — they literally don't see it.",
+    "ux_use"     => "When I redesigned IndiGo's ancillary offers, I replaced the banner-style upsell (which was being ignored) with inline contextual suggestions that matched the page's content style. Engagement tripled.",
+    "example"    => "Eye-tracking studies show users' gaze almost never hits right-sidebar content, even if it contains useful information. The position has been trained out of attention.",
+    "do"         => ["Embed important content within the natural reading flow", "Use native ad styles that match content aesthetics", "Make promotional content feel like editorial content"],
+    "dont"       => ["Put critical information in banner positions", "Use bright, animated, or bordered promotional blocks", "Assume users will read everything on the page"],
+    "real_world" => "Medium's recommended articles appear inline within articles — same typography, same format. They get clicks. The right-sidebar 'more stories' gets ignored.",
+    "impact"     => "High",
+    "effort"     => "Medium",
+    "color"      => "amber",
+  ],
+
+  // ── DECISION ──────────────────────────────────────────────────
+
+  [
+    "id"         => "hicks-law",
+    "category"   => "decision",
+    "name"       => "Hick's Law",
+    "latin"      => "",
+    "tagline"    => "Double the options. More than double the decision time.",
+    "definition" => "The time it takes to make a decision increases logarithmically with the number and complexity of choices. More choices = slower decisions = more abandonment.",
+    "why"        => "Decision-making is cognitively expensive. The brain treats each additional option as additional processing load. Beyond a threshold, users abandon the decision entirely rather than face the cognitive cost.",
+    "ux_use"     => "The IndiGo seat selection had 180 options across 6 tiers displayed simultaneously. I introduced progressive disclosure — show the most popular tier first, reveal alternatives on request. Mobile conversion improved 22%.",
+    "example"    => "A TV remote with 40 buttons vs one with 6. A menu with 87 items vs one with 12. A form with 20 fields vs one with 5. The simplified version always wins in time-to-decision.",
+    "do"         => ["Reduce choices to the essential minimum", "Use progressive disclosure for complex decisions", "Pre-select the most popular or recommended option"],
+    "dont"       => ["Show all options simultaneously", "Add options 'just in case'", "Treat more features as more value"],
+    "real_world" => "Netflix's recommendation algorithm exists specifically to fight Hick's Law — 15,000 titles becomes 'Top Picks for You' becomes one compelling thumbnail. Decision time: seconds.",
+    "impact"     => "High",
+    "effort"     => "Medium",
+    "color"      => "blue",
+  ],
+
+  [
+    "id"         => "paradox-of-choice",
+    "category"   => "decision",
+    "name"       => "Paradox of Choice",
+    "latin"      => "",
+    "tagline"    => "More freedom. Less satisfaction. More paralysis.",
+    "definition" => "Barry Schwartz's research shows that while some choice is better than none, excessive choice leads to decision paralysis, lower satisfaction with chosen options, and higher regret.",
+    "why"        => "When we have many options, we imagine the foregone alternatives. The more alternatives, the more we feel we might have chosen better — leading to post-decision regret even with a good outcome.",
+    "ux_use"     => "Quikr's listing creation had 11 category steps. Reduced to 6 using smart defaults and contextual suggestions. Abandonment dropped 34%. Users who completed listed more successfully.",
+    "example"    => "The jam study (Iyengar & Lepper): 24 jams on display → 3% purchase rate. 6 jams → 30% purchase rate. Fewer choices, dramatically higher conversion.",
+    "do"         => ["Curate choices rather than listing everything", "Provide clear recommendations or defaults", "Use smart defaults based on user context"],
+    "dont"       => ["Equate more options with more value", "Present all variants simultaneously", "Leave users without a recommended path"],
+    "real_world" => "Apple sells 3 iPhone models. Not 12. The decision is: small, regular, or pro. Done. Competitors with 30 SKUs have lower satisfaction scores.",
+    "impact"     => "High",
+    "effort"     => "Medium",
+    "color"      => "blue",
+  ],
+
+  [
+    "id"         => "loss-aversion",
+    "category"   => "decision",
+    "name"       => "Loss Aversion",
+    "latin"      => "Prospect Theory",
+    "tagline"    => "Losing ₹100 hurts twice as much as winning ₹100 feels good.",
+    "definition" => "Kahneman and Tversky's research shows that losses are psychologically twice as powerful as equivalent gains. People work harder to avoid losses than to acquire gains.",
+    "why"        => "Evolutionarily, losses threatened survival. The amygdala processes potential losses as threats — triggering a stronger emotional response than equivalent gains.",
+    "ux_use"     => "Changed IndiGo's ancillary copy from 'Add meal for ₹250' to 'Your flight includes no meal — add from ₹250'. The loss frame (no meal) outperformed the gain frame. Conversion +14%.",
+    "example"    => "Free trial messaging: 'Start your free trial' vs 'Don't lose your 30-day free access'. The loss-framed version consistently outperforms in A/B tests by 20–30%.",
+    "do"         => ["Frame value propositions as avoiding loss when appropriate", "Use scarcity and urgency to activate loss aversion", "Show what users miss by not acting"],
+    "dont"       => ["Use manipulative fake scarcity", "Apply loss framing to every message — it loses power", "Create anxiety without resolution"],
+    "real_world" => "Booking.com: 'Only 2 rooms left at this price!' Loss aversion in action. You book faster because the alternative (losing the price) hurts more than the gain of saving.",
+    "impact"     => "High",
+    "effort"     => "Low",
+    "color"      => "amber",
+
+    /* ── Standalone article body (additive; index ignores this key) ── */
+    "article" => [
+      "published"  => true,
+      "date"       => "2026-06-11",
+      "date_label" => "June 2026",
+      "read_time"  => "7 min read",
+      "tags"       => ["Cognitive Bias", "Motivation"],
+      "kicker"     => "Psychology · Cognitive Bias",
+      "title_html" => "Losing ₹500 hurts more than winning it <span>feels good</span>",
+      "deck"       => "Loss aversion is the most-used — and most-abused — bias in product design. You're about to make two choices that prove it on yourself, then we'll trace it to a 40% retention lift.",
+
+      "demo"            => "reflection",
+      "demo_title_html" => "Two choices, <span>same math</span>",
+      "demo_lede"       => "No right answers — just pick what you'd actually do. The numbers are rigged so both choices have identical expected value. Watch what you do anyway.",
+
+      "wild_title_html" => "The bias that built <span>half of growth</span>",
+      "wild" => [
+        ["num" => "①", "title" => "Duolingo's streak", "type" => "good",
+         "verdict" => "Loss framing, honestly aligned",
+         "body" => "A 200-day streak isn't a number — it's something you now own and could lose. The fear of breaking it pulls people back daily, and the loss frame points the same way as the user's actual goal: learning."],
+        ["num" => "②", "title" => "Fake countdown timers", "type" => "bad",
+         "verdict" => "A loss the user never actually faced",
+         "body" => "“Offer ends in 4:59” that resets the moment you reload. The loss is manufactured and the urgency is theatre. It converts once and erodes trust forever — loss aversion as a dark pattern."],
+        ["num" => "③", "title" => "Airline points expiry", "type" => "good",
+         "verdict" => "Real stakes, real service",
+         "body" => "“Your 12,000 points expire in 30 days.” The miles are real and the loss is real, so the nudge genuinely helps travellers spend value they'd otherwise forfeit. The bias working for the user."],
+        ["num" => "④", "title" => "Free trials that auto-bill", "type" => "bad",
+         "verdict" => "Depends entirely on the exit door",
+         "body" => "Once you're using the product, cancelling feels like giving something up — the endowment effect doing the retention work. Ethical when cancelling is easy; predatory when it's buried."],
+      ],
+
+      "diagram"            => "value-function",
+      "diagram_title_html" => "The curve bends harder <span>below zero</span>",
+      "diagram_caption"    => "Kahneman and Tversky's value function. Equal objective amounts produce unequal felt magnitudes — the loss limb drops about twice as fast as the gain limb rises. That asymmetry is the entire bias, drawn in one line.",
+
+      "science" => [
+        "heading"    => "Where the law comes from",
+        "paragraphs" => [
+          "In 1979, Daniel Kahneman and Amos Tversky published Prospect Theory, the paper that eventually won a Nobel Prize. Their core finding overturned the assumption that people weigh gains and losses symmetrically. Instead, the displeasure of losing a sum is consistently larger than the pleasure of gaining the same sum — by a factor most studies place between <em>1.5 and 2.5</em>.",
+          "A companion effect, Richard Thaler's endowment effect, shows the same asymmetry from another angle: the moment something becomes yours, you value it more highly than you did a second earlier. In the classic experiment, people handed a mug demanded roughly twice the price to sell it that an identical group was willing to pay to buy it. Ownership manufactures a loss where none existed.",
+        ],
+        "quote"   => "The bias isn't that people are afraid of risk. It's that the reference point — what they consider “theirs” — quietly rewrites the whole calculation.",
+        "sources" => "Sources: Kahneman, D. &amp; Tversky, A. (1979), <em>“Prospect Theory: An Analysis of Decision under Risk,” Econometrica</em> · Kahneman, Knetsch &amp; Thaler (1990), <em>“Experimental Tests of the Endowment Effect,” Journal of Political Economy</em>.",
+      ],
+
+      "analysis" => [
+        "heading" => "What this did to a loyalty programme",
+        "before"  => [
+          "When we reworked IndiGo's loyalty experience, the lever wasn't bigger rewards — it was the reference point. “Earn 2,000 more points” is a gain, easy to ignore. “You're 2,000 points from keeping your tier — which lapses in 18 days” reframes the identical fact as a loss of status the member already feels they own. Same points, opposite psychology.",
+        ],
+        "metric"  => [
+          "num"     => "40%",
+          "context" => "Retention increase after reframing loyalty around status the member stood to lose, not rewards they had yet to earn — full breakdown in the case study below.",
+        ],
+        "after"   => [
+          "The line we held throughout: the loss had to be real. Members genuinely had a tier and genuinely could lose it. The moment a team manufactures a loss — a countdown that resets, a “spot” that was never reserved — loss aversion stops being persuasion and becomes a dark pattern that trades next quarter's trust for this quarter's conversion.",
+        ],
+      ],
+
+      "checklist_title_html" => "The loss-aversion <span>checklist</span>",
+      "checklist" => [
+        ["title" => "Frame retention around what's already theirs", "body" => "A status, a streak, a saved cart, accrued points. People fight harder to keep than to gain — point that energy at something they genuinely own."],
+        ["title" => "Make progress visible so it feels owned", "body" => "A near-complete profile or a long streak creates an endowment. Showing the progress is what makes the potential loss land."],
+        ["title" => "Reserve, don't pressure", "body" => "“Your cart is saved for 24 hours” respects the user. “Buy in 4:59 or lose it” insults them. Same mechanism, opposite trust outcome."],
+        ["title" => "Keep the exit door wide", "body" => "Loss-framed retention is only ethical when leaving is easy. If your cancel flow is a maze, you're not persuading — you're trapping."],
+        ["title" => "Run the honesty test", "body" => "Is the loss you're invoking real to the user? If you manufactured it, you've built a dark pattern — and those have a half-life measured in screenshots."],
+      ],
+
+      /* Hand-editable cross-links. Swap the second slug to /psychology/endowment-effect once that article ships. */
+      "action" => [
+        ["type" => "Case Study · Aviation · Retention", "title" => "IndiGo Loyalty — 40% retention increase",
+         "body" => "The full story of reframing a loyalty programme around tier status members didn't want to lose, and what it did to retention.",
+         "href" => "/case-study/indigo-loyalty", "link" => "Read the case study"],
+        ["type" => "Psychology · Sibling principle", "title" => "Scarcity — the FOMO engine",
+         "body" => "Loss aversion's closest cousin: the pull of what's about to be unavailable. See how anticipated loss drives action.",
+         "href" => "/psychology/#scarcity", "link" => "Explore the principle"],
+      ],
+    ],
+  ],
+
+  // ── MEMORY ────────────────────────────────────────────────────
+
+  [
+    "id"         => "millers-law",
+    "category"   => "memory",
+    "name"       => "Miller's Law",
+    "latin"      => "The Magical Number 7 ± 2",
+    "tagline"    => "The human mind holds 7 things at once. Design for it.",
+    "definition" => "The average person can hold 7 (±2) items in their working memory at one time. Beyond this, information is lost or requires additional cognitive effort to retain.",
+    "why"        => "Working memory is a limited buffer. Unlike long-term memory, it degrades rapidly and has a fixed capacity. Overloading it causes errors, frustration, and abandonment.",
+    "ux_use"     => "CrewPal had 14 screens worth of information. Restructured to 4 core views matching the 4 things crew actually needed to know. Task completion time dropped from 47s to 8s.",
+    "example"    => "Phone numbers formatted as 98765-43210 are remembered better than 9876543210. The chunking makes each group a single working memory item — 2 items instead of 10.",
+    "do"         => ["Chunk information into groups of 5–9 items", "Use visual grouping to reduce apparent complexity", "Break long forms into logical steps"],
+    "dont"       => ["List more than 7 items without grouping", "Put all information on one screen", "Use long unformatted strings of numbers or text"],
+    "real_world" => "Navigation menus: best practice is 5–7 items. More than that and users can't hold the full menu in mind — they scan and miss items.",
+    "impact"     => "High",
+    "effort"     => "Low",
+    "color"      => "blue",
+  ],
+
+  [
+    "id"         => "peak-end-rule",
+    "category"   => "memory",
+    "name"       => "Peak-End Rule",
+    "latin"      => "",
+    "tagline"    => "Users don't remember journeys. They remember peaks and endings.",
+    "definition" => "Daniel Kahneman's research shows that people judge experiences based almost entirely on how they felt at the peak moment and at the end — not the average experience across the whole journey.",
+    "why"        => "Memory is reconstructive, not a video recording. The experiencing self and remembering self are different systems. The remembering self uses heuristics — peak and end are the strongest anchors.",
+    "ux_use"     => "Redesigned IndiGo's booking confirmation screen — previously a dense information dump — into a delightful 'You're all set!' moment with seat visualization. NPS increased significantly despite the flow being identical.",
+    "example"    => "A vacation with one incredible day and a smooth departure is remembered better than a good-but-consistent vacation with a stressful departure. The end dominates the memory.",
+    "do"         => ["Design the confirmation/completion screen as a peak moment", "End every critical flow on a positive, clear note", "Identify the emotional low points and elevate them"],
+    "dont"       => ["Treat the end of a flow as purely functional", "Ignore emotional design in 'post-conversion' screens", "Let errors be the most memorable moment in a flow"],
+    "real_world" => "Airbnb's booking confirmation: beautiful property photo, host message, local tips. Not just 'Booking confirmed'. They design the peak on purpose.",
+    "impact"     => "High",
+    "effort"     => "Medium",
+    "color"      => "blue",
+  ],
+
+  [
+    "id"         => "recognition-recall",
+    "category"   => "memory",
+    "name"       => "Recognition vs Recall",
+    "latin"      => "",
+    "tagline"    => "Don't make users remember. Make them recognize.",
+    "definition" => "Recognition (identifying from options) is far easier than recall (retrieving from memory without cues). Good UX design surfaces information rather than requiring users to remember it.",
+    "why"        => "Recall requires active memory retrieval — cognitively expensive and error-prone. Recognition is a matching task — much faster and more reliable. Jakob Nielsen's heuristic #6: visibility of system status.",
+    "ux_use"     => "CrewPal redesign: instead of requiring crew to remember their crew ID to look up schedules, surfaced all relevant information on the home screen. 'Remember' → 'See'.",
+    "example"    => "Navigation breadcrumbs, 'Recently viewed' lists, autocomplete suggestions — all recognition aids. Command-line interfaces require recall. GUIs require recognition. That's why GUIs won.",
+    "do"         => ["Surface relevant options, history, and context", "Use autocomplete and smart defaults", "Show recently used items and relevant suggestions"],
+    "dont"       => ["Require users to remember IDs, codes, or sequences", "Use cryptic icons without labels", "Remove context clues in the name of minimalism"],
+    "real_world" => "Google's search autocomplete: you type 2 letters and recognize your intended search. Without it, you'd have to recall the exact phrasing. Tiny feature. Massive cognitive relief.",
+    "impact"     => "High",
+    "effort"     => "Low",
+    "color"      => "green",
+  ],
+
+  // ── TRUST ─────────────────────────────────────────────────────
+
+  [
+    "id"         => "social-proof",
+    "category"   => "trust",
+    "name"       => "Social Proof",
+    "latin"      => "Informational Social Influence",
+    "tagline"    => "If others are doing it, it must be the right thing to do.",
+    "definition" => "People look to the behavior and opinions of others to determine the correct course of action, especially in situations of uncertainty. Reviews, ratings, testimonials, and usage numbers all activate this principle.",
+    "why"        => "Under uncertainty, we infer that others have information we lack. Following others reduces cognitive effort and perceived risk. Evolutionary logic: the crowd usually knows where the food is.",
+    "ux_use"     => "IndiGo's seat selection highlighted the most commonly chosen seat tier with a 'Popular Choice' badge. Users defaulted to the recommendation — decision time halved and satisfaction increased.",
+    "example"    => "Amazon's '4.7 stars, 12,847 reviews' vs a product with no reviews. Trust activates before reading a single review. The number itself is the signal.",
+    "do"         => ["Show real usage numbers (users, reviews, downloads)", "Surface expert and user testimonials near decision points", "Use 'Popular Choice' or 'Most Booked' labels contextually"],
+    "dont"       => ["Fake social proof — users detect it and trust collapses", "Show low numbers (10 reviews looks worse than no reviews)", "Place testimonials on pages where they're irrelevant"],
+    "real_world" => "Airbnb: 'Superhost', 'Rare find — only 1 left', '200 recent bookings'. Three social proof signals on one listing. Every one is earned and specific.",
+    "impact"     => "High",
+    "effort"     => "Low",
+    "color"      => "blue",
+  ],
+
+  [
+    "id"         => "mere-exposure",
+    "category"   => "trust",
+    "name"       => "Mere Exposure Effect",
+    "latin"      => "Familiarity Principle",
+    "tagline"    => "The more familiar something feels, the more we trust it.",
+    "definition" => "People develop a preference for things simply because they have been exposed to them repeatedly. Familiarity breeds trust — even without any rational basis for that trust.",
+    "why"        => "Repeated exposure reduces cognitive processing effort. Fluent processing feels good — it signals safety. Unfamiliar patterns trigger caution responses even when there's no rational threat.",
+    "ux_use"     => "The IndiGo design system used established interaction patterns (not novel ones) for core flows. Familiar = trusted. Novel interactions require users to learn — adding friction at critical moments.",
+    "example"    => "Hamburger menu icons, share icons, lock icons for security — all derive trust from familiarity. Even if you've never used a specific app, these patterns feel safe immediately.",
+    "do"         => ["Use established UI patterns for critical interactions", "Be consistent — same component, same behavior, always", "Use brand recognition strategically near conversion moments"],
+    "dont"       => ["Innovate in the middle of a purchase flow", "Change icon meanings between screens", "Prioritize novelty over recognition in transactional UX"],
+    "real_world" => "Stripe's checkout embeds familiar bank card visuals, recognizable card brand logos, and standard form patterns. The familiarity is precisely engineered to build trust at payment.",
+    "impact"     => "Medium",
+    "effort"     => "Low",
+    "color"      => "green",
+  ],
+
+  // ── MOTIVATION ────────────────────────────────────────────────
+
+  [
+    "id"         => "progress-principle",
+    "category"   => "motivation",
+    "name"       => "Progress Principle",
+    "latin"      => "Endowed Progress Effect",
+    "tagline"    => "Starting feels hard. Progress feels magnetic.",
+    "definition" => "People are more motivated to complete a task when they feel they've already made progress toward it. A loyalty card with 2 stamps already filled drives more repeat behavior than a blank card.",
+    "why"        => "Progress activates the brain's goal-pursuit systems. Partial completion creates a psychological commitment (the Zeigarnik effect) — incomplete tasks stay active in working memory, creating pull toward completion.",
+    "ux_use"     => "The IndiGo loyalty redesign POC used an 'endowed' start — showing users they were already at 10% toward their next reward tier. Retention testing showed 40% better engagement.",
+    "example"    => "LinkedIn's profile completion bar — you start at 40% just by signing up. The incompleteness creates urgency to finish. 85% of users who hit 50% complete to 100%.",
+    "do"         => ["Show progress immediately — even if it's small", "Use progress bars, completion percentages, step indicators", "Give users a 'head start' on loyalty or onboarding"],
+    "dont"       => ["Start progress at zero when you can give an endowed start", "Make progress invisible", "Show progress without celebrating milestones"],
+    "real_world" => "Duolingo's streak counter. You've maintained a 47-day streak — the thought of breaking it is more motivating than any external reward. Progress as identity.",
+    "impact"     => "High",
+    "effort"     => "Medium",
+    "color"      => "blue",
+  ],
+
+  [
+    "id"         => "scarcity",
+    "category"   => "motivation",
+    "name"       => "Scarcity Principle",
+    "latin"      => "",
+    "tagline"    => "We want more of what we fear we might lose.",
+    "definition" => "People assign greater value to opportunities, objects, or information when their availability is limited. Scarcity triggers urgency and accelerates decision-making.",
+    "why"        => "Scarcity signals high value and demand. Evolutionarily, scarce resources required immediate action. The amygdala responds to scarcity like a threat — triggering faster, less analytical decision-making.",
+    "ux_use"     => "IndiGo's fare calendar shows seats at discounted prices diminishing in real time. The visual scarcity of remaining seats at each price tier accelerates booking decisions legitimately.",
+    "example"    => "'Only 3 seats left at this price', 'Sale ends in 2:47:33', 'Last booking was 12 minutes ago'. Each signal activates scarcity response and accelerates the decision.",
+    "do"         => ["Use real scarcity — low stock, limited time, genuine demand", "Show scarcity signals near decision points", "Combine with social proof for maximum effect"],
+    "dont"       => ["Fake scarcity — it destroys trust permanently when detected", "Use scarcity for low-value actions", "Make every element scarce — it normalises and loses power"],
+    "real_world" => "Booking.com's 'Only 1 room left!' combined with 'Booked 8 times today' = scarcity + social proof. The most powerful conversion combination in travel UX.",
+    "impact"     => "High",
+    "effort"     => "Low",
+    "color"      => "amber",
+  ],
+
+  // ── EMOTION ───────────────────────────────────────────────────
+
+  [
+    "id"         => "aesthetic-usability",
+    "category"   => "emotion",
+    "name"       => "Aesthetic-Usability Effect",
+    "latin"      => "",
+    "tagline"    => "Beautiful interfaces are perceived as easier to use — even when they're not.",
+    "definition" => "Users perceive aesthetically pleasing designs as more usable, even when they have the same or worse actual usability than less attractive alternatives. Beauty creates positive affect which biases usability judgments.",
+    "why"        => "Positive emotional responses reduce critical thinking. When we feel good about something, we assume it works well. We're less likely to notice or report problems in beautiful interfaces.",
+    "ux_use"     => "The IndiGo booking redesign invested heavily in visual polish — better typography, more whitespace, refined iconography. Users rated tasks as 'easier' even when task completion time was identical.",
+    "example"    => "Two forms with identical field counts and logic. One has better typography, spacing, and visual design. Users rate the beautiful form as 'simpler' — even if both take the same time to complete.",
+    "do"         => ["Invest in visual quality — it's not just decoration", "Use whitespace generously — it signals quality", "Consistent typography and iconography signal craftsmanship"],
+    "dont"       => ["Use aesthetics to mask genuinely bad usability", "Assume aesthetics compensates for broken interactions", "Sacrifice load performance for visual complexity"],
+    "real_world" => "Apple's products are objectively premium. But subjectively, users report them as 'just easier to use' — even in tasks where Android parity exists. The aesthetic does real cognitive work.",
+    "impact"     => "High",
+    "effort"     => "High",
+    "color"      => "blue",
+  ],
+
+  [
+    "id"         => "doherty-threshold",
+    "category"   => "emotion",
+    "name"       => "Doherty Threshold",
+    "latin"      => "",
+    "tagline"    => "Under 400ms: flow. Over 400ms: frustration.",
+    "definition" => "Productivity and engagement peak when a computer provides a response within 400 milliseconds. Beyond that threshold, user attention drifts and frustration begins to build.",
+    "why"        => "The brain expects cause and effect to be nearly simultaneous. Delays break the feeling of direct manipulation. The longer the gap, the more the brain interprets the delay as feedback that something is wrong.",
+    "ux_use"     => "Optimistic UI updates — showing the result of an action immediately while the server processes — keep users in flow. IndiGo's seat selection showed instant visual confirmation before server confirmation.",
+    "example"    => "Google's autocomplete appears in under 100ms. The feeling of instant response makes search feel like thought extension, not tool use. Slower by 200ms = 2% fewer searches.",
+    "do"         => ["Use optimistic UI updates for predictable operations", "Show skeleton screens immediately — perceived performance > actual performance", "Provide visual feedback within 100ms of every interaction"],
+    "dont"       => ["Wait for server response to show any feedback", "Use generic loading spinners without context", "Let interactions feel unresponsive even if processing"],
+    "real_world" => "Instagram's like button: heart fills instantly on tap. Server sync happens in background. The emotional reward (red heart) is immediate — that's the design decision that matters.",
+    "impact"     => "High",
+    "effort"     => "High",
+    "color"      => "blue",
+  ],
+
+];

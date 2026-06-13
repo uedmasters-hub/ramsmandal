@@ -1,0 +1,2 @@
+# Allow directory access — admin is password protected via PHP session
+Options +Indexes

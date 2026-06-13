@@ -1,0 +1,205 @@
+/* =========================================
+   PHILOSOPHY — philosophy.css
+   ========================================= */
+
+/* ── SECTION ─────────────────────────────── */
+
+.philosophy-section {
+  position:   relative;
+  background: var(--blue);
+  overflow:   hidden;
+  padding:    100px 48px;
+}
+
+/* subtle grain texture overlay */
+.philosophy-section::before {
+  content:  "";
+  position: absolute;
+  inset:    0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:        0.5;
+  pointer-events: none;
+}
+
+/* subtle radial light top-left */
+.philosophy-section::after {
+  content:  "";
+  position: absolute;
+  top:      -40%;
+  left:     -10%;
+  width:    70%;
+  height:   200%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255,255,255,0.07) 0%,
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+/* ── INNER ───────────────────────────────── */
+
+.philosophy-inner {
+  position:  relative;
+  z-index:   2;
+  display:   flex;
+  flex-direction: column;
+  gap:       32px;
+}
+
+/* ── QUOTE MARK ──────────────────────────── */
+
+.philosophy-mark {
+  display:        block;
+  font-size:      5rem;
+  line-height:    1;
+  color:          rgba(255,255,255,0.22);
+  font-weight:    700;
+  letter-spacing: -0.04em;
+  margin-bottom:  -16px;
+  user-select:    none;
+}
+
+/* ── QUOTE TEXT ──────────────────────────── */
+
+.philosophy-quote {
+  font-size:      clamp(1.8rem, 3.2vw, 3rem);
+  line-height:    1.45;
+  letter-spacing: -0.02em;
+  font-weight:    300;
+  color:          #ffffff;
+  /* GSAP controls word-level opacity — section stays visible as fallback */
+  opacity:    1;
+  transform:  none;
+  transition: none; /* no CSS transition — GSAP owns all motion here */
+}
+
+/* is-visible kept for compatibility with animations.js observer */
+.philosophy-quote.is-visible {
+  opacity:   1;
+  transform: translateY(0);
+}
+
+/* ── ATTRIBUTION ─────────────────────────── */
+
+.philosophy-attr {
+  display:     flex;
+  align-items: center;
+  gap:         10px;
+  font-size:   14px;
+  font-weight: 400;
+  color:       rgba(255,255,255,0.60);
+  letter-spacing: 0.01em;
+  /* GSAP sets autoAlpha — start visible as CSS fallback */
+  opacity:   1;
+  transform: none;
+  transition: none;
+}
+
+.philosophy-attr.is-visible {
+  opacity:   1;
+  transform: translateY(0);
+}
+
+.philosophy-dot {
+  opacity: 0.4;
+}
+
+/* ── RESPONSIVE — 1024px ─────────────────── */
+
+@media (max-width: 1024px) {
+
+  .philosophy-section {
+    padding: 80px 40px;
+  }
+
+  .philosophy-quote {
+    max-width: 100%;
+  }
+
+}
+
+/* ── RESPONSIVE — 768px ──────────────────── */
+
+@media (max-width: 768px) {
+
+  /* Spacer: injected by JS, holds full scroll distance in layout.
+     Content below is already pushed down by spacer height —
+     nothing ever overlaps.                                      */
+  .phil-spacer {
+    overflow: visible !important;
+  }
+
+  /* Section: sticky inside spacer (position set inline by GSAP).
+     Flex centres the inner content vertically as height grows.  */
+  .philosophy-section {
+    display:         flex;
+    align-items:     center;
+    justify-content: flex-start;
+    padding:         48px 24px;
+    box-sizing:      border-box;
+    overflow:        hidden;    /* clip grain texture */
+    will-change:     height, top;
+  }
+
+  .philosophy-inner {
+    width:    100%;
+    position: relative;
+    z-index:  2;
+  }
+
+  .philosophy-mark {
+    font-size: 3.6rem;
+  }
+
+  .philosophy-quote {
+    font-size:  clamp(1.4rem, 6vw, 2rem);
+    transition: none !important;
+    opacity:    1    !important;
+    transform:  none !important;
+  }
+
+  .philosophy-attr {
+    font-size:  13px;
+    flex-wrap:  wrap;
+    gap:        6px;
+    transition: none !important;
+  }
+
+}
+/* =========================================
+   PHIL-WORD — injected by gsap-effects.js
+   Effect 5: word-by-word highlight
+========================================= */
+
+/* Each word span — GSAP owns the color property */
+.phil-word {
+  display:     inline;
+  white-space: normal;
+  will-change: color;
+  /* No CSS color here — GSAP sets rgba() inline.
+     If GSAP is absent, words inherit white from parent. */
+}
+
+/* Ensure blockquote doesn't get a double transition
+   that fights GSAP's scrub timing */
+.philosophy-quote {
+  transition: none !important;
+}
+
+/* Pin spacer that ScrollTrigger injects — must not
+   collapse the layout below the section */
+.philosophy-section + .gsap-spacer,
+.philosophy-section + [style*="padding"] {
+  display: block;
+}
+
+/* While pinned ScrollTrigger sets position:fixed on the
+   section — ensure it stays full-width and stacks correctly */
+.philosophy-section.gsap-pin-spacer,
+.philosophy-section[style*="position: fixed"] {
+  z-index: 50;
+  width:   100% !important;
+  left:    0   !important;
+}
