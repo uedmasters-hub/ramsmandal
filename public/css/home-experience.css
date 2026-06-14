@@ -23,10 +23,18 @@
 
 .he-eyebrow{margin:0;font-size:clamp(11px,1.4vh,13px);font-weight:500;color:var(--text-muted)}
 
-.he-headline{margin:0;font-family:var(--font-display);font-weight:800;letter-spacing:-.03em;
-  line-height:1.08;color:var(--text-primary);text-wrap:balance;overflow-wrap:break-word;
+.he-headline{
+  margin:0;
+  font-family:var(--font-display);
+  font-weight: 300;
+  letter-spacing:-.03em;
+  line-height:1.08;
+  color:var(--text-primary);
+  text-wrap:balance;
+  overflow-wrap:break-word;
   max-width:calc(var(--dev-w) * 0.92);       /* keep type off the silhouette edges */
-  font-size:clamp(1.9rem,5vw,4rem)}          /* default; per-stage overrides below */
+  font-size:clamp(1.9rem,5vw,4rem)
+  }          /* default; per-stage overrides below */
 .he-headline .kw-accent{color:var(--blue)}
 
 /* per-stage type sized to its device (vh scales with the device, so it never exceeds it) */
