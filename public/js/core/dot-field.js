@@ -155,6 +155,14 @@ class DotField {
       return;                                                                       // skip the shared centered draw
     }
     if (kind === "tablet") {
+      if (this.w <= 760) {
+        const tw = this.w * 0.9, th = tw * 1.35, tr = tw * 0.05;   // big portrait frame, crops below
+        const tx = cx - tw / 2, ty = this.h * 0.11;
+        c.lineWidth = 6;
+        this._roundRect(c, tx, ty, tw, th, tr); c.stroke();
+        c.beginPath(); c.arc(cx, ty + tw * 0.05, 4, 0, 6.29); c.fill();
+        return;
+      }
       const tw = Math.min(this.w * 0.9, this.h * 1.3);     // clearly wider than the phone
       const th = tw * 1.15;                                // crops off the bottom
       const tr = tw * 0.045;                               // tablet: gentle corners
@@ -165,6 +173,13 @@ class DotField {
       return;
     }
     if (kind === "laptop") {
+      if (this.w <= 760) {
+        const lw = this.w * 0.96, lh = lw * 1.2, lr = lw * 0.04;   // widest mobile frame, crops below
+        const lx = cx - lw / 2, ly = this.h * 0.1;
+        c.lineWidth = 6;
+        this._roundRect(c, lx, ly, lw, lh, lr); c.stroke();
+        return;
+      }
       const lw = Math.min(this.w * 0.88, this.h * 1.5);    // widest device (landscape)
       const lh = lw * 0.58;                                // landscape screen
       const block = lh + lh * 0.09;                        // screen + keyboard base
@@ -195,6 +210,12 @@ class DotField {
 
   /* ---------- public control ---------- */
   setMorph(from, to, mix) { this.from = from; this.to = to; this.mix = Math.max(0, Math.min(1, mix)); }
+  // break & reform: from -> via (scatter) -> to. Dots dissolve into the field, then gather again.
+  setMorphVia(from, via, to, t) {
+    t = Math.max(0, Math.min(1, t));
+    if (t < 0.5) this.setMorph(from, via, t * 2);
+    else this.setMorph(via, to, (t - 0.5) * 2);
+  }
   morphSequence(list, p) {
     const seg = Math.max(0, Math.min(1, p)) * (list.length - 1);
     const i = Math.min(list.length - 2, Math.floor(seg));

@@ -66,7 +66,8 @@ function boot() {
         onUpdate: (self) => {
           if (!field) return;
           const m = holdMorph(self.progress, DEVICES, EDGES); // Arrival -> Hold -> Exit (weighted)
-          field.setMorph(m.from, m.to, m.mix);
+          if (m.from === m.to) field.setMorph(m.from, m.to, 0);          // hold
+          else field.setMorphVia(m.from, "spread", m.to, m.mix);        // break into dots, reform
           // ink stays high while the device is legible, eases toward ambient as it spreads
           field.ink = self.progress < 0.72 ? 1 : 1 - (self.progress - 0.72) / 0.28 * 0.55;
         },
@@ -99,18 +100,19 @@ function boot() {
         onUpdate: (self) => {
           if (!field) return;
           const m = holdMorph(self.progress, DEVICES, EDGES); // same, weighted
-          field.setMorph(m.from, m.to, m.mix);
+          if (m.from === m.to) field.setMorph(m.from, m.to, 0);
+          else field.setMorphVia(m.from, "spread", m.to, m.mix);        // break into dots, reform
           field.ink = self.progress < 0.72 ? 1 : 1 - (self.progress - 0.72) / 0.28 * 0.55;
         },
       },
     });
 
-    // keynote caption: outgoing copy lifts away, incoming copy rises in
+    // mobile: content slides in HORIZONTALLY (different from desktop), nothing crops/breaks
     const fade = 0.11;
     for (let i = 1; i < stages.length; i++) {
       const b = EDGES[i];
-      tl.to(stages[i - 1], { autoAlpha: 0, y: -16, duration: fade, ease: "power1.in" }, b - fade / 2)
-        .fromTo(stages[i], { y: 18 }, { autoAlpha: 1, y: 0, duration: fade, ease: "power2.out" }, b - fade / 2 + 0.02);
+      tl.to(stages[i - 1], { autoAlpha: 0, x: -60, duration: fade, ease: "power1.in" }, b - fade / 2)
+        .fromTo(stages[i], { x: 60 }, { autoAlpha: 1, x: 0, duration: fade, ease: "power2.out" }, b - fade / 2 + 0.02);
     }
     tl.to({}, { duration: 0.0001 }, 1);
 
