@@ -67,11 +67,17 @@ function buildRail() {
 }
 function updateRail(p) {
   if (!railEl) return;
-  let k = DEVICES.length - 1;
-  for (let i = 0; i < DEVICES.length; i++) { if (p < EDGES[i + 1]) { k = i; break; } }
-  const slice = EDGES[k + 1] - EDGES[k];
-  const local = slice > 0 ? (p - EDGES[k]) / slice : 0;
-  railSegs.forEach((f, i) => { f.style.width = (i < k ? 1 : i === k ? local : 0) * 100 + "%"; });
+  const n = DEVICES.length, last = n - 1;
+  let k = 0;
+  for (let i = 0; i < n; i++) if (p >= SNAP[i] - 1e-4) k = i;   // current stage = last centre passed
+  railSegs.forEach((f, i) => {
+    let fill;
+    if (i < k) fill = 1;                                        // completed stages
+    else if (i > k) fill = 0;                                   // not reached
+    else fill = (k === last) ? 1                                // final stage: full
+             : Math.min(1, Math.max(0, (p - SNAP[k]) / (SNAP[k + 1] - SNAP[k]))); // 0 at this centre -> 1 at next
+    f.style.width = fill * 100 + "%";
+  });
   railLabels.forEach((el, i) => el.classList.toggle("is-active", i === k));
 }
 function showRail(on) { railEl && railEl.classList.toggle("is-shown", on); }
@@ -166,7 +172,7 @@ function boot() {
 
   // ===== AUTO-ADVANCE: if the reader isn't scrolling, glide to the next stage =====
   // Manual scroll/touch cancels it; at the final stage it stops so the field can burst.
-  const AUTO_MS = 2600, lastK = DEVICES.length - 1;
+  const AUTO_MS = 8000, lastK = DEVICES.length - 1;
   let autoTimer = null, autoJumping = false;
   const curStage = () => {
     if (!heroST) return 0;
