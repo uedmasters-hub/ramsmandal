@@ -44,7 +44,8 @@ function boot() {
   initSmoothScroll();
   const mm = gsap.matchMedia();
 
-  mm.add("(min-width: 1px)", () => {
+  // ===== DESKTOP / TABLET (>=761px) — unchanged behaviour, just no longer inherited by mobile =====
+  mm.add("(min-width: 761px)", () => {
     gsap.set(stages, { autoAlpha: 0 });
     gsap.set(stages[0], { autoAlpha: 1 });
 
@@ -71,6 +72,38 @@ function boot() {
         .to(stages[i],     { autoAlpha: 1, duration: fade, ease: "power1.inOut" }, b - fade / 2 + 0.02);
     }
     tl.to({}, { duration: 0.0001 }, 1);                    // normalise total duration so positions == progress
+
+    return () => gsap.set(stages, { clearProps: "all" });
+  });
+
+  // ===== MOBILE (<=760px) — dedicated keynote close-up choreography =====
+  // Device is allowed to crop; typography leads. Captions slide like a keynote.
+  mm.add("(max-width: 760px)", () => {
+    gsap.set(stages, { autoAlpha: 0, y: 0 });
+    gsap.set(stages[0], { autoAlpha: 1 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: pin, start: "top top",
+        end: () => "+=" + (DEVICES.length * 175) + "%",    // more scroll: time to read on a phone
+        scrub: 0.7, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          if (!field) return;
+          const m = holdMorph(self.progress, DEVICES);      // same Arrival -> Hold -> Exit
+          field.setMorph(m.from, m.to, m.mix);
+          field.ink = self.progress < 0.72 ? 1 : 1 - (self.progress - 0.72) / 0.28 * 0.55;
+        },
+      },
+    });
+
+    // keynote caption: outgoing copy lifts away, incoming copy rises in
+    const fade = 0.11;
+    for (let i = 1; i < stages.length; i++) {
+      const b = i / stages.length;
+      tl.to(stages[i - 1], { autoAlpha: 0, y: -16, duration: fade, ease: "power1.in" }, b - fade / 2)
+        .fromTo(stages[i], { y: 18 }, { autoAlpha: 1, y: 0, duration: fade, ease: "power2.out" }, b - fade / 2 + 0.02);
+    }
+    tl.to({}, { duration: 0.0001 }, 1);
 
     return () => gsap.set(stages, { clearProps: "all" });
   });
