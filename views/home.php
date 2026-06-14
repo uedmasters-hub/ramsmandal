@@ -1,16 +1,15 @@
 <?php
-/* views/home.php — cinematic experience hero + editorial sections */
+/* views/home.php — dot-field hero (preloader + device evolution) + editorial sections */
 $site = content('site');
 $page = [
   'title'      => $site['meta']['default_title'],
   'desc'       => $site['meta']['default_desc'],
   'body_class' => 'page-home',
-  'styles'     => ['home', 'home-experience', 'preloader'],
+  'styles'     => ['home', 'home-experience'],
   'scripts'    => ['core/reveal'],
   'modules'    => ['preloader', 'home-experience'],
   'importmap'  => json_encode([
     'imports' => [
-      'three'              => 'https://unpkg.com/three@0.160.0/build/three.module.js',
       'lenis'              => 'https://unpkg.com/lenis@1.1.20/dist/lenis.mjs',
       'gsap'               => 'https://unpkg.com/gsap@3.12.5/index.js',
       'gsap/ScrollTrigger' => 'https://unpkg.com/gsap@3.12.5/ScrollTrigger.js',
@@ -19,83 +18,57 @@ $page = [
 ];
 $all      = $projects ?? [];
 $featured = array_values(array_filter($all, fn($p) => !empty($p['featured'])));
-$prev     = array_slice($featured, 0, 4);
+$prev     = array_slice($featured, 0, 3);
 ?>
 
-<!-- CINEMATIC PRELOADER (first chapter) -->
-<div id="preloader">
-  <canvas class="pre-canvas" aria-hidden="true"></canvas>
-  <div class="pre-words" aria-hidden="true">
-    <p class="pre-word" data-word="complexity">Complexity</p>
-    <p class="pre-word" data-word="clarity">Clarity</p>
-  </div>
-</div>
-
-<!-- CINEMATIC EXPERIENCE HERO -->
+<!-- DOT-FIELD HERO (device evolution lives in the global dot canvas) -->
 <section id="home-experience" class="he">
   <div class="he-pin">
-    <canvas class="he-env" aria-hidden="true"></canvas>
-    <div class="he-viewport">
-      <div class="he-rig">
-        <div class="he-device">
-          <div class="he-frame" aria-hidden="true"></div>
-          <div class="he-island" aria-hidden="true"></div>
+    <div class="he-stage-layer">
 
-          <div class="he-screen">
-            <div class="he-screen__bg" aria-hidden="true"></div>
-            <div class="he-content">
-              <!-- 0 mobile -->
-              <div class="he-stage">
-                <p class="he-eyebrow">Experience Architect</p>
-                <h1 class="he-headline">I transform complexity into <span class="kw-accent">clarity</span>.</h1>
-              </div>
-              <!-- 1 tablet -->
-              <div class="he-stage">
-                <h2 class="he-headline">From a single screen to a working system.</h2>
-                <p class="he-sub">Seventeen years across aviation, SaaS, and enterprise platforms, shaping products used by millions.</p>
-              </div>
-              <!-- 2 laptop -->
-              <div class="he-stage">
-                <h2 class="he-headline">A designer makes screens.</h2>
-                <div class="he-previews">
-                  <?php foreach (array_slice($prev, 0, 3) as $p): ?>
-                  <div class="he-prev"><b><?= e($p['title']) ?></b><span><?= e($p['company']) ?></span></div>
-                  <?php endforeach; ?>
-                </div>
-              </div>
-              <!-- 3 desktop -->
-              <div class="he-stage">
-                <h2 class="he-headline">An experience architect makes ecosystems.</h2>
-                <div class="he-regions">
-                  <div class="he-region"><b>Work</b><span>Products at scale</span></div>
-                  <div class="he-region"><b>Systems</b><span>Design infrastructure</span></div>
-                  <div class="he-region"><b>Thinking</b><span>Decisions, tradeoffs</span></div>
-                  <div class="he-region"><b>Leadership</b><span>Teams of 15+</span></div>
-                  <div class="he-region"><b>Impact</b><span>Measured outcomes</span></div>
-                  <div class="he-region"><b>Strategy</b><span>Complexity to clarity</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- physical parts (silhouette) -->
-          <div class="he-hinge" aria-hidden="true"></div>
-          <div class="he-deck" aria-hidden="true"><div class="he-keys"></div><div class="he-trackpad"></div></div>
-        </div>
+      <!-- 0 phone -->
+      <div class="he-stage">
+        <p class="he-eyebrow">Experience Architect</p>
+        <h1 class="he-headline">I transform complexity into <span class="kw-accent">clarity</span>.</h1>
       </div>
 
-      <!-- payoff -->
-      <div class="he-ecosystem" aria-hidden="true">
-        <div class="he-ecosystem__nodes">
-          <?php foreach (array_slice($featured, 0, 6) as $p): ?>
-          <span class="he-node"><?= e($p['title']) ?></span>
+      <!-- 1 tablet -->
+      <div class="he-stage">
+        <h2 class="he-headline">From a single screen to a working system.</h2>
+        <p class="he-sub">Seventeen years across aviation, SaaS, and enterprise platforms, shaping products used by millions.</p>
+      </div>
+
+      <!-- 2 laptop -->
+      <div class="he-stage">
+        <h2 class="he-headline">A designer makes screens.</h2>
+        <div class="he-previews">
+          <?php foreach ($prev as $p): ?>
+          <div class="he-prev"><b><?= e($p['title']) ?></b><span><?= e($p['company']) ?></span></div>
           <?php endforeach; ?>
         </div>
-        <h2 class="he-ecosystem__title">You're inside the system.</h2>
       </div>
+
+      <!-- 3 spread / ecosystem -->
+      <div class="he-stage">
+        <h2 class="he-headline">An experience architect makes ecosystems.</h2>
+        <div class="he-regions">
+          <div class="he-region"><b>Work</b><span>Products at scale</span></div>
+          <div class="he-region"><b>Systems</b><span>Design infrastructure</span></div>
+          <div class="he-region"><b>Thinking</b><span>Decisions, tradeoffs</span></div>
+          <div class="he-region"><b>Leadership</b><span>Teams of 15+</span></div>
+          <div class="he-region"><b>Impact</b><span>Measured outcomes</span></div>
+          <div class="he-region"><b>Strategy</b><span>Complexity to clarity</span></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
+
+<!-- PRELOADER narrative (beneath the RM the dots form) -->
+<div id="preloader" class="preloader" aria-hidden="true">
+  <p class="preloader__narrative">Complexity <span class="arrow">&rarr;</span> Clarity</p>
+</div>
 
 <!-- POSITIONING -->
 <section class="intro">
@@ -103,12 +76,8 @@ $prev     = array_slice($featured, 0, 4);
     I don't design screens. I design the experiences, systems, and outcomes behind products that operate at scale, and the judgment that holds them together under real constraint.
   </p>
   <ul class="intro__disciplines" data-reveal>
-    <li>Product design</li>
-    <li>Enterprise UX</li>
-    <li>Design systems</li>
-    <li>Product strategy</li>
-    <li>Design engineering</li>
-    <li>Leadership</li>
+    <li>Product design</li><li>Enterprise UX</li><li>Design systems</li>
+    <li>Product strategy</li><li>Design engineering</li><li>Leadership</li>
   </ul>
 </section>
 
@@ -120,7 +89,6 @@ $prev     = array_slice($featured, 0, 4);
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
   </header>
-
   <ul class="work-list">
     <?php foreach ($featured as $p): ?>
     <li class="work-list__row" data-reveal>
@@ -128,9 +96,7 @@ $prev     = array_slice($featured, 0, 4);
         <span class="work-list__year"><?= e($p['year']) ?></span>
         <span class="work-list__title"><?= e($p['title']) ?></span>
         <span class="work-list__meta"><?= e($p['company']) ?> &middot; <?= e($p['category']) ?></span>
-        <span class="work-list__metric">
-          <?php if (!empty($p['metric'])): ?><b><?= e($p['metric']['value']) ?></b> <?= e($p['metric']['label']) ?><?php endif; ?>
-        </span>
+        <span class="work-list__metric"><?php if (!empty($p['metric'])): ?><b><?= e($p['metric']['value']) ?></b> <?= e($p['metric']['label']) ?><?php endif; ?></span>
         <span class="work-list__arrow" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
         </span>
@@ -140,14 +106,10 @@ $prev     = array_slice($featured, 0, 4);
   </ul>
 </section>
 
-<!-- SCALE / CREDIBILITY -->
+<!-- SCALE -->
 <section class="scale" data-reveal>
   <p class="scale__line">Seventeen years. Aviation, SaaS, and enterprise. Products used by millions.</p>
-  <ul class="scale__orgs">
-    <li>IndiGo</li>
-    <li>Intelegencia</li>
-    <li>Quikr</li>
-  </ul>
+  <ul class="scale__orgs"><li>IndiGo</li><li>Intelegencia</li><li>Quikr</li></ul>
 </section>
 
 <!-- CONTACT CTA -->

@@ -10,3 +10,16 @@ main{display:block}
 [data-reveal].in-view{opacity:1;transform:none}
 .no-js [data-reveal]{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1!important;transform:none!important}}
+
+/* ---- dot field (the signature background, site-wide) ---- */
+html{background:var(--bg)}
+body{background:transparent}
+.dotfield{position:fixed;inset:0;z-index:0;pointer-events:none}
+main{position:relative;z-index:1}
+.site-footer{position:relative;z-index:1}
+
+/* intro scroll lock + hero content gating */
+html.intro-lock,html.intro-lock body{overflow:hidden}
+.he-stage-layer{opacity:0;transition:opacity .9s var(--ease-out)}
+html.intro-done .he-stage-layer{opacity:1}
+.no-js .he-stage-layer{opacity:1}

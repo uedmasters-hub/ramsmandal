@@ -52,6 +52,8 @@ $current = $currentKey         ?? '';
 </head>
 <body class="<?= e($bodyCls) ?>">
 
+  <canvas id="dotfield" class="dotfield" aria-hidden="true"></canvas>
+
   <?php require VIEW_DIR . '/partials/topbar.php'; ?>
 
   <main id="main-content"><?= $content ?></main>
@@ -65,6 +67,7 @@ $current = $currentKey         ?? '';
   <?php foreach ($scripts as $j): ?>
   <script src="<?= asset("js/{$j}.js") ?>" defer></script>
   <?php endforeach; ?>
+  <script type="module" src="<?= asset('js/core/dot-field.js') ?>"></script>
   <?php foreach (($page['modules'] ?? []) as $m): ?>
   <script type="module" src="<?= asset("js/{$m}.js") ?>"></script>
   <?php endforeach; ?>
