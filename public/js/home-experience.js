@@ -172,7 +172,7 @@ function boot() {
 
   // ===== AUTO-ADVANCE: if the reader isn't scrolling, glide to the next stage =====
   // Manual scroll/touch cancels it; at the final stage it stops so the field can burst.
-  const AUTO_MS = 8000, lastK = DEVICES.length - 1;
+  const AUTO_MS = 120000, lastK = DEVICES.length - 1;   // 2 min per stage
   let autoTimer = null, autoJumping = false;
   const curStage = () => {
     if (!heroST) return 0;
