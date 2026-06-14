@@ -28,7 +28,7 @@ class DotField {
     // idle "burst": when nothing happens the shape explodes into a floating,
     // colourful dot field; on the next pointer move / touch it reforms.
     this.burst = 0; this.targetBurst = 0; this.idleEnabled = false;
-    this.idleTimer = null; this.IDLE_MS = 2600;
+    this.idleTimer = null; this.IDLE_MS = 3000;
 
     this.dots = new Array(this.N);
     this.target = new Float32Array(this.N * 2);
@@ -42,9 +42,9 @@ class DotField {
         z: Math.random(), seed: Math.random() * 6.2831, r: 1.0 + Math.random() * 0.7,
         a: 0.3 + Math.random() * 0.35,
         hue: Math.random() * 360,            // colour while floating
-        bigR: 1.4 + Math.random() * 4.6,     // varied size while floating (small..big)
+        bigR: 1.1 + Math.random() * 2.4,     // varied size while floating (small..big)
         fvx: 0, fvy: 0,                      // float velocity
-        spd: 0.32 + Math.random() * 0.62,    // perpetual wander speed (never settles to 0)
+        spd: 0.13 + Math.random() * 0.30,    // perpetual wander speed (never settles to 0)
       };
     }
 
@@ -74,8 +74,8 @@ class DotField {
   }
   _goIdle() {
     this.targetBurst = 1;                                     // burst
-    for (const d of this.dots) {                              // explosion kick
-      const a = Math.random() * 6.2831, s = 1.5 + Math.random() * 3.5;
+    for (const d of this.dots) {                              // gentle drift-apart (not an explosion)
+      const a = Math.random() * 6.2831, s = 0.35 + Math.random() * 0.9;
       d.fvx = Math.cos(a) * s; d.fvy = Math.sin(a) * s;
     }
   }
@@ -266,7 +266,7 @@ class DotField {
 
     // ease burst: slow to explode, quicker to reform
     const tgt = this.idleEnabled ? this.targetBurst : 0;
-    this.burst += (tgt - this.burst) * (tgt > this.burst ? 0.012 : 0.07);
+    this.burst += (tgt - this.burst) * (tgt > this.burst ? 0.009 : 0.055);
     if (this.burst < 0.001) this.burst = 0;
     const burst = this.burst, pull = 1 - burst;
 
@@ -284,7 +284,7 @@ class DotField {
       // edges so dots roam the WHOLE page (incl. centre) and never settle still.
       if (burst > 0.02) {
         // slowly rotate heading (curl) so paths meander instead of going straight
-        const wob = (Math.random() - 0.5) * 0.45;
+        const wob = (Math.random() - 0.5) * 0.16;
         const cs = Math.cos(wob), sn = Math.sin(wob);
         const nvx = d.fvx * cs - d.fvy * sn;
         d.fvy = d.fvx * sn + d.fvy * cs; d.fvx = nvx;
@@ -314,8 +314,8 @@ class DotField {
         ctx.globalAlpha = Math.max(0, (d.a * (0.55 + 0.45 * d.z)) * this.opacity * (0.6 + 0.4 * this.ink));
         ctx.fillStyle = `rgb(${tone},${tone},${tone + 4})`;
       } else {
-        ctx.globalAlpha = Math.max(0, (0.45 + 0.5 * d.z) * Math.max(this.opacity, 0.75));
-        ctx.fillStyle = `hsl(${d.hue}, ${Math.round(72 * burst)}%, 58%)`;            // gray -> colour
+        ctx.globalAlpha = Math.max(0, (0.32 + 0.4 * d.z) * Math.max(this.opacity, 0.62));
+        ctx.fillStyle = `hsl(${d.hue}, ${Math.round(46 * burst)}%, 64%)`;            // gray -> soft colour
       }
       ctx.beginPath();
       ctx.arc(dx, dy, rad, 0, 6.2832);

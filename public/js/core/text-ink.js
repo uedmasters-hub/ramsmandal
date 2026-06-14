@@ -13,12 +13,12 @@ import { dotField } from "./dot-field.js";
 const SELECTOR   = ".he-headline";   // headlines to make reactive
 const BURST_GATE = 0.45;             // only paint once the field is genuinely floating
 const RECEDE_AT  = 0.25;             // below this, blooms settle out fast
-const LIFE       = 1.7;              // s — full ripple lifetime: spread -> impact -> settle
-const SETTLE     = 0.45;             // s — accelerated settle when the field reforms
-const DROP_MIN   = 900;              // ms — min gap between drops (calm rainfall)
-const DROP_MAX   = 2200;             // ms — max gap between drops
-const MAX_ACTIVE = 8;                // cap simultaneously-painted letters (keeps it readable)
-const MAX_BLOOMS = 4;                // cap blooms per letter
+const LIFE       = 2.1;              // s — full ripple lifetime: spread -> impact -> settle
+const SETTLE     = 0.5;              // s — accelerated settle when the field reforms
+const DROP_MIN   = 1300;             // ms — min gap between drops (calm rainfall)
+const DROP_MAX   = 3200;             // ms — max gap between drops
+const MAX_ACTIVE = 5;                // cap simultaneously-painted letters (keeps it readable)
+const MAX_BLOOMS = 3;                // cap blooms per letter
 const SAMPLE     = 44;               // dots sampled per drop attempt
 
 function init() {
@@ -121,7 +121,7 @@ function activeStage(letters) {
 /* compose a letter's fill: layered radial blooms over its base colour */
 function paint(L) {
   const layers = L.blooms.map((b) => {
-    const col = `hsla(${b.hue}, 60%, 46%, ${b.alpha.toFixed(3)})`;
+    const col = `hsla(${b.hue}, 48%, 52%, ${b.alpha.toFixed(3)})`;
     const inner = Math.max(0, b.r * 0.82).toFixed(1);
     const outer = Math.max(0.6, b.r).toFixed(1);
     return `radial-gradient(circle at ${(b.ox * 100).toFixed(1)}% ${(b.oy * 100).toFixed(1)}%, ` +
