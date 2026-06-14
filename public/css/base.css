@@ -23,3 +23,28 @@ html.intro-lock,html.intro-lock body{overflow:hidden}
 .he-stage-layer{opacity:0;transition:opacity .9s var(--ease-out)}
 html.intro-done .he-stage-layer{opacity:1}
 .no-js .he-stage-layer{opacity:1}
+
+/* ---- preloader owns the viewport (home only) ----
+   Until the intro hands off (html.intro-done), the header, nav, theme toggle,
+   page sections and footer stay hidden so only the dot field + RM + narrative
+   are visible. State comes from the existing intro-lock/intro-done classes. */
+body.page-home .topbar,
+body.page-home .site-footer,
+body.page-home main > :not(#home-experience):not(#preloader){
+  opacity:0; visibility:hidden;
+}
+html.intro-done body.page-home .topbar,
+html.intro-done body.page-home .site-footer,
+html.intro-done body.page-home main > :not(#home-experience):not(#preloader){
+  opacity:1; visibility:visible;
+}
+/* header arrives AFTER the hero (delayed fade-in) */
+html.intro-done body.page-home .topbar{
+  transition:opacity .6s var(--ease-out) .8s, visibility 0s linear .8s;
+}
+/* no-js / no-preloader: reveal everything */
+html.no-js body.page-home .topbar,
+html.no-js body.page-home .site-footer,
+html.no-js body.page-home main > :not(#home-experience):not(#preloader){
+  opacity:1; visibility:visible;
+}
