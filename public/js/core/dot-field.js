@@ -164,24 +164,22 @@ class DotField {
       c.beginPath(); c.arc(cx, ty + tw * 0.045, 4, 0, 6.29); c.fill();   // front camera
       return;
     }
-    if (kind === "laptop") { sw = this.h * 0.66; sh = this.h * 0.42; r = 14; }
-    const x = cx - sw / 2, y = cy - sh / 2;
-    this._roundRect(c, x, y, sw, sh, r); c.stroke();
-    if (kind === "phone") {                          // speaker notch + home indicator + side button
-      const pw = sw * 0.30, ph = Math.max(4, sw * 0.05);
-      this._roundRect(c, cx - pw / 2, y + sw * 0.11, pw, ph, ph / 2); c.fill();      // notch / speaker
-      const hw = sw * 0.34, hh = Math.max(4, sw * 0.045);
-      this._roundRect(c, cx - hw / 2, y + sh - sw * 0.16, hw, hh, hh / 2); c.fill();  // home indicator
-      c.fillRect(x + sw - 2, y + sh * 0.24, 5, sh * 0.10);                            // side button
-    }
-    if (kind === "laptop") { // keyboard deck (trapezoid)
-      const dw = sw * 1.18, dh = sh * 0.10;
+    if (kind === "laptop") {
+      const lw = Math.min(this.w * 0.88, this.h * 1.5);    // widest device (landscape)
+      const lh = lw * 0.58;                                // landscape screen
+      const block = lh + lh * 0.09;                        // screen + keyboard base
+      const lx = cx - lw / 2, ly = cy - block / 2;
+      c.lineWidth = 7;
+      this._roundRect(c, lx, ly, lw, lh, 16); c.stroke();  // screen
+      const dw = lw * 1.14, dh = lh * 0.09;                // keyboard base (trapezoid)
       c.beginPath();
-      c.moveTo(cx - sw/2, y + sh);
-      c.lineTo(cx + sw/2, y + sh);
-      c.lineTo(cx + dw/2, y + sh + dh);
-      c.lineTo(cx - dw/2, y + sh + dh);
+      c.moveTo(cx - lw / 2, ly + lh);
+      c.lineTo(cx + lw / 2, ly + lh);
+      c.lineTo(cx + dw / 2, ly + lh + dh);
+      c.lineTo(cx - dw / 2, ly + lh + dh);
       c.closePath(); c.stroke();
+      c.beginPath(); c.arc(cx, ly + 9, 3, 0, 6.29); c.fill();  // webcam
+      return;
     }
   }
 

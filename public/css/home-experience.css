@@ -17,7 +17,7 @@
   --dev-w:min(1040px,88vw)}                  /* default = full screen */
 .he-stage:nth-child(1){--dev-w:min(82vh,58vw);padding:16vh 12px 8vh}    /* phone : hero only */
 .he-stage:nth-child(2){--dev-w:min(86vw,120vh);padding:13vh 12px 8vh}    /* tablet : hero + copy */
-.he-stage:nth-child(3){--dev-w:min(60vh,90vw)}    /* laptop : hero + previews */
+.he-stage:nth-child(3){--dev-w:min(80vw,132vh);padding:11vh 12px 8vh}    /* laptop : hero + previews */
 .he-stage:nth-child(4){--dev-w:min(1040px,88vw)}  /* full   : hero + work + systems + impact */
 .he-stage > *{max-width:var(--dev-w);pointer-events:auto}
 
@@ -33,7 +33,8 @@
 .he-stage:nth-child(1) .he-headline{font-size:clamp(2.2rem,min(11vh,7.6vw),8rem);letter-spacing:-.03em;line-height:1.02}
 .he-stage:nth-child(2) .he-headline{font-size:clamp(1.9rem,min(9vh,6.6vw),6.5rem);letter-spacing:-.03em;line-height:1.03}
 .he-stage:nth-child(2) .he-sub{margin-top:clamp(24px,6vh,72px);font-size:clamp(1rem,2vh,1.3rem)}
-.he-stage:nth-child(3) .he-headline{font-size:clamp(1.25rem,3vh,2rem)}
+.he-stage:nth-child(3) .he-headline{font-size:clamp(2rem,min(9vh,7.6vw),6.5rem);letter-spacing:-.03em;line-height:1.03}
+.he-stage:nth-child(3) .he-previews{margin-top:clamp(28px,7vh,90px)}
 .he-stage:nth-child(4) .he-headline{font-size:clamp(1.8rem,4vw,3.4rem)}
 
 .he-sub{margin:0;color:var(--text-secondary);line-height:1.5;font-size:clamp(.85rem,1.7vh,1.05rem)}
@@ -59,7 +60,10 @@
   .he-stage:nth-child(2) .he-headline{font-size:clamp(1.7rem,8vw,3rem);line-height:1.05;letter-spacing:-.02em}
   .he-stage:nth-child(2) .he-sub{margin-top:clamp(16px,4vh,32px);font-size:clamp(.95rem,3.6vw,1.1rem)}
   .he-stage:nth-child(4) .he-regions{grid-template-columns:1fr 1fr;gap:8px 14px}
-  .he-stage:nth-child(3) .he-previews{flex-direction:column}
+  /* STAGE 3 only: laptop, hero headline + work examples */
+  .he-stage:nth-child(3){--dev-w:min(88vw,34rem);padding:14vh 18px 10vh}
+  .he-stage:nth-child(3) .he-headline{font-size:clamp(1.8rem,9vw,3rem);line-height:1.05;letter-spacing:-.02em}
+  .he-stage:nth-child(3) .he-previews{flex-direction:column;margin-top:clamp(20px,5vh,40px)}
 }
 
 /* ---- PRELOADER narrative (beneath the RM, never inside it) ---- */
