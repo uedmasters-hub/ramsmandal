@@ -140,7 +140,7 @@ class DotField {
     const cx = this.w / 2, cy = this.h * 0.46;
     c.lineWidth = 7;
     let sw, sh, r;
-    if (kind === "phone")  { sw = this.h * 0.32; sh = this.h * 0.66; r = sw * 0.22; c.lineWidth = 8; }
+    if (kind === "phone")  { sw = this.h * 0.32; sh = this.h * 0.60; r = sw * 0.22; c.lineWidth = 8; }
     if (kind === "tablet") { sw = this.h * 0.62; sh = this.h * 0.46; r = sw * 0.06; }
     if (kind === "laptop") { sw = this.h * 0.66; sh = this.h * 0.42; r = 14; }
     const x = cx - sw / 2, y = cy - sh / 2;
