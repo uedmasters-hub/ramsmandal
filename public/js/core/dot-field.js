@@ -141,21 +141,18 @@ class DotField {
     c.lineWidth = 7;
     let sw, sh, r;
     if (kind === "phone")  {
-      if (this.w <= 760) {
-        // MOBILE ONLY: big phone anchored near the top, cropping off the bottom
-        const mw = this.w * 0.82, mh = mw * 1.95, mr = mw * 0.14;
-        const mx = cx - mw / 2, my = this.h * 0.16;                   // my = space above the phone (crop below)
-        c.lineWidth = 7;
-        this._roundRect(c, mx, my, mw, mh, mr); c.stroke();
-        const pw = mw * 0.30, ph = Math.max(4, mw * 0.045);
-        this._roundRect(c, cx - pw / 2, my + mw * 0.10, pw, ph, ph / 2); c.fill();  // notch
-        c.fillRect(mx + mw - 2, my + mh * 0.16, 5, mh * 0.06);                       // side button
-        return;                                                                      // skip the shared (centered) draw
-      }
-      sh = this.h * 0.98;                                              // DESKTOP (unchanged)
-      sw = sh / 1.95;                                                  // realistic phone aspect
-      if (sw > this.w * 0.72) { sw = this.w * 0.72; sh = sw * 1.95; }
-      r = sw * 0.16; c.lineWidth = 8;
+      const mobile = this.w <= 760;
+      const pw = mobile ? this.w * 0.82 : Math.min(this.h * 0.9, this.w * 0.60); // wide on desktop
+      const ph = pw * 1.95;                                  // tall -> crops off the bottom
+      const pr = pw * 0.14;
+      const px = cx - pw / 2;
+      const py = this.h * (mobile ? 0.16 : 0.12);            // top-anchored: space above, crop below
+      c.lineWidth = mobile ? 7 : 8;
+      this._roundRect(c, px, py, pw, ph, pr); c.stroke();
+      const nw = pw * 0.28, nh = Math.max(4, pw * 0.04);
+      this._roundRect(c, cx - nw / 2, py + pw * 0.09, nw, nh, nh / 2); c.fill();   // notch
+      c.fillRect(px + pw - 2, py + ph * 0.13, 5, ph * 0.05);                        // side button
+      return;                                                                       // skip the shared centered draw
     }
     if (kind === "tablet") { sw = this.h * 0.62; sh = this.h * 0.46; r = sw * 0.06; }
     if (kind === "laptop") { sw = this.h * 0.66; sh = this.h * 0.42; r = 14; }

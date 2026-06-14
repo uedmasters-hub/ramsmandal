@@ -15,7 +15,7 @@
 .he-stage{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;
   text-align:center;padding:var(--nav-h) 12px 9vh;gap:clamp(10px,1.6vh,18px);
   --dev-w:min(1040px,88vw)}                  /* default = full screen */
-.he-stage:nth-child(1){--dev-w:min(50vh,84vw)}    /* phone  : hero only */
+.he-stage:nth-child(1){--dev-w:min(82vh,58vw);padding:16vh 12px 8vh}    /* phone : hero only */
 .he-stage:nth-child(2){--dev-w:min(54vh,88vw)}    /* tablet : hero + copy */
 .he-stage:nth-child(3){--dev-w:min(60vh,90vw)}    /* laptop : hero + previews */
 .he-stage:nth-child(4){--dev-w:min(1040px,88vw)}  /* full   : hero + work + systems + impact */
@@ -30,7 +30,7 @@
 .he-headline .kw-accent{color:var(--blue)}
 
 /* per-stage type sized to its device (vh scales with the device, so it never exceeds it) */
-.he-stage:nth-child(1) .he-headline{font-size:clamp(2rem,8vh,5rem);letter-spacing:-.03em;line-height:1.04}
+.he-stage:nth-child(1) .he-headline{font-size:clamp(2.2rem,min(11vh,7.6vw),8rem);letter-spacing:-.03em;line-height:1.02}
 .he-stage:nth-child(2) .he-headline{font-size:clamp(1.3rem,3.4vh,2.2rem)}
 .he-stage:nth-child(3) .he-headline{font-size:clamp(1.25rem,3vh,2rem)}
 .he-stage:nth-child(4) .he-headline{font-size:clamp(1.8rem,4vw,3.4rem)}
