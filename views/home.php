@@ -81,6 +81,57 @@ $prev     = array_slice($featured, 0, 3);
   </ul>
 </section>
 
+<section class="case-slider" id="featured-work">
+
+    <div class="case-slider__track">
+
+        <?php foreach ($featured as $p): ?>
+
+        <article class="case-card">
+
+            <div class="case-card__media">
+
+                <?php if(!empty($p['cover'])): ?>
+                    <img
+                        src="<?= asset($p['cover']) ?>"
+                        alt="<?= e($p['title']) ?>"
+                        loading="lazy"
+                    >
+                <?php endif; ?>
+
+            </div>
+
+            <div class="case-card__content">
+
+                <span class="case-card__company">
+                    <?= e($p['company']) ?>
+                </span>
+
+                <h3>
+                    <?= e($p['title']) ?>
+                </h3>
+
+                <p>
+                    <?= !empty($p['excerpt'])
+                        ? e($p['excerpt'])
+                        : 'View detailed case study.'
+                    ?>
+                </p>
+
+                <a href="<?= url('/work/' . $p['slug']) ?>">
+                    View Case Study →
+                </a>
+
+            </div>
+
+        </article>
+
+        <?php endforeach; ?>
+
+    </div>
+
+</section>
+
 <!-- WORK INDEX -->
 <section class="work" id="work">
   <header class="work__head" data-reveal>
