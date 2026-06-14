@@ -87,8 +87,10 @@ function boot() {
   if (reduce) { gsap.set(stages, { autoAlpha: 0 }); gsap.set(stages[0], { autoAlpha: 1 }); return; }
 
   initSmoothScroll();
+  const lenis = initSmoothScroll();
   buildRail(); showRail(true);
   const mm = gsap.matchMedia();
+  let heroST = null;                                   // set by whichever breakpoint is active
 
   // ===== DESKTOP / TABLET (>=761px) — unchanged behaviour, just no longer inherited by mobile =====
   mm.add("(min-width: 761px)", () => {
@@ -121,6 +123,7 @@ function boot() {
         .to(stages[i],     { autoAlpha: 1, duration: fade, ease: "power1.inOut" }, b - fade / 2 + 0.02);
     }
     tl.to({}, { duration: 0.0001 }, 1);                    // normalise total duration so positions == progress
+    heroST = tl.scrollTrigger;
 
     return () => gsap.set(stages, { clearProps: "all" });
   });
@@ -156,15 +159,42 @@ function boot() {
         .fromTo(stages[i], { x: 60 }, { autoAlpha: 1, x: 0, duration: fade, ease: "power2.out" }, b - fade / 2 + 0.02);
     }
     tl.to({}, { duration: 0.0001 }, 1);
+    heroST = tl.scrollTrigger;
 
     return () => gsap.set(stages, { clearProps: "all" });
   });
 
-  // after the experience, the field rests back to its architectural grid
+  // ===== AUTO-ADVANCE: if the reader isn't scrolling, glide to the next stage =====
+  // Manual scroll/touch cancels it; at the final stage it stops so the field can burst.
+  const AUTO_MS = 2600, lastK = DEVICES.length - 1;
+  let autoTimer = null, autoJumping = false;
+  const curStage = () => {
+    if (!heroST) return 0;
+    const p = heroST.progress; let k = lastK;
+    for (let i = 0; i < DEVICES.length; i++) { if (p < EDGES[i + 1]) { k = i; break; } }
+    return k;
+  };
+  const scrollForStage = (k) => heroST.start + (heroST.end - heroST.start) * SNAP[k];
+  const scheduleAuto = () => { clearTimeout(autoTimer); autoTimer = setTimeout(doAuto, AUTO_MS); };
+  function doAuto() {
+    if (autoJumping || !heroST || !heroST.isActive) { scheduleAuto(); return; }
+    const k = curStage();
+    if (k >= lastK) return;                              // ecosystem reached -> let the dot field burst
+    autoJumping = true;
+    const y = scrollForStage(k + 1);
+    const done = () => { autoJumping = false; scheduleAuto(); };
+    if (lenis) lenis.scrollTo(y, { duration: 1.2, easing: (t) => 1 - Math.pow(1 - t, 3), onComplete: done });
+    else { scrollTo({ top: y, behavior: "smooth" }); setTimeout(done, 1300); }
+  }
+  ["wheel", "touchstart", "pointerdown", "keydown"].forEach((ev) =>
+    addEventListener(ev, () => { if (!autoJumping) scheduleAuto(); }, { passive: true }));
+  scheduleAuto();
+
+  // after the experience, the field rests to its grid; idle now drips a little rain
   ScrollTrigger.create({
     trigger: ".intro", start: "top 80%",
-    onEnter: () => { showRail(false); field && (field.idleEnabled = false, field.targetBurst = 0, field.setMorph("grid", "grid", 0), gsap.to(field, { ink: 0.0, duration: 0.8 })); },
-    onLeaveBack: () => { showRail(true); field && (field.enableIdle(), field.ink = 0.4); },
+    onEnter: () => { showRail(false); if (field) { field.idleMode = "rain"; field.targetBurst = 0; field.setMorph("grid", "grid", 0); gsap.to(field, { ink: 0.0, duration: 0.8 }); field._markActive(); } },
+    onLeaveBack: () => { showRail(true); if (field) { field.idleMode = "burst"; field.targetRain = 0; field.ink = 0.4; field._markActive(); } },
   });
 }
 

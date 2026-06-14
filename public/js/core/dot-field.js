@@ -30,6 +30,8 @@ class DotField {
     this.burst = 0; this.targetBurst = 0; this.idleEnabled = false;
     this.idleTimer = null; this.IDLE_MS = 3000;
     this.fill = 0;               // 0 = dots hug the edges, 1 = centre populated (slow ramp)
+    this.idleMode = "burst";     // "burst" in the hero, "rain" on the lower sections
+    this.rain = 0; this.targetRain = 0;
 
     this.dots = new Array(this.N);
     this.target = new Float32Array(this.N * 2);
@@ -47,6 +49,8 @@ class DotField {
         fvx: 0, fvy: 0,                      // float velocity
         spd: 0.13 + Math.random() * 0.30,    // perpetual wander speed (never settles to 0)
         inMax: 0.82 * Math.pow(Math.random(), 0.4), // min radius a dot keeps from centre — most stay at the edge, few may reach the middle
+        rainer: i % 13 === 0,                // ~8% of dots can fall as idle rain on lower sections
+        rx: 0, ry: 0, rspd: 0.4 + Math.random() * 0.7,
       };
     }
 
@@ -83,12 +87,17 @@ class DotField {
 
   _markActive() {
     if (!this.idleEnabled) return;
-    this.targetBurst = 0;                                     // reform
+    this.targetBurst = 0; this.targetRain = 0;               // reform / stop rain
     clearTimeout(this.idleTimer);
     this.idleTimer = setTimeout(() => this._goIdle(), this.IDLE_MS);
   }
   _goIdle() {
-    this.targetBurst = 1;                                     // burst
+    if (this.idleMode === "rain") {                          // lower sections: a few dots drift down from the top
+      this.targetRain = 1;
+      for (const d of this.dots) if (d.rainer) { d.rx = Math.random() * this.w; d.ry = Math.random() * this.h - this.h; }
+      return;
+    }
+    this.targetBurst = 1;                                    // hero: burst
     const cx = this.w / 2, cy = this.h / 2;
     for (const d of this.dots) {                              // gentle drift OUTWARD -> surrounds the frame first
       const ang = Math.atan2(d.y - cy, d.x - cx) + (Math.random() - 0.5) * 0.8;
@@ -291,6 +300,10 @@ class DotField {
     const burst = this.burst, pull = 1 - burst;
     const cx = this.w / 2, cy = this.h / 2;
     const holeN = (1 - this.fill) * 0.74;       // empty elliptical core, shrinks over ~2 min
+    // ease idle rain (lower sections): a few dots gently fall from the top
+    const rtgt = (this.idleEnabled && this.idleMode === "rain") ? this.targetRain : 0;
+    this.rain += (rtgt - this.rain) * 0.03;
+    if (this.rain < 0.001) this.rain = 0;
 
     const inkCol = this.dark ? 236 : 20, restCol = this.dark ? 70 : 175;
     const px = (this.cx - this.w / 2), py = (this.cy - this.h / 2);
@@ -348,8 +361,17 @@ class DotField {
       const rad = Math.max(0.4, d.r * (1 + breath * 0.18) * pull + d.bigR * burst);  // small..big while floating
       if (burst < 0.02) {
         const tone = Math.round(restCol + (inkCol - restCol) * this.ink);
-        ctx.globalAlpha = Math.max(0, (d.a * (0.55 + 0.45 * d.z)) * this.opacity * (0.6 + 0.4 * this.ink));
+        let gridAlpha = Math.max(0, (d.a * (0.55 + 0.45 * d.z)) * this.opacity * (0.6 + 0.4 * this.ink));
         ctx.fillStyle = `rgb(${tone},${tone},${tone + 4})`;
+        // idle rain on lower sections: a falling copy fades in, the resting copy fades out
+        if (d.rainer && this.rain > 0.005) {
+          d.ry += d.rspd; d.rx += Math.sin(this.t * 0.6 + d.seed) * 0.12;
+          if (d.ry > this.h + 8) { d.ry = -8; d.rx = Math.random() * this.w; }
+          ctx.globalAlpha = Math.max(0, (d.a * (0.55 + 0.45 * d.z)) * Math.max(this.opacity, 0.5) * this.rain);
+          ctx.beginPath(); ctx.arc(d.rx, d.ry, Math.max(0.6, d.r * 1.1), 0, 6.2832); ctx.fill();
+          gridAlpha *= (1 - this.rain);
+        }
+        ctx.globalAlpha = gridAlpha;
       } else {
         ctx.globalAlpha = Math.max(0, (0.44 + 0.48 * d.z) * Math.max(this.opacity, 0.74));
         ctx.fillStyle = `hsl(${d.hue}, ${Math.round(70 * burst)}%, 56%)`;            // gray -> vivid colour
