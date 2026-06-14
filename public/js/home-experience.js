@@ -40,6 +40,42 @@ function holdMorph(p, list, edges) {
   return { from: list[k], to: list[k], mix: 0 };                // HOLD (recognizable)
 }
 
+/* snap targets: the centre of each device's hold (fully formed), so scrolling
+   always settles ON a device, never mid-transition. */
+const SNAP = DEVICES.map((_, k) => (EDGES[k] + EDGES[k + 1]) / 2);
+
+/* ---- story progress rail: Screen / Product / Platform / Ecosystem ---- */
+let railEl = null, railLabels = [], railSegs = [];
+function buildRail() {
+  if (railEl) return;
+  railEl = document.createElement("div");
+  railEl.className = "story-rail";
+  railEl.setAttribute("aria-hidden", "true");
+  const labs = document.createElement("div"); labs.className = "story-rail__labels";
+  ["Screen", "Product", "Platform", "Ecosystem"].forEach((n) => {
+    const s = document.createElement("span"); s.className = "srl"; s.textContent = n;
+    labs.appendChild(s); railLabels.push(s);
+  });
+  const track = document.createElement("div"); track.className = "story-rail__track";
+  for (let i = 0; i < 4; i++) {
+    const seg = document.createElement("div"); seg.className = "story-rail__seg";
+    const f = document.createElement("i"); f.className = "segfill";
+    seg.appendChild(f); track.appendChild(seg); railSegs.push(f);
+  }
+  railEl.appendChild(labs); railEl.appendChild(track);
+  document.body.appendChild(railEl);
+}
+function updateRail(p) {
+  if (!railEl) return;
+  let k = DEVICES.length - 1;
+  for (let i = 0; i < DEVICES.length; i++) { if (p < EDGES[i + 1]) { k = i; break; } }
+  const slice = EDGES[k + 1] - EDGES[k];
+  const local = slice > 0 ? (p - EDGES[k]) / slice : 0;
+  railSegs.forEach((f, i) => { f.style.width = (i < k ? 1 : i === k ? local : 0) * 100 + "%"; });
+  railLabels.forEach((el, i) => el.classList.toggle("is-active", i === k));
+}
+function showRail(on) { railEl && railEl.classList.toggle("is-shown", on); }
+
 function boot() {
   const root = document.getElementById("home-experience");
   if (!root) return;
@@ -51,6 +87,7 @@ function boot() {
   if (reduce) { gsap.set(stages, { autoAlpha: 0 }); gsap.set(stages[0], { autoAlpha: 1 }); return; }
 
   initSmoothScroll();
+  buildRail(); showRail(true);
   const mm = gsap.matchMedia();
 
   // ===== DESKTOP / TABLET (>=761px) — unchanged behaviour, just no longer inherited by mobile =====
@@ -63,6 +100,7 @@ function boot() {
         trigger: pin, start: "top top",
         end: () => "+=" + (TOTAL_W * 130) + "%",   // weighted track: phone hold longer, others unchanged
         scrub: 0.8, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
+        snap: { snapTo: SNAP, duration: { min: 0.25, max: 0.7 }, delay: 0.05, ease: "power2.inOut" },
         onUpdate: (self) => {
           if (!field) return;
           const m = holdMorph(self.progress, DEVICES, EDGES); // Arrival -> Hold -> Exit (weighted)
@@ -70,6 +108,7 @@ function boot() {
           else field.setMorphVia(m.from, "spread", m.to, m.mix);        // break into dots, reform
           // ink stays high while the device is legible, eases toward ambient as it spreads
           field.ink = self.progress < 0.72 ? 1 : 1 - (self.progress - 0.72) / 0.28 * 0.55;
+          updateRail(self.progress);
         },
       },
     });
@@ -97,12 +136,14 @@ function boot() {
         trigger: pin, start: "top top",
         end: () => "+=" + (TOTAL_W * 175) + "%",    // weighted track (phone hold longer)
         scrub: 0.7, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
+        snap: { snapTo: SNAP, duration: { min: 0.3, max: 0.8 }, delay: 0.05, ease: "power2.inOut" },
         onUpdate: (self) => {
           if (!field) return;
           const m = holdMorph(self.progress, DEVICES, EDGES); // same, weighted
           if (m.from === m.to) field.setMorph(m.from, m.to, 0);
           else field.setMorphVia(m.from, "spread", m.to, m.mix);        // break into dots, reform
           field.ink = self.progress < 0.72 ? 1 : 1 - (self.progress - 0.72) / 0.28 * 0.55;
+          updateRail(self.progress);
         },
       },
     });
@@ -122,8 +163,8 @@ function boot() {
   // after the experience, the field rests back to its architectural grid
   ScrollTrigger.create({
     trigger: ".intro", start: "top 80%",
-    onEnter: () => field && (field.setMorph("grid", "grid", 0), gsap.to(field, { ink: 0.0, duration: 0.8 })),
-    onLeaveBack: () => field && (field.ink = 0.4),
+    onEnter: () => { showRail(false); field && (field.setMorph("grid", "grid", 0), gsap.to(field, { ink: 0.0, duration: 0.8 })); },
+    onLeaveBack: () => { showRail(true); field && (field.ink = 0.4); },
   });
 }
 
