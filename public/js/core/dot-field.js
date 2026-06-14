@@ -271,9 +271,12 @@ class DotField {
     const tgt = this.idleEnabled ? this.targetBurst : 0;
     this.burst += (tgt - this.burst) * (tgt > this.burst ? 0.009 : 0.055);
     if (this.burst < 0.001) this.burst = 0;
-    // slow outside-in migration: only ramps once the field is well into the burst
-    this.fill += ((this.burst > 0.55 ? 1 : 0) - this.fill) * 0.006;
+    // slow outside-in migration: hole over the centre shrinks only once the
+    // edges are well surrounded, so dots NEVER rush the middle.
+    this.fill += ((this.burst > 0.6 ? 1 : 0) - this.fill) * 0.0045;
     const burst = this.burst, pull = 1 - burst;
+    const cx = this.w / 2, cy = this.h / 2;
+    const holeN = (1 - this.fill) * 0.74;       // empty elliptical core (normalised), shrinks as fill ramps
 
     const inkCol = 20, restCol = 175;
     const px = (this.cx - this.w / 2), py = (this.cy - this.h / 2);
@@ -285,8 +288,7 @@ class DotField {
       // pull toward the shape (scaled down while bursting)
       d.x += (tx - d.x) * 0.085 * pull;
       d.y += (ty - d.y) * 0.085 * pull;
-      // free float while bursting: perpetual gentle wander, reflecting at the
-      // edges so dots roam the WHOLE page (incl. centre) and never settle still.
+      // free float while bursting: perpetual gentle wander, reflecting at the edges.
       if (burst > 0.02) {
         // slowly rotate heading (curl) so paths meander instead of going straight
         const wob = (Math.random() - 0.5) * 0.16;
@@ -298,15 +300,24 @@ class DotField {
         const k = 1 + (d.spd / sp - 1) * 0.05;
         d.fvx *= k; d.fvy *= k;
         d.x += d.fvx * burst; d.y += d.fvy * burst;
-        // gently ease toward a full-page home, but only as `fill` ramps up,
-        // so the centre populates slowly AFTER the edges are surrounded
-        const hx = this.forms.spread[i*2], hy = this.forms.spread[i*2+1];
-        d.x += (hx - d.x) * 0.0045 * this.fill * burst;
-        d.y += (hy - d.y) * 0.0045 * this.fill * burst;
+        // outer walls
         if (d.x < 4 && d.fvx < 0) d.fvx = -d.fvx;
         if (d.x > this.w - 4 && d.fvx > 0) d.fvx = -d.fvx;
         if (d.y < 4 && d.fvy < 0) d.fvy = -d.fvy;
         if (d.y > this.h - 4 && d.fvy > 0) d.fvy = -d.fvy;
+        // keep dots OUT of the central hole until `fill` opens it (surround first).
+        // gentle outward force, not a hard clamp, so they drift to the edges smoothly.
+        if (holeN > 0.001) {
+          const ndx = (d.x - cx) / (this.w * 0.5), ndy = (d.y - cy) / (this.h * 0.5);
+          const nd = Math.hypot(ndx, ndy) || 0.0001;
+          if (nd < holeN) {
+            const depth = holeN - nd;
+            let ox = ndx / nd, oy = ndy / nd;
+            if (nd < 0.02) { const a = Math.random() * 6.2831; ox = Math.cos(a); oy = Math.sin(a); }
+            d.fvx += ox * depth * 0.9;
+            d.fvy += oy * depth * 0.9;
+          }
+        }
       }
 
       // breathing + cursor depth parallax + gentle attraction (fade out while bursting)
