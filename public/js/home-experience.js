@@ -10,25 +10,34 @@ import { dotField } from "./core/dot-field.js";
 
 const DEVICES = ["phone", "tablet", "laptop", "spread"];
 
+/* STAGE 1 (phone) holds longer. Weighted scroll slices: phone gets a bigger
+   share, the other three keep an equal share. Because the track length scales
+   with TOTAL_W, Stages 2-4 keep their exact absolute scroll length + feel;
+   only the phone's hold grows. */
+const WEIGHTS = [1.6, 1, 1, 1];                                  // phone, tablet, laptop, spread
+const TOTAL_W = WEIGHTS.reduce((a, b) => a + b, 0);
+const EDGES = WEIGHTS.reduce((acc, w) => (acc.push(acc[acc.length - 1] + w / TOTAL_W), acc), [0]); // cumulative
+
 /* Arrival -> Hold -> Exit per device state.
-   Each state owns an equal slice of scroll: the middle 60% is a flat HOLD
-   (device fully formed + recognizable); the outer 20% + 20% are the morph
-   out/in shared with neighbours. Returns {from,to,mix} for field.setMorph. */
-const HOLD_MORPH = 0.2;                 // 20% morph-in + 20% morph-out per state
-function holdMorph(p, list) {
-  const n = list.length, slice = 1 / n;
-  const k = Math.min(n - 1, Math.floor(p / slice));
-  const local = (p - k * slice) / slice;          // 0..1 within state k
-  const ease = (t) => t * t * (3 - 2 * t);         // smoothstep
-  if (k < n - 1 && local > 1 - HOLD_MORPH) {                 // morph OUT: k -> k+1
-    const t = (local - (1 - HOLD_MORPH)) / (HOLD_MORPH * 2); // 0 -> 0.5
+   Within each (possibly unequal) slice, the middle 60% is a flat HOLD; the
+   outer 20% + 20% are the morph out/in shared with neighbours. */
+const HOLD_MORPH = 0.2;
+function holdMorph(p, list, edges) {
+  const n = list.length;
+  let k = n - 1;
+  for (let i = 0; i < n; i++) { if (p < edges[i + 1]) { k = i; break; } }
+  const len = edges[k + 1] - edges[k];
+  const local = len > 0 ? (p - edges[k]) / len : 0;             // 0..1 within state k
+  const ease = (t) => t * t * (3 - 2 * t);                      // smoothstep
+  if (k < n - 1 && local > 1 - HOLD_MORPH) {                    // morph OUT: k -> k+1
+    const t = (local - (1 - HOLD_MORPH)) / (HOLD_MORPH * 2);    // 0 -> 0.5
     return { from: list[k], to: list[k + 1], mix: ease(t) };
   }
-  if (k > 0 && local < HOLD_MORPH) {                         // morph IN: k-1 -> k
-    const t = 0.5 + local / (HOLD_MORPH * 2);               // 0.5 -> 1
+  if (k > 0 && local < HOLD_MORPH) {                            // morph IN: k-1 -> k
+    const t = 0.5 + local / (HOLD_MORPH * 2);                  // 0.5 -> 1
     return { from: list[k - 1], to: list[k], mix: ease(t) };
   }
-  return { from: list[k], to: list[k], mix: 0 };             // HOLD (recognizable)
+  return { from: list[k], to: list[k], mix: 0 };                // HOLD (recognizable)
 }
 
 function boot() {
@@ -52,11 +61,11 @@ function boot() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: pin, start: "top top",
-        end: () => "+=" + (DEVICES.length * 130) + "%",   // longer track so holds get real scroll room
+        end: () => "+=" + (TOTAL_W * 130) + "%",   // weighted track: phone hold longer, others unchanged
         scrub: 0.8, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
         onUpdate: (self) => {
           if (!field) return;
-          const m = holdMorph(self.progress, DEVICES);     // Arrival -> Hold -> Exit
+          const m = holdMorph(self.progress, DEVICES, EDGES); // Arrival -> Hold -> Exit (weighted)
           field.setMorph(m.from, m.to, m.mix);
           // ink stays high while the device is legible, eases toward ambient as it spreads
           field.ink = self.progress < 0.72 ? 1 : 1 - (self.progress - 0.72) / 0.28 * 0.55;
@@ -67,7 +76,7 @@ function boot() {
     // content swaps DURING each transition, so the held device always carries its own copy
     const fade = 0.10;
     for (let i = 1; i < stages.length; i++) {
-      const b = i / stages.length;                         // boundary progress (0.25, 0.5, 0.75)
+      const b = EDGES[i];                                  // content swaps at the weighted device boundary
       tl.to(stages[i - 1], { autoAlpha: 0, duration: fade, ease: "power1.inOut" }, b - fade / 2)
         .to(stages[i],     { autoAlpha: 1, duration: fade, ease: "power1.inOut" }, b - fade / 2 + 0.02);
     }
@@ -85,11 +94,11 @@ function boot() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: pin, start: "top top",
-        end: () => "+=" + (DEVICES.length * 175) + "%",    // more scroll: time to read on a phone
+        end: () => "+=" + (TOTAL_W * 175) + "%",    // weighted track (phone hold longer)
         scrub: 0.7, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
         onUpdate: (self) => {
           if (!field) return;
-          const m = holdMorph(self.progress, DEVICES);      // same Arrival -> Hold -> Exit
+          const m = holdMorph(self.progress, DEVICES, EDGES); // same, weighted
           field.setMorph(m.from, m.to, m.mix);
           field.ink = self.progress < 0.72 ? 1 : 1 - (self.progress - 0.72) / 0.28 * 0.55;
         },
@@ -99,7 +108,7 @@ function boot() {
     // keynote caption: outgoing copy lifts away, incoming copy rises in
     const fade = 0.11;
     for (let i = 1; i < stages.length; i++) {
-      const b = i / stages.length;
+      const b = EDGES[i];
       tl.to(stages[i - 1], { autoAlpha: 0, y: -16, duration: fade, ease: "power1.in" }, b - fade / 2)
         .fromTo(stages[i], { y: 18 }, { autoAlpha: 1, y: 0, duration: fade, ease: "power2.out" }, b - fade / 2 + 0.02);
     }

@@ -140,13 +140,17 @@ class DotField {
     const cx = this.w / 2, cy = this.h * 0.46;
     c.lineWidth = 7;
     let sw, sh, r;
-    if (kind === "phone")  { sw = this.h * 0.30; sh = this.h * 0.62; r = sw * 0.16; }
+    if (kind === "phone")  { sw = this.h * 0.32; sh = this.h * 0.66; r = sw * 0.22; c.lineWidth = 8; }
     if (kind === "tablet") { sw = this.h * 0.62; sh = this.h * 0.46; r = sw * 0.06; }
     if (kind === "laptop") { sw = this.h * 0.66; sh = this.h * 0.42; r = 14; }
     const x = cx - sw / 2, y = cy - sh / 2;
     this._roundRect(c, x, y, sw, sh, r); c.stroke();
-    if (kind === "phone") { // camera dot
-      c.beginPath(); c.arc(cx, y + sw * 0.12, 5, 0, 6.29); c.fill();
+    if (kind === "phone") {                          // speaker notch + home indicator + side button
+      const pw = sw * 0.30, ph = Math.max(4, sw * 0.05);
+      this._roundRect(c, cx - pw / 2, y + sw * 0.11, pw, ph, ph / 2); c.fill();      // notch / speaker
+      const hw = sw * 0.34, hh = Math.max(4, sw * 0.045);
+      this._roundRect(c, cx - hw / 2, y + sh - sw * 0.16, hw, hh, hh / 2); c.fill();  // home indicator
+      c.fillRect(x + sw - 2, y + sh * 0.24, 5, sh * 0.10);                            // side button
     }
     if (kind === "laptop") { // keyboard deck (trapezoid)
       const dw = sw * 1.18, dh = sh * 0.10;
