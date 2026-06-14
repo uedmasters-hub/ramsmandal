@@ -31,16 +31,21 @@ function boot() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: pin, start: "top top",
-        end: () => "+=" + (seg * 95) + "%",
-        scrub: 0.8, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          const p = self.progress;
-          if (field) {
-            field.morphSequence(DEVICES, p);
-            // ink stays high while the device is legible, eases toward ambient as it spreads
-            field.ink = p < 0.72 ? 1 : 1 - (p - 0.72) / 0.28 * 0.55;
-          }
-        },
+        end: () => "+=" + (DEVICES.length * 130) + "%",   // was 95
+onUpdate: (self) => {
+  if (!field) return;
+  const m = holdMorph(self.progress, DEVICES);     // Arrival -> Hold -> Exit
+  field.setMorph(m.from, m.to, m.mix);
+  field.ink = self.progress < 0.72 ? 1 : 1 - (self.progress - 0.72) / 0.28 * 0.55;
+},
+// content swaps during each transition, centred on the boundary
+const fade = 0.10;
+for (let i = 1; i < stages.length; i++) {
+  const b = i / stages.length;                     // 0.25, 0.5, 0.75
+  tl.to(stages[i - 1], { autoAlpha: 0, duration: fade, ease: "power1.inOut" }, b - fade / 2)
+    .to(stages[i],     { autoAlpha: 1, duration: fade, ease: "power1.inOut" }, b - fade / 2 + 0.02);
+}
+tl.to({}, { duration: 0.0001 }, 1);                // positions == progress
       },
     });
 
