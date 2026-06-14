@@ -29,6 +29,7 @@ class DotField {
     // colourful dot field; on the next pointer move / touch it reforms.
     this.burst = 0; this.targetBurst = 0; this.idleEnabled = false;
     this.idleTimer = null; this.IDLE_MS = 3000;
+    this.fill = 0;               // 0 = dots hug the edges, 1 = centre populated (slow ramp)
 
     this.dots = new Array(this.N);
     this.target = new Float32Array(this.N * 2);
@@ -42,7 +43,7 @@ class DotField {
         z: Math.random(), seed: Math.random() * 6.2831, r: 1.0 + Math.random() * 0.7,
         a: 0.3 + Math.random() * 0.35,
         hue: Math.random() * 360,            // colour while floating
-        bigR: 1.1 + Math.random() * 2.4,     // varied size while floating (small..big)
+        bigR: 1.3 + Math.random() * 3.4,     // varied size while floating (small..big)
         fvx: 0, fvy: 0,                      // float velocity
         spd: 0.13 + Math.random() * 0.30,    // perpetual wander speed (never settles to 0)
       };
@@ -74,9 +75,11 @@ class DotField {
   }
   _goIdle() {
     this.targetBurst = 1;                                     // burst
-    for (const d of this.dots) {                              // gentle drift-apart (not an explosion)
-      const a = Math.random() * 6.2831, s = 0.35 + Math.random() * 0.9;
-      d.fvx = Math.cos(a) * s; d.fvy = Math.sin(a) * s;
+    const cx = this.w / 2, cy = this.h / 2;
+    for (const d of this.dots) {                              // gentle drift OUTWARD -> surrounds the frame first
+      const ang = Math.atan2(d.y - cy, d.x - cx) + (Math.random() - 0.5) * 0.8;
+      const s = 0.4 + Math.random() * 0.85;
+      d.fvx = Math.cos(ang) * s; d.fvy = Math.sin(ang) * s;
     }
   }
   enableIdle() { this.idleEnabled = true; this._markActive(); }
@@ -268,6 +271,8 @@ class DotField {
     const tgt = this.idleEnabled ? this.targetBurst : 0;
     this.burst += (tgt - this.burst) * (tgt > this.burst ? 0.009 : 0.055);
     if (this.burst < 0.001) this.burst = 0;
+    // slow outside-in migration: only ramps once the field is well into the burst
+    this.fill += ((this.burst > 0.55 ? 1 : 0) - this.fill) * 0.006;
     const burst = this.burst, pull = 1 - burst;
 
     const inkCol = 20, restCol = 175;
@@ -293,6 +298,11 @@ class DotField {
         const k = 1 + (d.spd / sp - 1) * 0.05;
         d.fvx *= k; d.fvy *= k;
         d.x += d.fvx * burst; d.y += d.fvy * burst;
+        // gently ease toward a full-page home, but only as `fill` ramps up,
+        // so the centre populates slowly AFTER the edges are surrounded
+        const hx = this.forms.spread[i*2], hy = this.forms.spread[i*2+1];
+        d.x += (hx - d.x) * 0.0045 * this.fill * burst;
+        d.y += (hy - d.y) * 0.0045 * this.fill * burst;
         if (d.x < 4 && d.fvx < 0) d.fvx = -d.fvx;
         if (d.x > this.w - 4 && d.fvx > 0) d.fvx = -d.fvx;
         if (d.y < 4 && d.fvy < 0) d.fvy = -d.fvy;
@@ -314,8 +324,8 @@ class DotField {
         ctx.globalAlpha = Math.max(0, (d.a * (0.55 + 0.45 * d.z)) * this.opacity * (0.6 + 0.4 * this.ink));
         ctx.fillStyle = `rgb(${tone},${tone},${tone + 4})`;
       } else {
-        ctx.globalAlpha = Math.max(0, (0.32 + 0.4 * d.z) * Math.max(this.opacity, 0.62));
-        ctx.fillStyle = `hsl(${d.hue}, ${Math.round(46 * burst)}%, 64%)`;            // gray -> soft colour
+        ctx.globalAlpha = Math.max(0, (0.44 + 0.48 * d.z) * Math.max(this.opacity, 0.74));
+        ctx.fillStyle = `hsl(${d.hue}, ${Math.round(70 * burst)}%, 56%)`;            // gray -> vivid colour
       }
       ctx.beginPath();
       ctx.arc(dx, dy, rad, 0, 6.2832);
