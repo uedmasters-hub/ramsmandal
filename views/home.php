@@ -5,9 +5,9 @@ $page = [
   'title'      => $site['meta']['default_title'],
   'desc'       => $site['meta']['default_desc'],
   'body_class' => 'page-home',
-  'styles'     => ['home', 'home-experience'],
+  'styles'     => ['home', 'home-experience', 'preloader'],
   'scripts'    => ['core/reveal'],
-  'modules'    => ['home-experience'],
+  'modules'    => ['preloader', 'home-experience'],
   'importmap'  => json_encode([
     'imports' => [
       'three'              => 'https://unpkg.com/three@0.160.0/build/three.module.js',
@@ -21,6 +21,15 @@ $all      = $projects ?? [];
 $featured = array_values(array_filter($all, fn($p) => !empty($p['featured'])));
 $prev     = array_slice($featured, 0, 4);
 ?>
+
+<!-- CINEMATIC PRELOADER (first chapter) -->
+<div id="preloader">
+  <canvas class="pre-canvas" aria-hidden="true"></canvas>
+  <div class="pre-words" aria-hidden="true">
+    <p class="pre-word" data-word="complexity">Complexity</p>
+    <p class="pre-word" data-word="clarity">Clarity</p>
+  </div>
+</div>
 
 <!-- CINEMATIC EXPERIENCE HERO -->
 <section id="home-experience" class="he">

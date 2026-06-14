@@ -1,0 +1,15 @@
+/* =========================================================================
+   preloader.css — the first chapter. A film opening, not a loading screen.
+   Covers the hero until the intro hands off. Never blocks without JS.
+   ========================================================================= */
+#preloader{position:fixed;inset:0;z-index:200;display:grid;place-items:center;
+  background:radial-gradient(120% 90% at 50% 35%,#0b0e16,#060709 70%,#040406)}
+.pre-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:1}
+.pre-words{position:relative;z-index:2;min-height:1.2em;text-align:center;pointer-events:none}
+.pre-word{display:block;margin:0;font-family:var(--font-display);font-weight:800;letter-spacing:-.03em;
+  font-size:clamp(2rem,6vw,4.4rem);line-height:1.1;opacity:0}
+.pre-word[data-word="complexity"]{color:#e8eaee}
+.pre-word[data-word="clarity"]{position:absolute;inset:0;color:#6f93ff}
+
+html.is-preloading,html.is-preloading body{overflow:hidden}
+.no-js #preloader{display:none}   /* never block without JS */

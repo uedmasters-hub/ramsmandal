@@ -120,5 +120,13 @@ function setVars(el, s) {
 }
 function showOnly(stages, idx) { stages.forEach((s, i) => gsap.set(s, { autoAlpha: i === idx ? 1 : 0 })); }
 
-if (document.readyState !== "loading") boot();
-else document.addEventListener("DOMContentLoaded", boot);
+let started = false;
+function startOnce() { if (started) return; started = true; boot(); }
+
+if (window.__rmIntroDone || !document.getElementById("preloader")) {
+  if (document.readyState !== "loading") startOnce();
+  else document.addEventListener("DOMContentLoaded", startOnce);
+} else {
+  window.addEventListener("rm:intro-done", startOnce, { once: true });
+  setTimeout(startOnce, 9500); // safety: boot even if the intro never signals
+}
