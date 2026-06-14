@@ -154,7 +154,16 @@ class DotField {
       c.fillRect(px + pw - 2, py + ph * 0.13, 5, ph * 0.05);                        // side button
       return;                                                                       // skip the shared centered draw
     }
-    if (kind === "tablet") { sw = this.h * 0.62; sh = this.h * 0.46; r = sw * 0.06; }
+    if (kind === "tablet") {
+      const tw = Math.min(this.w * 0.9, this.h * 1.3);     // clearly wider than the phone
+      const th = tw * 1.15;                                // crops off the bottom
+      const tr = tw * 0.045;                               // tablet: gentle corners
+      const tx = cx - tw / 2, ty = this.h * 0.13;          // top-anchored
+      c.lineWidth = 7;
+      this._roundRect(c, tx, ty, tw, th, tr); c.stroke();
+      c.beginPath(); c.arc(cx, ty + tw * 0.045, 4, 0, 6.29); c.fill();   // front camera
+      return;
+    }
     if (kind === "laptop") { sw = this.h * 0.66; sh = this.h * 0.42; r = 14; }
     const x = cx - sw / 2, y = cy - sh / 2;
     this._roundRect(c, x, y, sw, sh, r); c.stroke();
