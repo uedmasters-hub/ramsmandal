@@ -141,9 +141,20 @@ class DotField {
     c.lineWidth = 7;
     let sw, sh, r;
     if (kind === "phone")  {
-      sh = this.h * 0.98;                                              // big: fills the viewport height
+      if (this.w <= 760) {
+        // MOBILE ONLY: big phone anchored near the top, cropping off the bottom
+        const mw = this.w * 0.82, mh = mw * 1.95, mr = mw * 0.14;
+        const mx = cx - mw / 2, my = this.h * 0.16;                   // my = space above the phone (crop below)
+        c.lineWidth = 7;
+        this._roundRect(c, mx, my, mw, mh, mr); c.stroke();
+        const pw = mw * 0.30, ph = Math.max(4, mw * 0.045);
+        this._roundRect(c, cx - pw / 2, my + mw * 0.10, pw, ph, ph / 2); c.fill();  // notch
+        c.fillRect(mx + mw - 2, my + mh * 0.16, 5, mh * 0.06);                       // side button
+        return;                                                                      // skip the shared (centered) draw
+      }
+      sh = this.h * 0.98;                                              // DESKTOP (unchanged)
       sw = sh / 1.95;                                                  // realistic phone aspect
-      if (sw > this.w * 0.72) { sw = this.w * 0.72; sh = sw * 1.95; }  // cap width on narrow / mobile
+      if (sw > this.w * 0.72) { sw = this.w * 0.72; sh = sw * 1.95; }
       r = sw * 0.16; c.lineWidth = 8;
     }
     if (kind === "tablet") { sw = this.h * 0.62; sh = this.h * 0.46; r = sw * 0.06; }
