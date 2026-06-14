@@ -163,8 +163,8 @@ function boot() {
   // after the experience, the field rests back to its architectural grid
   ScrollTrigger.create({
     trigger: ".intro", start: "top 80%",
-    onEnter: () => { showRail(false); field && (field.setMorph("grid", "grid", 0), gsap.to(field, { ink: 0.0, duration: 0.8 })); },
-    onLeaveBack: () => { showRail(true); field && (field.ink = 0.4); },
+    onEnter: () => { showRail(false); field && (field.idleEnabled = false, field.targetBurst = 0, field.setMorph("grid", "grid", 0), gsap.to(field, { ink: 0.0, duration: 0.8 })); },
+    onLeaveBack: () => { showRail(true); field && (field.enableIdle(), field.ink = 0.4); },
   });
 }
 

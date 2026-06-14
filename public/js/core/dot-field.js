@@ -25,6 +25,11 @@ class DotField {
     this.mx = 0; this.my = 0; this.cx = 0; this.cy = 0;
     this._visible = true;
 
+    // idle "burst": when nothing happens the shape explodes into a floating,
+    // colourful dot field; on the next pointer move / touch it reforms.
+    this.burst = 0; this.targetBurst = 0; this.idleEnabled = false;
+    this.idleTimer = null; this.IDLE_MS = 2600;
+
     this.dots = new Array(this.N);
     this.target = new Float32Array(this.N * 2);
 
@@ -36,6 +41,9 @@ class DotField {
         x: this.forms.grid[i*2], y: this.forms.grid[i*2+1],
         z: Math.random(), seed: Math.random() * 6.2831, r: 1.0 + Math.random() * 0.7,
         a: 0.3 + Math.random() * 0.35,
+        hue: Math.random() * 360,            // colour while floating
+        bigR: 1.4 + Math.random() * 4.6,     // varied size while floating (small..big)
+        fvx: 0, fvy: 0,                      // float velocity
       };
     }
 
@@ -48,8 +56,29 @@ class DotField {
       this.mx = e.clientX; this.my = e.clientY;
     }, { passive: true });
 
+    // activity = reform; silence = burst (enabled only after the intro)
+    const wake = () => this._markActive();
+    ["pointerdown", "pointermove", "wheel", "touchstart", "touchmove", "keydown", "scroll"]
+      .forEach((ev) => addEventListener(ev, wake, { passive: true }));
+    addEventListener("intro:done", () => this.enableIdle(), { once: true });
+
     this._loop();
   }
+
+  _markActive() {
+    if (!this.idleEnabled) return;
+    this.targetBurst = 0;                                     // reform
+    clearTimeout(this.idleTimer);
+    this.idleTimer = setTimeout(() => this._goIdle(), this.IDLE_MS);
+  }
+  _goIdle() {
+    this.targetBurst = 1;                                     // burst
+    for (const d of this.dots) {                              // explosion kick
+      const a = Math.random() * 6.2831, s = 1.5 + Math.random() * 3.5;
+      d.fvx = Math.cos(a) * s; d.fvy = Math.sin(a) * s;
+    }
+  }
+  enableIdle() { this.idleEnabled = true; this._markActive(); }
 
   _resize() {
     this.dpr = Math.min(devicePixelRatio || 1, 2);
@@ -234,6 +263,12 @@ class DotField {
     const ctx = this.ctx;
     ctx.clearRect(0, 0, this.w, this.h);
 
+    // ease burst: slow to explode, quicker to reform
+    const tgt = this.idleEnabled ? this.targetBurst : 0;
+    this.burst += (tgt - this.burst) * (tgt > this.burst ? 0.012 : 0.07);
+    if (this.burst < 0.001) this.burst = 0;
+    const burst = this.burst, pull = 1 - burst;
+
     const inkCol = 20, restCol = 175;
     const px = (this.cx - this.w / 2), py = (this.cy - this.h / 2);
 
@@ -241,24 +276,40 @@ class DotField {
       const d = this.dots[i];
       const tx = A[i*2] + (B[i*2] - A[i*2]) * mix;
       const ty = A[i*2+1] + (B[i*2+1] - A[i*2+1]) * mix;
-      d.x += (tx - d.x) * 0.085;
-      d.y += (ty - d.y) * 0.085;
-
-      // breathing + cursor depth parallax + gentle attraction
-      const breath = this.reduce ? 0 : Math.sin(this.t * 1.3 + d.seed) * 0.5;
-      let dx = d.x + px * d.z * 0.04;
-      let dy = d.y + py * d.z * 0.04;
-      if (this.fine && !this.reduce) {
-        const ax = this.cx - dx, ay = this.cy - dy, dist = Math.hypot(ax, ay);
-        if (dist < 140) { const f = (1 - dist / 140) * 6; dx += (ax / dist) * f; dy += (ay / dist) * f; }
+      // pull toward the shape (scaled down while bursting)
+      d.x += (tx - d.x) * 0.085 * pull;
+      d.y += (ty - d.y) * 0.085 * pull;
+      // free float while bursting
+      if (burst > 0.02) {
+        d.x += d.fvx * burst; d.y += d.fvy * burst;
+        d.fvx += (Math.random() - 0.5) * 0.10; d.fvy += (Math.random() - 0.5) * 0.10;
+        d.fvx *= 0.97; d.fvy *= 0.97;
+        if (d.x < 4 && d.fvx < 0) d.fvx = -d.fvx;
+        if (d.x > this.w - 4 && d.fvx > 0) d.fvx = -d.fvx;
+        if (d.y < 4 && d.fvy < 0) d.fvy = -d.fvy;
+        if (d.y > this.h - 4 && d.fvy > 0) d.fvy = -d.fvy;
       }
 
-      const tone = Math.round(restCol + (inkCol - restCol) * this.ink);
-      const alpha = (d.a * (0.55 + 0.45 * d.z)) * this.opacity * (0.6 + 0.4 * this.ink);
-      ctx.globalAlpha = Math.max(0, alpha);
-      ctx.fillStyle = `rgb(${tone},${tone},${tone + 4})`;
+      // breathing + cursor depth parallax + gentle attraction (fade out while bursting)
+      const breath = this.reduce ? 0 : Math.sin(this.t * 1.3 + d.seed) * 0.5;
+      let dx = d.x + px * d.z * 0.04 * pull;
+      let dy = d.y + py * d.z * 0.04 * pull;
+      if (this.fine && !this.reduce && burst < 0.5) {
+        const ax = this.cx - dx, ay = this.cy - dy, dist = Math.hypot(ax, ay);
+        if (dist < 140) { const f = (1 - dist / 140) * 6 * pull; dx += (ax / dist) * f; dy += (ay / dist) * f; }
+      }
+
+      const rad = Math.max(0.4, d.r * (1 + breath * 0.18) * pull + d.bigR * burst);  // small..big while floating
+      if (burst < 0.02) {
+        const tone = Math.round(restCol + (inkCol - restCol) * this.ink);
+        ctx.globalAlpha = Math.max(0, (d.a * (0.55 + 0.45 * d.z)) * this.opacity * (0.6 + 0.4 * this.ink));
+        ctx.fillStyle = `rgb(${tone},${tone},${tone + 4})`;
+      } else {
+        ctx.globalAlpha = Math.max(0, (0.45 + 0.5 * d.z) * Math.max(this.opacity, 0.75));
+        ctx.fillStyle = `hsl(${d.hue}, ${Math.round(72 * burst)}%, 58%)`;            // gray -> colour
+      }
       ctx.beginPath();
-      ctx.arc(dx, dy, d.r * (1 + breath * 0.18), 0, 6.2832);
+      ctx.arc(dx, dy, rad, 0, 6.2832);
       ctx.fill();
     }
     ctx.globalAlpha = 1;
