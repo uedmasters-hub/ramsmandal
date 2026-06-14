@@ -65,20 +65,15 @@ function buildRail() {
   railEl.appendChild(labs); railEl.appendChild(track);
   document.body.appendChild(railEl);
 }
-function updateRail(p) {
+function renderRail(k, frac) {
   if (!railEl) return;
-  const n = DEVICES.length, last = n - 1;
-  let k = 0;
-  for (let i = 0; i < n; i++) if (p >= SNAP[i] - 1e-4) k = i;   // current stage = last centre passed
-  railSegs.forEach((f, i) => {
-    let fill;
-    if (i < k) fill = 1;                                        // completed stages
-    else if (i > k) fill = 0;                                   // not reached
-    else fill = (k === last) ? 1                                // final stage: full
-             : Math.min(1, Math.max(0, (p - SNAP[k]) / (SNAP[k + 1] - SNAP[k]))); // 0 at this centre -> 1 at next
-    f.style.width = fill * 100 + "%";
-  });
+  railSegs.forEach((f, i) => { f.style.width = (i < k ? 1 : i === k ? frac : 0) * 100 + "%"; });
   railLabels.forEach((el, i) => el.classList.toggle("is-active", i === k));
+}
+function railStageFromScroll(p) {
+  const n = DEVICES.length; let k = 0;
+  for (let i = 0; i < n; i++) if (p >= SNAP[i] - 1e-4) k = i;
+  return k;
 }
 function showRail(on) { railEl && railEl.classList.toggle("is-shown", on); }
 
@@ -116,7 +111,6 @@ function boot() {
           else field.setMorphVia(m.from, "spread", m.to, m.mix);        // break into dots, reform
           // ink stays high while the device is legible, eases toward ambient as it spreads
           field.ink = self.progress < 0.72 ? 1 : 1 - (self.progress - 0.72) / 0.28 * 0.55;
-          updateRail(self.progress);
         },
       },
     });
@@ -152,7 +146,6 @@ function boot() {
           if (m.from === m.to) field.setMorph(m.from, m.to, 0);
           else field.setMorphVia(m.from, "spread", m.to, m.mix);        // break into dots, reform
           field.ink = self.progress < 0.72 ? 1 : 1 - (self.progress - 0.72) / 0.28 * 0.55;
-          updateRail(self.progress);
         },
       },
     });
@@ -173,7 +166,7 @@ function boot() {
   // ===== AUTO-ADVANCE: if the reader isn't scrolling, glide to the next stage =====
   // Manual scroll/touch cancels it; at the final stage it stops so the field can burst.
   const AUTO_MS = 120000, lastK = DEVICES.length - 1;   // 2 min per stage
-  let autoTimer = null, autoJumping = false;
+  let autoTimer = null, autoJumping = false, dwellStart = performance.now(), userScrolling = false, usTimer = null;
   const curStage = () => {
     if (!heroST) return 0;
     const p = heroST.progress; let k = lastK;
@@ -181,7 +174,8 @@ function boot() {
     return k;
   };
   const scrollForStage = (k) => heroST.start + (heroST.end - heroST.start) * SNAP[k];
-  const scheduleAuto = () => { clearTimeout(autoTimer); autoTimer = setTimeout(doAuto, AUTO_MS); };
+  // dwellStart syncs with the auto countdown, so the rail fills exactly toward the next jump
+  const scheduleAuto = () => { clearTimeout(autoTimer); dwellStart = performance.now(); autoTimer = setTimeout(doAuto, AUTO_MS); };
   function doAuto() {
     if (autoJumping || !heroST || !heroST.isActive) { scheduleAuto(); return; }
     const k = curStage();
@@ -192,9 +186,26 @@ function boot() {
     if (lenis) lenis.scrollTo(y, { duration: 1.2, easing: (t) => 1 - Math.pow(1 - t, 3), onComplete: done });
     else { scrollTo({ top: y, behavior: "smooth" }); setTimeout(done, 1300); }
   }
-  ["wheel", "touchstart", "pointerdown", "keydown"].forEach((ev) =>
-    addEventListener(ev, () => { if (!autoJumping) scheduleAuto(); }, { passive: true }));
+  ["wheel", "touchstart", "touchmove", "pointerdown", "keydown"].forEach((ev) =>
+    addEventListener(ev, () => {
+      userScrolling = true; clearTimeout(usTimer); usTimer = setTimeout(() => { userScrolling = false; }, 600);
+      if (!autoJumping) scheduleAuto();
+    }, { passive: true }));
   scheduleAuto();
+
+  // rail: during a dwell it fills over the 2-min countdown; while moving it follows the scroll
+  gsap.ticker.add(() => {
+    if (!heroST || !heroST.isActive) return;
+    const k = railStageFromScroll(heroST.progress);
+    let frac;
+    if (k >= lastK) frac = 1;                            // final stage: full bar
+    else if (autoJumping || userScrolling) {
+      frac = Math.min(1, Math.max(0, (heroST.progress - SNAP[k]) / (SNAP[k + 1] - SNAP[k]))); // follow scroll
+    } else {
+      frac = Math.min(1, (performance.now() - dwellStart) / AUTO_MS);                          // fill over the dwell
+    }
+    renderRail(k, frac);
+  });
 
   // after the experience, the field rests to its grid; idle now drips a little rain
   ScrollTrigger.create({
