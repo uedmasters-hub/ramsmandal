@@ -46,6 +46,7 @@ class DotField {
         bigR: 1.3 + Math.random() * 3.4,     // varied size while floating (small..big)
         fvx: 0, fvy: 0,                      // float velocity
         spd: 0.13 + Math.random() * 0.30,    // perpetual wander speed (never settles to 0)
+        inMax: 0.82 * Math.pow(Math.random(), 0.4), // min radius a dot keeps from centre — most stay at the edge, few may reach the middle
       };
     }
 
@@ -271,12 +272,12 @@ class DotField {
     const tgt = this.idleEnabled ? this.targetBurst : 0;
     this.burst += (tgt - this.burst) * (tgt > this.burst ? 0.009 : 0.055);
     if (this.burst < 0.001) this.burst = 0;
-    // slow outside-in migration: hole over the centre shrinks only once the
-    // edges are well surrounded, so dots NEVER rush the middle.
-    this.fill += ((this.burst > 0.6 ? 1 : 0) - this.fill) * 0.0045;
+    // centre opens VERY slowly (~2 min) so the headline stays readable; resets on reform
+    if (this.burst > 0.6) this.fill = Math.min(1, this.fill + 0.00014);
+    else this.fill = Math.max(0, this.fill - 0.02);
     const burst = this.burst, pull = 1 - burst;
     const cx = this.w / 2, cy = this.h / 2;
-    const holeN = (1 - this.fill) * 0.74;       // empty elliptical core (normalised), shrinks as fill ramps
+    const holeN = (1 - this.fill) * 0.74;       // empty elliptical core, shrinks over ~2 min
 
     const inkCol = 20, restCol = 175;
     const px = (this.cx - this.w / 2), py = (this.cy - this.h / 2);
@@ -305,13 +306,15 @@ class DotField {
         if (d.x > this.w - 4 && d.fvx > 0) d.fvx = -d.fvx;
         if (d.y < 4 && d.fvy < 0) d.fvy = -d.fvy;
         if (d.y > this.h - 4 && d.fvy > 0) d.fvy = -d.fvy;
-        // keep dots OUT of the central hole until `fill` opens it (surround first).
-        // gentle outward force, not a hard clamp, so they drift to the edges smoothly.
-        if (holeN > 0.001) {
+        // keep dots OUT of the centre: each dot has its own inward limit, and the
+        // global hole adds to it early on. Most dots are edge-bound; only a few may
+        // ever reach the middle, and only after the hole has slowly opened.
+        const floor = holeN > d.inMax ? holeN : d.inMax;
+        if (floor > 0.001) {
           const ndx = (d.x - cx) / (this.w * 0.5), ndy = (d.y - cy) / (this.h * 0.5);
           const nd = Math.hypot(ndx, ndy) || 0.0001;
-          if (nd < holeN) {
-            const depth = holeN - nd;
+          if (nd < floor) {
+            const depth = floor - nd;
             let ox = ndx / nd, oy = ndy / nd;
             if (nd < 0.02) { const a = Math.random() * 6.2831; ox = Math.cos(a); oy = Math.sin(a); }
             d.fvx += ox * depth * 0.9;
