@@ -140,7 +140,12 @@ class DotField {
     const cx = this.w / 2, cy = this.h * 0.46;
     c.lineWidth = 7;
     let sw, sh, r;
-    if (kind === "phone")  { sw = this.h * 0.32; sh = this.h * 0.60; r = sw * 0.22; c.lineWidth = 8; }
+    if (kind === "phone")  {
+      sh = this.h * 0.98;                                              // big: fills the viewport height
+      sw = sh / 1.95;                                                  // realistic phone aspect
+      if (sw > this.w * 0.72) { sw = this.w * 0.72; sh = sw * 1.95; }  // cap width on narrow / mobile
+      r = sw * 0.16; c.lineWidth = 8;
+    }
     if (kind === "tablet") { sw = this.h * 0.62; sh = this.h * 0.46; r = sw * 0.06; }
     if (kind === "laptop") { sw = this.h * 0.66; sh = this.h * 0.42; r = 14; }
     const x = cx - sw / 2, y = cy - sh / 2;
