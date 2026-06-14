@@ -65,7 +65,20 @@ class DotField {
       .forEach((ev) => addEventListener(ev, wake, { passive: true }));
     addEventListener("intro:done", () => this.enableIdle(), { once: true });
 
+    // theme-aware tone: dots invert so a formed device is visible on either bg
+    this.dark = this._isDark();
+    const syncTheme = () => { this.dark = this._isDark(); };
+    new MutationObserver(syncTheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", syncTheme);
+
     this._loop();
+  }
+
+  _isDark() {
+    const t = document.documentElement.getAttribute("data-theme");
+    if (t === "dark") return true;
+    if (t === "light") return false;
+    return matchMedia("(prefers-color-scheme: dark)").matches;
   }
 
   _markActive() {
@@ -279,7 +292,7 @@ class DotField {
     const cx = this.w / 2, cy = this.h / 2;
     const holeN = (1 - this.fill) * 0.74;       // empty elliptical core, shrinks over ~2 min
 
-    const inkCol = 20, restCol = 175;
+    const inkCol = this.dark ? 236 : 20, restCol = this.dark ? 70 : 175;
     const px = (this.cx - this.w / 2), py = (this.cy - this.h / 2);
 
     for (let i = 0; i < this.N; i++) {
