@@ -132,61 +132,6 @@ $prev     = array_slice($featured, 0, 3);
 
 </section>
 
-<!-- WORK INDEX -->
-<section class="featured-work" id="work">
-
-    <header class="featured-work__head">
-        <h2>Selected Work</h2>
-        <p>
-            Products, platforms and systems designed for scale.
-        </p>
-    </header>
-
-    <div class="featured-work__rail">
-
-        <?php foreach ($featured as $p): ?>
-
-        <article class="fw-card">
-
-            <a href="<?= url('/work/' . $p['slug']) ?>">
-
-                <div class="fw-card__media">
-
-                    <?php if (!empty($p['cover'])): ?>
-                        <img
-                            src="<?= asset($p['cover']) ?>"
-                            alt="<?= e($p['title']) ?>"
-                            loading="lazy">
-                    <?php endif; ?>
-
-                </div>
-
-                <div class="fw-card__body">
-
-                    <span class="fw-card__company">
-                        <?= e($p['company']) ?>
-                    </span>
-
-                    <h3>
-                        <?= e($p['title']) ?>
-                    </h3>
-
-                    <p>
-                        <?= e($p['category']) ?>
-                    </p>
-
-                </div>
-
-            </a>
-
-        </article>
-
-        <?php endforeach; ?>
-
-    </div>
-
-</section>
-
 <!-- SCALE -->
 <section class="scale" data-reveal>
   <p class="scale__line">Seventeen years. Aviation, SaaS, and enterprise. Products used by millions.</p>
