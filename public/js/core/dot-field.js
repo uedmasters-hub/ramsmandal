@@ -44,6 +44,7 @@ class DotField {
         hue: Math.random() * 360,            // colour while floating
         bigR: 1.4 + Math.random() * 4.6,     // varied size while floating (small..big)
         fvx: 0, fvy: 0,                      // float velocity
+        spd: 0.32 + Math.random() * 0.62,    // perpetual wander speed (never settles to 0)
       };
     }
 
@@ -279,15 +280,19 @@ class DotField {
       // pull toward the shape (scaled down while bursting)
       d.x += (tx - d.x) * 0.085 * pull;
       d.y += (ty - d.y) * 0.085 * pull;
-      // free float while bursting
+      // free float while bursting: perpetual gentle wander, reflecting at the
+      // edges so dots roam the WHOLE page (incl. centre) and never settle still.
       if (burst > 0.02) {
-        // distribute across the WHOLE page (incl. centre), then drift
-        const sx = this.forms.spread[i*2], sy = this.forms.spread[i*2+1];
-        d.x += (sx - d.x) * 0.012 * burst;
-        d.y += (sy - d.y) * 0.012 * burst;
+        // slowly rotate heading (curl) so paths meander instead of going straight
+        const wob = (Math.random() - 0.5) * 0.45;
+        const cs = Math.cos(wob), sn = Math.sin(wob);
+        const nvx = d.fvx * cs - d.fvy * sn;
+        d.fvy = d.fvx * sn + d.fvy * cs; d.fvx = nvx;
+        // ease speed toward this dot's gentle cruising speed (explosion -> drift)
+        const sp = Math.hypot(d.fvx, d.fvy) || 0.0001;
+        const k = 1 + (d.spd / sp - 1) * 0.05;
+        d.fvx *= k; d.fvy *= k;
         d.x += d.fvx * burst; d.y += d.fvy * burst;
-        d.fvx += (Math.random() - 0.5) * 0.10; d.fvy += (Math.random() - 0.5) * 0.10;
-        d.fvx *= 0.97; d.fvy *= 0.97;
         if (d.x < 4 && d.fvx < 0) d.fvx = -d.fvx;
         if (d.x > this.w - 4 && d.fvx > 0) d.fvx = -d.fvx;
         if (d.y < 4 && d.fvy < 0) d.fvy = -d.fvy;

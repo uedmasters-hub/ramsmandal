@@ -12,8 +12,9 @@ import { dotField } from "./dot-field.js";
 
 const SELECTOR   = ".he-headline";   // headlines to make reactive
 const BURST_GATE = 0.45;             // only paint once the field is genuinely floating
-const RECEDE_AT  = 0.25;             // below this, blooms drain back out
-const GROW       = 0.055;            // bloom spread speed (lower = slower, more organic)
+const RECEDE_AT  = 0.25;             // below this, blooms settle out fast
+const LIFE       = 1.7;              // s — full ripple lifetime: spread -> impact -> settle
+const SETTLE     = 0.45;             // s — accelerated settle when the field reforms
 const DROP_MIN   = 900;              // ms — min gap between drops (calm rainfall)
 const DROP_MAX   = 2200;             // ms — max gap between drops
 const MAX_ACTIVE = 8;                // cap simultaneously-painted letters (keeps it readable)
@@ -39,20 +40,23 @@ function init() {
   if (!letters.length) return;
 
   const active = new Set();           // letters currently carrying blooms
-  let lastDrop = 0, gap = DROP_MIN;
+  let lastDrop = 0, gap = DROP_MIN, prev = performance.now();
 
   function frame(now) {
     requestAnimationFrame(frame);
+    const dt = Math.min(0.05, (now - prev) / 1000); prev = now;
     const burst = field.burst;
     const spreading = burst > RECEDE_AT;
 
-    // grow / recede existing blooms and repaint
+    // advance every bloom along its own life: spread -> impact -> settle out
     for (const L of [...active]) {
       for (const b of L.blooms) {
-        const target = spreading ? b.max : 0;
-        b.r += (target - b.r) * GROW;
+        b.life += dt / (spreading ? LIFE : SETTLE);     // settle faster on reform
+        const rise = Math.min(1, b.life / 0.33);        // spread fills in first third
+        b.r = b.max * (1 - Math.pow(1 - rise, 3));      // easeOutCubic outward
+        b.alpha = b.life < 0.45 ? 1 : Math.max(0, 1 - (b.life - 0.45) / 0.55);
       }
-      if (!spreading) L.blooms = L.blooms.filter((b) => b.r > 1.2);
+      L.blooms = L.blooms.filter((b) => b.life < 1);
       if (L.blooms.length) paint(L);
       else { clear(L); active.delete(L); }
     }
@@ -88,10 +92,10 @@ function tryDrop(field, letters, active) {
         if (L.blooms.length >= MAX_BLOOMS) L.blooms.shift();
         const diag = Math.hypot(r.width, r.height);
         L.blooms.push({
-          color: `hsl(${d.hue | 0}, 60%, 46%)`,        // deeper than the floating dot — legible as type
+          hue: d.hue | 0,                              // coloured from the dot that landed
           ox: (d.x - r.left) / r.width,
           oy: (d.y - r.top) / r.height,
-          r: 0, max: diag * 1.25,
+          r: 0, max: diag * 1.25, life: 0, alpha: 1,
         });
         active.add(L);
         return true;
@@ -117,10 +121,11 @@ function activeStage(letters) {
 /* compose a letter's fill: layered radial blooms over its base colour */
 function paint(L) {
   const layers = L.blooms.map((b) => {
+    const col = `hsla(${b.hue}, 60%, 46%, ${b.alpha.toFixed(3)})`;
     const inner = Math.max(0, b.r * 0.82).toFixed(1);
     const outer = Math.max(0.6, b.r).toFixed(1);
     return `radial-gradient(circle at ${(b.ox * 100).toFixed(1)}% ${(b.oy * 100).toFixed(1)}%, ` +
-           `${b.color} 0, ${b.color} ${inner}px, transparent ${outer}px)`;
+           `${col} 0, ${col} ${inner}px, transparent ${outer}px)`;
   });
   // newest bloom on top (first in the CSS background list)
   layers.reverse();
