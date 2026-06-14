@@ -94,3 +94,11 @@ html.intro-done .preloader{display:none}
   .story-rail{width:min(280px,74vw);bottom:16px}
   .story-rail__labels{display:none}            /* mobile: minimal 4-segment bar */
 }
+
+/* ---- color-reactive headline ink (see core/text-ink.js) ---- */
+.ink-letter {
+  display: inline;
+  background-repeat: no-repeat;
+  -webkit-text-fill-color: currentColor; /* fallback before any bloom paints */
+}
+.ink-letter[style*="transparent"] { -webkit-text-fill-color: transparent; }

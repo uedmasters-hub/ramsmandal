@@ -281,6 +281,10 @@ class DotField {
       d.y += (ty - d.y) * 0.085 * pull;
       // free float while bursting
       if (burst > 0.02) {
+        // distribute across the WHOLE page (incl. centre), then drift
+        const sx = this.forms.spread[i*2], sy = this.forms.spread[i*2+1];
+        d.x += (sx - d.x) * 0.012 * burst;
+        d.y += (sy - d.y) * 0.012 * burst;
         d.x += d.fvx * burst; d.y += d.fvy * burst;
         d.fvx += (Math.random() - 0.5) * 0.10; d.fvy += (Math.random() - 0.5) * 0.10;
         d.fvx *= 0.97; d.fvy *= 0.97;
