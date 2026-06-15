@@ -66,9 +66,8 @@ function buildRail() {
   if (railEl) return;
   railEl = document.createElement("div");
   railEl.className = "story-rail";
-  railEl.setAttribute("aria-hidden", "true");
   // dotted device icons, one per stage, above the labels
-  const icons = document.createElement("div"); icons.className = "story-rail__icons";
+  const icons = document.createElement("div"); icons.className = "story-rail__icons"; icons.setAttribute("aria-hidden", "true");
   RAIL_KINDS.forEach((kind) => {
     const ic = document.createElement("span"); ic.className = "ricon"; ic.innerHTML = railIconSVG(kind);
     icons.appendChild(ic); railIcons.push(ic);
@@ -76,9 +75,10 @@ function buildRail() {
   const labs = document.createElement("div"); labs.className = "story-rail__labels";
   ["Screen", "Product", "Platform", "Ecosystem"].forEach((n) => {
     const s = document.createElement("span"); s.className = "srl"; s.textContent = n;
+    s.setAttribute("role", "button"); s.setAttribute("tabindex", "0"); s.setAttribute("aria-label", "Go to " + n + " stage");
     labs.appendChild(s); railLabels.push(s);
   });
-  const track = document.createElement("div"); track.className = "story-rail__track";
+  const track = document.createElement("div"); track.className = "story-rail__track"; track.setAttribute("aria-hidden", "true");
   for (let i = 0; i < 4; i++) {
     const seg = document.createElement("div"); seg.className = "story-rail__seg";
     const f = document.createElement("i"); f.className = "segfill";
@@ -218,6 +218,22 @@ function boot() {
       if (!autoJumping) scheduleAuto();
     }, { passive: true }));
   scheduleAuto();
+
+  // ===== CLICKABLE RAIL: tap a stage (label or icon) to glide there =====
+  function goToStage(k) {
+    if (!heroST || autoJumping) return;
+    const y = scrollForStage(k);
+    autoJumping = true;
+    userScrolling = true; clearTimeout(usTimer); usTimer = setTimeout(() => { userScrolling = false; }, 1200);
+    const done = () => { autoJumping = false; scheduleAuto(); };
+    if (lenis) lenis.scrollTo(y, { duration: 1.0, easing: (t) => 1 - Math.pow(1 - t, 3), onComplete: done });
+    else { scrollTo({ top: y, behavior: "smooth" }); setTimeout(done, 1100); }
+  }
+  railLabels.forEach((el, k) => {
+    el.addEventListener("click", () => goToStage(k));
+    el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); goToStage(k); } });
+  });
+  railIcons.forEach((el, k) => el.addEventListener("click", () => goToStage(k)));
 
   // rail: during a dwell it fills over the 2-min countdown; while moving it follows the scroll
   gsap.ticker.add(() => {

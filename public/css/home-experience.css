@@ -96,6 +96,10 @@ html.intro-done .preloader{display:none}
   font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
   color:var(--text-muted);opacity:.5;transition:color .3s ease,opacity .3s ease}
 .story-rail__labels .srl.is-active{color:var(--text-primary);opacity:1;font-weight:600}
+/* clickable stages (only when the rail is shown) */
+.story-rail.is-shown .srl,.story-rail.is-shown .ricon{pointer-events:auto;cursor:pointer}
+.story-rail.is-shown .srl:hover,.story-rail.is-shown .ricon:hover svg{color:var(--text-primary);opacity:1}
+.story-rail .srl:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:3px;color:var(--text-primary);opacity:1}
 .story-rail__track{display:flex;gap:6px}
 .story-rail__seg{flex:1;height:2px;background:var(--border);border-radius:2px;overflow:hidden;position:relative}
 .story-rail__seg .segfill{position:absolute;top:0;left:0;bottom:0;width:0;background:var(--blue);border-radius:2px}
