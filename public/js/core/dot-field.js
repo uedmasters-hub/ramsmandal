@@ -97,7 +97,14 @@ class DotField {
       for (const d of this.dots) if (d.rainer) { d.rx = Math.random() * this.w; d.ry = Math.random() * this.h - this.h; }
       return;
     }
-    this.targetBurst = 1;                                    // hero: calm even-frame bloom (eased in the loop)
+    this.targetBurst = 1;                                    // hero: explode
+    const N = this.N;
+    for (let i = 0; i < N; i++) {                             // fan to EVEN angles so the border forms all the way round
+      const d = this.dots[i];
+      const ang = (i / N) * 6.2831 + (Math.random() - 0.5) * 0.5;
+      const s = 1.3 + Math.random() * 2.3;                    // explosion energy
+      d.fvx = Math.cos(ang) * s; d.fvy = Math.sin(ang) * s;
+    }
   }
   enableIdle() { this.idleEnabled = true; this._markActive(); }
 
@@ -309,24 +316,34 @@ class DotField {
       // pull toward the shape (scaled down while bursting)
       d.x += (tx - d.x) * 0.085 * pull;
       d.y += (ty - d.y) * 0.085 * pull;
-      // calm bloom while bursting: ease toward an EVEN full-frame home (the uniform
-      // spread scatter), with the centre kept clear until `fill` slowly opens it.
-      // No velocity kick / wall-bounce, so dots glide straight outwards into a clean
-      // even border instead of fanning into an arch.
+      // explode while bursting: dots fly out to the edges, keep roaming the border,
+      // and the centre opens only as `fill` slowly ramps (~2 min).
       if (burst > 0.02) {
-        let hx = this.forms.spread[i*2], hy = this.forms.spread[i*2+1];
-        const ndx = (hx - cx) / (this.w * 0.5), ndy = (hy - cy) / (this.h * 0.5);
+        // slowly rotate heading (curl) so the border breathes instead of going straight
+        const wob = (Math.random() - 0.5) * 0.16;
+        const cs = Math.cos(wob), sn = Math.sin(wob);
+        const nvx = d.fvx * cs - d.fvy * sn;
+        d.fvy = d.fvx * sn + d.fvy * cs; d.fvx = nvx;
+        // ease speed toward a gentle cruise (explosion energy -> steady drift)
+        const sp = Math.hypot(d.fvx, d.fvy) || 0.0001;
+        const k = 1 + (d.spd / sp - 1) * 0.05;
+        d.fvx *= k; d.fvy *= k;
+        d.x += d.fvx * burst; d.y += d.fvy * burst;
+        // outer walls
+        if (d.x < 4 && d.fvx < 0) d.fvx = -d.fvx;
+        if (d.x > this.w - 4 && d.fvx > 0) d.fvx = -d.fvx;
+        if (d.y < 4 && d.fvy < 0) d.fvy = -d.fvy;
+        if (d.y > this.h - 4 && d.fvy > 0) d.fvy = -d.fvy;
+        // keep dots OUT of the centre until `fill` opens it; most are edge-bound (inMax)
+        const floor = holeN > d.inMax ? holeN : d.inMax;
+        const ndx = (d.x - cx) / (this.w * 0.5), ndy = (d.y - cy) / (this.h * 0.5);
         const nd = Math.hypot(ndx, ndy) || 0.0001;
-        const floor = holeN > d.inMax ? holeN : d.inMax;   // most dots edge-bound; few reach centre
-        if (nd < floor) {                                   // push this dot's home out to the clear edge
-          const f = floor / nd;
-          hx = cx + ndx * (this.w * 0.5) * f;
-          hy = cy + ndy * (this.h * 0.5) * f;
+        if (nd < floor) {
+          const depth = floor - nd;
+          let ox = ndx / nd, oy = ndy / nd;
+          if (nd < 0.02) { const a = Math.random() * 6.2831; ox = Math.cos(a); oy = Math.sin(a); }
+          d.fvx += ox * depth * 0.9; d.fvy += oy * depth * 0.9;       // accelerate out to the border
         }
-        d.x += (hx - d.x) * 0.02 * burst;                   // slow glide outwards to its home
-        d.y += (hy - d.y) * 0.02 * burst;
-        d.x += Math.sin(this.t * 0.5 + d.seed) * 0.22 * burst;   // gentle life, not chaos
-        d.y += Math.cos(this.t * 0.45 + d.seed * 1.3) * 0.22 * burst;
       }
 
       // breathing + cursor depth parallax + gentle attraction (fade out while bursting)
