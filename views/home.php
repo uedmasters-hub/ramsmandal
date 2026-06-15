@@ -34,13 +34,13 @@ $prev     = array_slice($featured, 0, 3);
 
       <!-- 1 tablet -->
       <div class="he-stage">
-        <h2 class="he-headline">From a single screen to a working system.</h2>
+        <h2 class="he-headline">From a single screen to a <span class="kw-accent">working system</span>.</h2>
         <p class="he-sub">Seventeen years across aviation, SaaS, and enterprise platforms, shaping products used by millions.</p>
       </div>
 
       <!-- 2 laptop -->
       <div class="he-stage">
-        <h2 class="he-headline">A designer makes screens.</h2>
+        <h2 class="he-headline">A designer makes <span class="kw-accent">screens</span>.</h2>
         <div class="he-previews">
           <?php foreach ($prev as $p): ?>
           <div class="he-prev"><b><?= e($p['title']) ?></b><span><?= e($p['company']) ?></span></div>
@@ -50,7 +50,7 @@ $prev     = array_slice($featured, 0, 3);
 
       <!-- 3 spread / ecosystem -->
       <div class="he-stage">
-        <h2 class="he-headline">An experience architect makes ecosystems.</h2>
+        <h2 class="he-headline">An experience architect makes <span class="kw-accent">ecosystems</span>.</h2>
         <div class="he-regions">
           <div class="he-region"><b>Work</b><span>Products at scale</span></div>
           <div class="he-region"><b>Systems</b><span>Design infrastructure</span></div>
