@@ -167,6 +167,17 @@ $prev     = array_slice($featured, 0, 3);
 
         </div>
 
+                <div class="logo-marquee__group">
+
+            <img src="/public/img/logos/indigo.svg" alt="IndiGo">
+            <img src="/public/img/logos/quikr.svg" alt="Quikr">
+            <img src="/public/img/logos/intelegencia.svg" alt="Intelegencia">
+            <img src="/public/img/logos/client4.svg" alt="">
+            <img src="/public/img/logos/client5.svg" alt="">
+            <img src="/public/img/logos/client6.svg" alt="">
+
+        </div>
+
     </div>
 
 </section>
