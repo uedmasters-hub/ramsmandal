@@ -1,150 +1,38 @@
-.playground-footer{
-    background:#000;
-    color:#fff;
-    padding:100px;
-    min-height:100vh;
-}
-
-.footer-inner{
-    display:flex;
-    justify-content:space-between;
-    gap:120px;
-}
-
-.footer-status{
-    font-size:14px;
-    opacity:.7;
-    margin-bottom:32px;
-}
-
-.footer-title{
-    font-size:80px;
-    line-height:1;
-}
-
-.footer-title em{
-    font-style:italic;
-    font-weight:400;
-}
-
-.footer-right{
-    display:flex;
-    gap:80px;
-    padding-top:24px;
-}
-
-.footer-nav-group{
-    display:flex;
-    flex-direction:column;
-    gap:24px;
-}
-
-.footer-label{
-    opacity:.5;
-    text-transform:uppercase;
-    font-size:14px;
-    letter-spacing:.08em;
-}
-
-.footer-nav-group a{
-    color:white;
-    text-decoration:none;
-    font-size:28px;
-    transition:.3s;
-}
-
-.footer-nav-group a:hover{
-    opacity:.6;
-}
-
-.poster-wall{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    align-items:flex-end;
-    gap:24px;
-    margin-top:80px;
-    padding-top:40px;
-    position:relative;
-}
-
-.poster{
-    width:150px;
-    height:190px;
-
-    background:#fff;
-
-    border:1px solid rgba(0,0,0,.08);
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-
-    text-align:center;
-
-    padding:20px;
-
-    transition:
-        transform .35s ease,
-        box-shadow .35s ease;
-
-    cursor:default;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.08);
-}
-
-.poster-art{
-    font-size:42px;
-    margin-bottom:16px;
-}
-
-.poster span{
-    font-size:14px;
-    line-height:1.4;
-}
-
-.rotate-left{
-    transform:rotate(-8deg);
-}
-
-.rotate-right{
-    transform:rotate(8deg);
-}
-
-.poster:hover{
-    transform:
-        translateY(-12px)
-        scale(1.04)
-        rotate(var(--r));
-
-    box-shadow:
-        0 25px 60px rgba(0,0,0,.16);
-}
-
-.poster::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255,255,255,.15),
-            transparent 70%
-        );
-    opacity:0;
-    transition:.4s;
-}
-
-.poster:hover::before{
-    opacity:1;
-}
-
-[data-theme="dark"] .playground-footer{
-    background:#050505;
-}
-
-[data-theme="light"] .playground-footer{
-    background:#111;
-}
+.playground-footer{ background:#000; color:#fff; padding:100px; min-height:100vh; }
+.footer-inner{ display:flex; justify-content:space-between; gap:120px; }
+.footer-status{ font-size:14px; opacity:.7; margin-bottom:32px; }
+.footer-title{ font-size:80px; line-height:1; }
+.footer-title em{ font-style:italic; font-weight:400; }
+.footer-right{ display:flex; gap:80px; padding-top:24px; }
+.footer-nav-group{ display:flex; flex-direction:column; gap:24px; }
+.footer-label{ opacity:.5; text-transform:uppercase; font-size:14px; letter-spacing:.08em; }
+.footer-nav-group a{ color:white; text-decoration:none; font-size:28px; transition:.3s; }
+.footer-nav-group a:hover{ opacity:.6; }
+.poster-wall{ display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-end; gap:24px; margin-top:80px; padding-top:40px; position:relative; }
+.poster{ width:150px; height:190px; background:#fff; border:1px solid rgba(0,0,0,.08); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:20px; transition: transform .35s ease, box-shadow .35s ease; cursor:default; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+.poster-art{ font-size:42px; margin-bottom:16px; }
+.poster span{ font-size:14px; line-height:1.4; }
+.rotate-left{ transform:rotate(-8deg); }
+.rotate-right{ transform:rotate(8deg); }
+.poster:hover{ transform: translateY(-12px) scale(1.04) rotate(var(--r)); box-shadow: 0 25px 60px rgba(0,0,0,.16); }
+.poster::before{ content:""; position:absolute; inset:0; background: radial-gradient( circle at center, rgba(255,255,255,.15), transparent 70% ); opacity:0; transition:.4s; }
+.poster:hover::before{ opacity:1; }
+[data-theme="dark"] .playground-footer{ background:#050505; } [data-theme="light"] .playground-footer{ background:#111; }
+.p1 { --r:-6deg; transform:rotate(-6deg);}
+.p2 { --r:8deg; transform:rotate(8deg);}
+.p3 { --r:-3deg; transform:rotate(-3deg);}
+.p4 { --r:5deg; transform:rotate(5deg);}
+.p5 { --r:-7deg; transform:rotate(-7deg);}
+.p6 { --r:4deg; transform:rotate(4deg);}
+.p7 { --r:-2deg; transform:rotate(-2deg);}
+.p8 { --r:6deg; transform:rotate(6deg);}
+.p9 { --r:-5deg; transform:rotate(-5deg);}
+.p10 { --r:7deg; transform:rotate(7deg);}
+.p11 { --r:-4deg; transform:rotate(-4deg);}
+.p12 { --r:3deg; transform:rotate(3deg);}
+.p13 { --r:-8deg; transform:rotate(-8deg);}
+.p14 { --r:5deg; transform:rotate(5deg);}
+.p15 { --r:-3deg; transform:rotate(-3deg);}
+.p16 { --r:7deg; transform:rotate(7deg);}
+.p17 { --r:-5deg; transform:rotate(-5deg);}
+.p18 { --r:4deg; transform:rotate(4deg);}
