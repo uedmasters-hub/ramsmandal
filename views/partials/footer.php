@@ -42,41 +42,96 @@
 
     <div class="poster-wall">
 
-        <div class="poster">
-            <div class="poster-art">✈️</div>
-            <span>17+ Years</span>
-        </div>
+      <div class="poster p1">
+          <div class="poster-art">✈️</div>
+          <span>17+ Years Experience</span>
+      </div>
 
-        <div class="poster rotate-left">
-            <div class="poster-art">UX</div>
-            <span>Enterprise UX</span>
-        </div>
+      <div class="poster p2">
+          <div class="poster-art">UX</div>
+          <span>Enterprise UX</span>
+      </div>
 
-        <div class="poster">
-            <div class="poster-art">★</div>
-            <span>Design Systems</span>
-        </div>
+      <div class="poster p3">
+          <div class="poster-art">★</div>
+          <span>Design Systems</span>
+      </div>
 
-        <div class="poster rotate-right">
-            <div class="poster-art">⚙</div>
-            <span>Platforms</span>
-        </div>
+      <div class="poster p4">
+          <div class="poster-art">⚙</div>
+          <span>Enterprise Platforms</span>
+      </div>
 
-        <div class="poster">
-            <div class="poster-art">✦</div>
-            <span>Strategy</span>
-        </div>
+      <div class="poster p5">
+          <div class="poster-art">✦</div>
+          <span>Strategy</span>
+      </div>
 
-        <div class="poster rotate-left">
-            <div class="poster-art">◎</div>
-            <span>Leadership</span>
-        </div>
+      <div class="poster p6">
+          <div class="poster-art">◎</div>
+          <span>Leadership</span>
+      </div>
 
-        <div class="poster">
-            <div class="poster-art">→</div>
-            <span>Clarity</span>
-        </div>
+      <div class="poster p7">
+          <div class="poster-art">→</div>
+          <span>Complexity → Clarity</span>
+      </div>
 
-    </div>
+      <div class="poster p8">
+          <div class="poster-art">🛫</div>
+          <span>Aviation Ecosystem</span>
+      </div>
+
+      <div class="poster p9">
+          <div class="poster-art">🏨</div>
+          <span>Travel Platforms</span>
+      </div>
+
+      <div class="poster p10">
+          <div class="poster-art">🛒</div>
+          <span>Marketplace Design</span>
+      </div>
+
+      <div class="poster p11">
+          <div class="poster-art">📱</div>
+          <span>Product Thinking</span>
+      </div>
+
+      <div class="poster p12">
+          <div class="poster-art">📊</div>
+          <span>Outcome Driven</span>
+      </div>
+
+      <div class="poster p13">
+          <div class="poster-art">🧠</div>
+          <span>Research</span>
+      </div>
+
+      <div class="poster p14">
+          <div class="poster-art">🏗</div>
+          <span>Systems Architecture</span>
+      </div>
+
+      <div class="poster p15">
+          <div class="poster-art">✨</div>
+          <span>Craft</span>
+      </div>
+
+      <div class="poster p16">
+          <div class="poster-art">🤝</div>
+          <span>Collaboration</span>
+      </div>
+
+      <div class="poster p17">
+          <div class="poster-art">🚀</div>
+          <span>Scale</span>
+      </div>
+
+      <div class="poster p18">
+          <div class="poster-art">📈</div>
+          <span>Growth</span>
+      </div>
+
+  </div>
 
 </section>
