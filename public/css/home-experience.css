@@ -36,7 +36,9 @@
 .he-stage:nth-child(3) .he-headline{font-size:clamp(2rem,min(9vh,7.6vw),6.5rem);letter-spacing:-.03em;line-height:1.03}
 .he-stage:nth-child(3) .he-previews{margin-top:clamp(28px,7vh,90px)}
 .he-stage:nth-child(4) .he-headline{font-size:clamp(2.2rem,7vw,6.8rem);letter-spacing:-.03em;line-height:1.02}
-.he-stage:nth-child(4) .he-regions{margin-top:clamp(32px,8vh,110px)}
+.he-stage:nth-child(4) .he-regions{margin-top:clamp(32px,8vh,110px);
+  /* align to the page container (.intro/.work): 1320 max, same side gutters, centred */
+  width:calc(min(1320px, 100vw) - clamp(40px,10vw,128px));max-width:none;margin-inline:auto;box-sizing:border-box}
 
 .he-sub{margin:0;color:var(--text-secondary);line-height:1.5;font-size:clamp(.85rem,1.7vh,1.05rem)}
 
