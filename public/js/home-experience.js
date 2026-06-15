@@ -100,6 +100,37 @@ function railStageFromScroll(p) {
 }
 function showRail(on) { railEl && railEl.classList.toggle("is-shown", on); }
 
+/* GSAP entrance reveals for the text sections (takes over the CSS [data-reveal]) */
+function revealContent() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  document.documentElement.classList.add("gsap-reveals");   // neutralises the CSS reveal; GSAP owns it
+
+  const rise = (el, d = 0.9, y = 30) => {
+    gsap.set(el, { autoAlpha: 0, y });
+    ScrollTrigger.create({ trigger: el, start: "top 86%", once: true,
+      onEnter: () => gsap.to(el, { autoAlpha: 1, y: 0, duration: d, ease: "power3.out" }) });
+  };
+
+  // single blocks: lead paragraph, section headers, scale, cta
+  gsap.utils.toArray([".intro__lead", ".work__head", ".scale", ".cta", ".about__lead"]).forEach((el) => rise(el));
+
+  // discipline chips: staggered in
+  document.querySelectorAll(".intro__disciplines").forEach((ul) => {
+    const items = ul.querySelectorAll("li");
+    gsap.set(items, { autoAlpha: 0, y: 16 });
+    ScrollTrigger.create({ trigger: ul, start: "top 88%", once: true,
+      onEnter: () => gsap.to(items, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out", stagger: 0.06 }) });
+  });
+
+  // work rows: reveal in staggered batches as they scroll into view
+  const rows = gsap.utils.toArray(".work-list__row");
+  if (rows.length) {
+    gsap.set(rows, { autoAlpha: 0, y: 28 });
+    ScrollTrigger.batch(rows, { start: "top 90%",
+      onEnter: (batch) => gsap.to(batch, { autoAlpha: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.08, overwrite: true }) });
+  }
+}
+
 function boot() {
   const root = document.getElementById("home-experience");
   if (!root) return;
@@ -109,6 +140,8 @@ function boot() {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (reduce) { gsap.set(stages, { autoAlpha: 0 }); gsap.set(stages[0], { autoAlpha: 1 }); return; }
+
+  revealContent();   // GSAP entrance animations for the sections below the hero
 
   initSmoothScroll();
   const lenis = initSmoothScroll();

@@ -9,6 +9,7 @@ main{display:block}
 [data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease-out),transform .8s var(--ease-spring)}
 [data-reveal].in-view{opacity:1;transform:none}
 .no-js [data-reveal]{opacity:1;transform:none}
+html.gsap-reveals [data-reveal]{transition:none}   /* GSAP owns the entrance; avoid double-animating */
 @media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1!important;transform:none!important}}
 
 /* ---- dot field (the signature background, site-wide) ---- */
