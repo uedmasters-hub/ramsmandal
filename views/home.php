@@ -214,7 +214,7 @@ $prev     = array_slice($featured, 0, 3);
 </section>
 
 <!-- CONTACT CTA -->
-<section class="cta" data-reveal>
+<!-- <section class="cta" data-reveal>
   <h2 class="cta__title">Have a complex problem worth solving?</h2>
   <div class="cta__actions">
     <a class="cta__link" href="<?= url('/contact') ?>">Start a conversation
@@ -222,4 +222,4 @@ $prev     = array_slice($featured, 0, 3);
     </a>
     <a class="cta__mail" href="mailto:<?= e($site['contact']['email']) ?>"><?= e($site['contact']['email']) ?></a>
   </div>
-</section>
+</section> -->

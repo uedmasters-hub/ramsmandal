@@ -90,7 +90,7 @@
   font-size:clamp(1.1rem,2.2vw,1.6rem);color:var(--text-secondary)}
 
 /* ---------- CONTACT CTA ---------- */
-.cta{padding-top:clamp(64px,14vh,180px);padding-bottom:clamp(48px,8vh,96px);text-align:left}
+/* .cta{padding-top:clamp(64px,14vh,180px);padding-bottom:clamp(48px,8vh,96px);text-align:left}
 .cta__title{font-family:var(--font-display);font-weight:800;letter-spacing:-.03em;
   font-size:clamp(2rem,5.4vw,4.2rem);line-height:1.06;color:var(--text-primary);max-width:18ch;text-wrap:balance}
 .cta__actions{margin-top:clamp(28px,5vh,52px);display:flex;flex-wrap:wrap;align-items:center;gap:18px 40px}
@@ -101,7 +101,7 @@
 @media (hover:hover) and (pointer:fine){.cta__link:hover{transform:translateY(-2px)}.cta__link:hover svg{transform:translateX(3px)}}
 .cta__link:active{transform:scale(.98)}
 .cta__mail{font-size:15px;color:var(--text-secondary);transition:color var(--t-base) var(--ease-out)}
-@media (hover:hover) and (pointer:fine){.cta__mail:hover{color:var(--text-primary)}}
+@media (hover:hover) and (pointer:fine){.cta__mail:hover{color:var(--text-primary)}} */
 
 /* ---------- HERO entrance (needs .js on <html>) ---------- */
 .js .hero__role,.js .hero__statement,.js .hero__sub,.js .hero__aside{opacity:0;transform:translateY(20px);
