@@ -43,7 +43,7 @@ $current = $currentKey         ?? '';
   <link rel="stylesheet" href="<?= asset('css/topbar.css') ?>">
   <link rel="stylesheet" href="<?= asset('css/menu.css') ?>">
   <link rel="stylesheet" href="<?= asset('css/footer.css') ?>">
-  <link rel="stylesheet" href="/css/footer-playground.css">
+  <link rel="stylesheet" href="css/footer-playground.css">
   <?php foreach ($styles as $s): ?>
   <link rel="stylesheet" href="<?= asset("css/{$s}.css") ?>">
   <?php endforeach; ?>
