@@ -1,8 +1,13 @@
+/* ==================================================
+   FOOTER
+================================================== */
+
 .playground-footer{
-    background:#000;
+    background:#050505;
     color:#fff;
     padding:100px;
     min-height:100vh;
+    overflow:hidden;
 }
 
 .footer-inner{
@@ -20,6 +25,7 @@
 .footer-title{
     font-size:80px;
     line-height:1;
+    max-width:900px;
 }
 
 .footer-title em{
@@ -47,32 +53,46 @@
 }
 
 .footer-nav-group a{
-    color:white;
+    color:inherit;
     text-decoration:none;
     font-size:28px;
-    transition:.3s;
+    transition:opacity .25s ease;
 }
 
 .footer-nav-group a:hover{
     opacity:.6;
 }
 
+/* ==================================================
+   POSTER WALL
+================================================== */
+
 .poster-wall{
+    max-width:1400px;
+    margin:80px auto 0;
     display:flex;
     flex-wrap:wrap;
     justify-content:center;
     align-items:flex-end;
     gap:24px;
-    margin-top:80px;
-    padding-top:40px;
-    position:relative;
 }
 
 .poster{
+    --r:0deg;
+
     width:150px;
     height:190px;
 
-    background:#fff;
+    position:relative;
+    overflow:hidden;
+
+    background:linear-gradient(
+        180deg,
+        #ffffff,
+        #f6f6f6
+    );
+
+    color:#111;
 
     border:1px solid rgba(0,0,0,.08);
 
@@ -82,35 +102,32 @@
     align-items:center;
 
     text-align:center;
-
     padding:20px;
+
+    transform:rotate(var(--r));
 
     transition:
         transform .35s ease,
         box-shadow .35s ease;
 
-    cursor:default;
-
     box-shadow:
         0 10px 30px rgba(0,0,0,.08);
 }
 
-.poster-art{
-    font-size:42px;
-    margin-bottom:16px;
-}
+.poster::before{
+    content:"";
+    position:absolute;
+    inset:0;
 
-.poster span{
-    font-size:14px;
-    line-height:1.4;
-}
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,.2),
+            transparent 70%
+        );
 
-.rotate-left{
-    transform:rotate(-8deg);
-}
-
-.rotate-right{
-    transform:rotate(8deg);
+    opacity:0;
+    transition:opacity .35s ease;
 }
 
 .poster:hover{
@@ -120,25 +137,73 @@
         rotate(var(--r));
 
     box-shadow:
-        0 25px 60px rgba(0,0,0,.16);
-}
+        0 25px 60px rgba(0,0,0,.18);
 
-.poster::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255,255,255,.15),
-            transparent 70%
-        );
-    opacity:0;
-    transition:.4s;
+    z-index:10;
 }
 
 .poster:hover::before{
     opacity:1;
+}
+
+.poster-art{
+    font-size:42px;
+    margin-bottom:16px;
+    line-height:1;
+}
+
+.poster span{
+    font-size:14px;
+    line-height:1.4;
+}
+
+/* ==================================================
+   RANDOM ROTATIONS
+================================================== */
+
+.p1  { --r:-6deg; }
+.p2  { --r: 8deg; }
+.p3  { --r:-3deg; }
+.p4  { --r: 5deg; }
+.p5  { --r:-7deg; }
+.p6  { --r: 4deg; }
+.p7  { --r:-2deg; }
+.p8  { --r: 6deg; }
+.p9  { --r:-5deg; }
+.p10 { --r: 7deg; }
+.p11 { --r:-4deg; }
+.p12 { --r: 3deg; }
+.p13 { --r:-8deg; }
+.p14 { --r: 5deg; }
+.p15 { --r:-3deg; }
+.p16 { --r: 7deg; }
+.p17 { --r:-5deg; }
+.p18 { --r: 4deg; }
+
+/* ==================================================
+   SIZE VARIATIONS
+================================================== */
+
+.p3,
+.p7,
+.p14{
+    width:180px;
+    height:230px;
+}
+
+.p10,
+.p15{
+    width:130px;
+    height:170px;
+}
+
+/* ==================================================
+   DARK MODE
+================================================== */
+
+[data-theme="dark"] .playground-footer{
+    background:#050505;
+    color:#fff;
 }
 
 [data-theme="dark"] .poster{
@@ -146,37 +211,74 @@
     color:#111;
 }
 
-[data-theme="dark"] .playground-footer{
-    background:#050505;
-}
+/* ==================================================
+   LIGHT MODE
+================================================== */
 
 [data-theme="light"] .playground-footer{
-    background:#111;
+    background:#f5f5f3;
+    color:#111;
 }
 
-.p1 { --r:-6deg; transform:rotate(-6deg);}
-.p2 { --r:8deg; transform:rotate(8deg);}
-.p3 { --r:-3deg; transform:rotate(-3deg);}
-.p4 { --r:5deg; transform:rotate(5deg);}
-.p5 { --r:-7deg; transform:rotate(-7deg);}
-.p6 { --r:4deg; transform:rotate(4deg);}
-.p7 { --r:-2deg; transform:rotate(-2deg);}
-.p8 { --r:6deg; transform:rotate(6deg);}
-.p9 { --r:-5deg; transform:rotate(-5deg);}
-.p10 { --r:7deg; transform:rotate(7deg);}
-.p11 { --r:-4deg; transform:rotate(-4deg);}
-.p12 { --r:3deg; transform:rotate(3deg);}
-.p13 { --r:-8deg; transform:rotate(-8deg);}
-.p14 { --r:5deg; transform:rotate(5deg);}
-.p15 { --r:-3deg; transform:rotate(-3deg);}
-.p16 { --r:7deg; transform:rotate(7deg);}
-.p17 { --r:-5deg; transform:rotate(-5deg);}
-.p18 { --r:4deg; transform:rotate(4deg);}
+[data-theme="light"] .poster{
+    background:#fff;
+}
+
+[data-theme="light"] .footer-nav-group a{
+    color:#111;
+}
+
+/* ==================================================
+   TABLET
+================================================== */
+
+@media (max-width:1024px){
+
+    .playground-footer{
+        padding:72px 40px;
+    }
+
+    .footer-inner{
+        flex-direction:column;
+        gap:56px;
+    }
+
+    .footer-title{
+        font-size:64px;
+    }
+}
+
+/* ==================================================
+   MOBILE
+================================================== */
 
 @media (max-width:768px){
 
+    .playground-footer{
+        padding:48px 24px;
+    }
+
+    .footer-inner{
+        flex-direction:column;
+        gap:48px;
+    }
+
+    .footer-right{
+        gap:40px;
+    }
+
+    .footer-title{
+        font-size:48px;
+        line-height:1.05;
+    }
+
+    .footer-nav-group a{
+        font-size:24px;
+    }
+
     .poster-wall{
         gap:16px;
+        margin-top:56px;
     }
 
     .poster{
@@ -191,5 +293,18 @@
 
     .poster span{
         font-size:12px;
+    }
+
+    .p3,
+    .p7,
+    .p14{
+        width:140px;
+        height:180px;
+    }
+
+    .p10,
+    .p15{
+        width:110px;
+        height:140px;
     }
 }
