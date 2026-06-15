@@ -212,14 +212,3 @@ $prev     = array_slice($featured, 0, 3);
   <p class="scale__line">Seventeen years. Aviation, SaaS, and enterprise. Products used by millions.</p>
   <ul class="scale__orgs"><li>IndiGo</li><li>Intelegencia</li><li>Quikr</li></ul>
 </section>
-
-<!-- CONTACT CTA -->
-<!-- <section class="cta" data-reveal>
-  <h2 class="cta__title">Have a complex problem worth solving?</h2>
-  <div class="cta__actions">
-    <a class="cta__link" href="<?= url('/contact') ?>">Start a conversation
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </a>
-    <a class="cta__mail" href="mailto:<?= e($site['contact']['email']) ?>"><?= e($site['contact']['email']) ?></a>
-  </div>
-</section> -->
