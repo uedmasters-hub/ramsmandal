@@ -111,16 +111,12 @@ function revealContent() {
       onEnter: () => gsap.to(el, { autoAlpha: 1, y: 0, duration: d, ease: "power3.out" }) });
   };
 
-  // line-mask reveal: heading rises out from behind an invisible line
+  // line reveal: heading wipes up + rises in (no wrap, no height dependency)
   const maskReveal = (el) => {
-    if (!el || el.dataset.masked) return; el.dataset.masked = "1";
-    const inner = document.createElement("span"); inner.className = "rv-inner";
-    while (el.firstChild) inner.appendChild(el.firstChild);
-    const mask = document.createElement("span"); mask.className = "rv-mask";
-    mask.appendChild(inner); el.appendChild(mask);
-    gsap.set(inner, { yPercent: 115 });
-    ScrollTrigger.create({ trigger: el, start: "top 88%", once: true,
-      onEnter: () => gsap.to(inner, { yPercent: 0, duration: 1.0, ease: "power4.out" }) });
+    if (!el) return;
+    gsap.set(el, { autoAlpha: 0, yPercent: 30, clipPath: "inset(0 0 100% 0)" });
+    ScrollTrigger.create({ trigger: el, start: "top 86%", once: true,
+      onEnter: () => gsap.to(el, { autoAlpha: 1, yPercent: 0, clipPath: "inset(0 0 0% 0)", duration: 0.95, ease: "power3.out" }) });
   };
 
   // count a number up from zero, preserving any prefix/suffix (e.g. "+22%")
@@ -316,6 +312,12 @@ function boot() {
     onEnter: () => { showRail(false); if (field) { field.idleMode = "rain"; field.targetBurst = 0; field.setMorph("grid", "grid", 0); gsap.to(field, { ink: 0.0, duration: 0.8 }); field._markActive(); } },
     onLeaveBack: () => { showRail(true); if (field) { field.idleMode = "burst"; field.targetRain = 0; field.ink = 0.4; field._markActive(); } },
   });
+
+  // hero opening: the first stage's eyebrow + headline rise in as the intro hands off
+  if (stages[0]) {
+    const bits = stages[0].querySelectorAll(".he-eyebrow, .he-headline");
+    gsap.from(bits, { yPercent: 60, autoAlpha: 0, duration: 1.1, ease: "power4.out", stagger: 0.12, delay: 0.15 });
+  }
 
   // content entrance animations — built AFTER the pin exists so positions are correct
   revealContent();
