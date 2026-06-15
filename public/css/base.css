@@ -10,6 +10,9 @@ main{display:block}
 [data-reveal].in-view{opacity:1;transform:none}
 .no-js [data-reveal]{opacity:1;transform:none}
 html.gsap-reveals [data-reveal]{transition:none}   /* GSAP owns the entrance; avoid double-animating */
+/* line-mask reveal wrappers (headings rise from behind an invisible line) */
+.rv-mask{display:block;overflow:hidden;padding-bottom:.06em}
+.rv-inner{display:block;will-change:transform}
 @media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1!important;transform:none!important}}
 
 /* ---- dot field (the signature background, site-wide) ---- */

@@ -111,8 +111,35 @@ function revealContent() {
       onEnter: () => gsap.to(el, { autoAlpha: 1, y: 0, duration: d, ease: "power3.out" }) });
   };
 
-  // single blocks: lead paragraph, section headers, scale, cta
-  gsap.utils.toArray([".intro__lead", ".work__head", ".scale", ".cta", ".about__lead"]).forEach((el) => rise(el));
+  // line-mask reveal: heading rises out from behind an invisible line
+  const maskReveal = (el) => {
+    if (!el || el.dataset.masked) return; el.dataset.masked = "1";
+    const inner = document.createElement("span"); inner.className = "rv-inner";
+    while (el.firstChild) inner.appendChild(el.firstChild);
+    const mask = document.createElement("span"); mask.className = "rv-mask";
+    mask.appendChild(inner); el.appendChild(mask);
+    gsap.set(inner, { yPercent: 115 });
+    ScrollTrigger.create({ trigger: el, start: "top 88%", once: true,
+      onEnter: () => gsap.to(inner, { yPercent: 0, duration: 1.0, ease: "power4.out" }) });
+  };
+
+  // count a number up from zero, preserving any prefix/suffix (e.g. "+22%")
+  const countUp = (el) => {
+    const m = el.textContent.trim().match(/^(\D*)(\d[\d,.]*)(.*)$/);
+    if (!m) return;
+    const pre = m[1], post = m[3], target = parseFloat(m[2].replace(/,/g, ""));
+    const dec = (m[2].split(".")[1] || "").length;
+    const o = { v: 0 }; el.textContent = pre + (0).toFixed(dec) + post;
+    ScrollTrigger.create({ trigger: el, start: "top 92%", once: true,
+      onEnter: () => gsap.to(o, { v: target, duration: 1.4, ease: "power2.out",
+        onUpdate: () => { el.textContent = pre + o.v.toFixed(dec) + post; } }) });
+  };
+
+  // titles: line-mask rise
+  document.querySelectorAll(".work__head h2, .cta__title").forEach(maskReveal);
+
+  // blocks: fade + rise
+  gsap.utils.toArray([".intro__lead", ".work__all", ".scale", ".cta__actions", ".about__lead"]).forEach((el) => rise(el));
 
   // discipline chips: staggered in
   document.querySelectorAll(".intro__disciplines").forEach((ul) => {
@@ -129,6 +156,9 @@ function revealContent() {
     ScrollTrigger.batch(rows, { start: "top 90%",
       onEnter: (batch) => gsap.to(batch, { autoAlpha: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.08, overwrite: true }) });
   }
+
+  // metrics count up
+  document.querySelectorAll(".work-list__metric b").forEach(countUp);
 }
 
 function boot() {
