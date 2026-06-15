@@ -124,6 +124,17 @@ $prev     = array_slice($featured, 0, 3);
   </div>
 </section>
 
+<!-- POSITIONING -->
+<section class="intro">
+  <p class="intro__lead" data-reveal>
+    I don't design screens. I design the experiences, systems, and outcomes behind products that operate at scale, and the judgment that holds them together under real constraint.
+  </p>
+  <ul class="intro__disciplines" data-reveal>
+    <li>Product design</li><li>Enterprise UX</li><li>Design systems</li>
+    <li>Product strategy</li><li>Design engineering</li><li>Leadership</li>
+  </ul>
+</section>
+
 <!-- LOGO MARQUEE -->
 
 <section class="logo-marquee">
@@ -158,17 +169,6 @@ $prev     = array_slice($featured, 0, 3);
 
     </div>
 
-</section>
-
-<!-- POSITIONING -->
-<section class="intro">
-  <p class="intro__lead" data-reveal>
-    I don't design screens. I design the experiences, systems, and outcomes behind products that operate at scale, and the judgment that holds them together under real constraint.
-  </p>
-  <ul class="intro__disciplines" data-reveal>
-    <li>Product design</li><li>Enterprise UX</li><li>Design systems</li>
-    <li>Product strategy</li><li>Design engineering</li><li>Leadership</li>
-  </ul>
 </section>
 
 <!-- WORK INDEX -->
