@@ -321,9 +321,43 @@ function boot() {
 
   // content entrance animations — built AFTER the pin exists so positions are correct
   revealContent();
+  revealBigCards();
   ScrollTrigger.refresh();
 }
 
+/* big cards: drag-to-scroll (always on) + entrance (built post-pin, in boot) */
+let bigTrack = null;
+function initBigCardsDrag() {
+  bigTrack = document.querySelector(".big-cards__track[data-drag]");
+  if (!bigTrack) return;
+  let down = false, startX = 0, startScroll = 0, moved = false;
+  bigTrack.addEventListener("pointerdown", (e) => {
+    down = true; moved = false; startX = e.clientX; startScroll = bigTrack.scrollLeft;
+    bigTrack.classList.add("is-dragging");
+    try { bigTrack.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+  bigTrack.addEventListener("pointermove", (e) => {
+    if (!down) return;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 3) moved = true;
+    bigTrack.scrollLeft = startScroll - dx;
+  });
+  const end = () => { if (!down) return; down = false; bigTrack.classList.remove("is-dragging"); };
+  bigTrack.addEventListener("pointerup", end);
+  bigTrack.addEventListener("pointercancel", end);
+  bigTrack.addEventListener("pointerleave", end);
+  // swallow the click that follows a drag so inner links don't fire on release
+  bigTrack.addEventListener("click", (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+}
+function revealBigCards() {
+  if (!bigTrack || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cards = bigTrack.querySelectorAll(".big-card");
+  gsap.set(cards, { autoAlpha: 0, y: 40 });
+  ScrollTrigger.create({ trigger: bigTrack, start: "top 85%", once: true,
+    onEnter: () => gsap.to(cards, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.08 }) });
+}
+
 function start() { if (window.__introDone) boot(); else addEventListener("intro:done", boot, { once: true }); }
+initBigCardsDrag();
 if (document.readyState !== "loading") start();
 else document.addEventListener("DOMContentLoaded", start);

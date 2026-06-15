@@ -70,6 +70,60 @@ $prev     = array_slice($featured, 0, 3);
   <p class="preloader__narrative">Complexity <span class="arrow">&rarr;</span> Clarity</p>
 </div>
 
+<!-- BIG CARDS — draggable discipline rail -->
+<section class="big-cards" aria-label="What I do">
+  <div class="big-cards__track" data-drag>
+    <article class="big-card big-card--accent">
+      <span class="big-card__eyebrow">01 / Practice</span>
+      <div class="big-card__body">
+        <h3 class="big-card__title">Product &amp; platform design</h3>
+        <p class="big-card__desc">Customer-facing and enterprise products shaped from the first flow to the shipped system.</p>
+      </div>
+      <span class="big-card__num" aria-hidden="true">01</span>
+    </article>
+    <article class="big-card">
+      <span class="big-card__eyebrow">02 / Practice</span>
+      <div class="big-card__body">
+        <h3 class="big-card__title">Enterprise UX</h3>
+        <p class="big-card__desc">Complex internal tools and operations platforms made usable for the people who run the business.</p>
+      </div>
+      <span class="big-card__num" aria-hidden="true">02</span>
+    </article>
+    <article class="big-card">
+      <span class="big-card__eyebrow">03 / Practice</span>
+      <div class="big-card__body">
+        <h3 class="big-card__title">Design systems</h3>
+        <p class="big-card__desc">Reusable component systems and standards that keep teams fast and consistent at scale.</p>
+      </div>
+      <span class="big-card__num" aria-hidden="true">03</span>
+    </article>
+    <article class="big-card">
+      <span class="big-card__eyebrow">04 / Practice</span>
+      <div class="big-card__body">
+        <h3 class="big-card__title">Product strategy</h3>
+        <p class="big-card__desc">Roadmaps grounded in user needs, business goals, and what engineering can realistically ship.</p>
+      </div>
+      <span class="big-card__num" aria-hidden="true">04</span>
+    </article>
+    <article class="big-card">
+      <span class="big-card__eyebrow">05 / Practice</span>
+      <div class="big-card__body">
+        <h3 class="big-card__title">Design engineering</h3>
+        <p class="big-card__desc">Designs that survive contact with code, prototyped and built, not just drawn.</p>
+      </div>
+      <span class="big-card__num" aria-hidden="true">05</span>
+    </article>
+    <article class="big-card">
+      <span class="big-card__eyebrow">06 / Practice</span>
+      <div class="big-card__body">
+        <h3 class="big-card__title">Design leadership</h3>
+        <p class="big-card__desc">Teams of fifteen-plus designers and researchers aligned around outcomes that matter.</p>
+      </div>
+      <span class="big-card__num" aria-hidden="true">06</span>
+    </article>
+  </div>
+</section>
+
 <!-- POSITIONING -->
 <section class="intro">
   <p class="intro__lead" data-reveal>

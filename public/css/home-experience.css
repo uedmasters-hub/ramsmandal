@@ -58,7 +58,7 @@
 
 @media (max-width:760px){
   /* STAGE 1 only: typography leads, the phone is allowed to crop behind it */
-  .he-stage:nth-child(1){--dev-w:min(80vw,30rem);padding: 11vh 18px 12vh;}
+  .he-stage:nth-child(1){--dev-w:min(80vw,30rem);padding:30vh 18px 12vh}
   .he-stage:nth-child(1) .he-headline{font-size:clamp(2rem,10vw,3.6rem);line-height:1.04;letter-spacing:-.025em}
   /* STAGE 2 only: wide tablet, hero headline + supporting copy */
   .he-stage:nth-child(2){--dev-w:min(88vw,34rem);padding:16vh 18px 10vh}
@@ -116,3 +116,46 @@ html.intro-done .preloader{display:none}
   -webkit-text-fill-color: currentColor; /* fallback before any bloom paints */
 }
 .ink-letter[style*="transparent"] { -webkit-text-fill-color: transparent; }
+
+/* ===================== BIG CARDS — draggable discipline rail ===================== */
+.big-cards{padding:clamp(36px,7vh,84px) 0;overflow:hidden}
+.big-cards__track{
+  display:flex;gap:clamp(16px,1.6vw,26px);
+  padding-inline:clamp(20px,5vw,64px);        /* first card aligns to the page gutter */
+  overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  cursor:grab;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  overscroll-behavior-x:contain;
+}
+.big-cards__track::-webkit-scrollbar{display:none}
+.big-cards__track.is-dragging{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
+.big-card{
+  flex:0 0 clamp(280px,38vw,520px);           /* ~2.5 cards visible on desktop */
+  scroll-snap-align:start;
+  min-height:clamp(360px,56vh,600px);
+  border-radius:24px;border:1px solid var(--border);background:var(--bg-elevated,#fff);
+  padding:clamp(24px,2.6vw,40px);
+  display:flex;flex-direction:column;justify-content:space-between;gap:24px;
+  position:relative;overflow:hidden;user-select:none;
+  transition:transform .5s var(--ease-out),box-shadow .5s var(--ease-out);
+}
+.big-card:hover{transform:translateY(-4px);box-shadow:0 24px 60px -28px rgba(15,15,15,.28)}
+.big-card__eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);position:relative;z-index:1}
+.big-card__body{position:relative;z-index:1}
+.big-card__title{margin:0;font-family:var(--font-display);font-weight:300;
+  font-size:clamp(1.7rem,2.6vw,2.6rem);letter-spacing:-.02em;line-height:1.04;color:var(--text-primary)}
+.big-card__desc{margin:.7em 0 0;max-width:32ch;color:var(--text-muted);
+  font-size:clamp(.95rem,1.1vw,1.08rem);line-height:1.5}
+.big-card__num{position:absolute;right:-.06em;bottom:-.22em;z-index:0;pointer-events:none;
+  font-family:var(--font-display);font-weight:200;font-size:clamp(7rem,15vw,13rem);line-height:.8;
+  color:var(--text-primary);opacity:.045}
+/* accent card */
+.big-card--accent{background:var(--blue);border-color:transparent}
+.big-card--accent .big-card__title{color:#fff}
+.big-card--accent .big-card__eyebrow{color:rgba(255,255,255,.7)}
+.big-card--accent .big-card__desc{color:rgba(255,255,255,.82)}
+.big-card--accent .big-card__num{color:#fff;opacity:.12}
+@media (max-width:760px){
+  .big-card{flex-basis:min(82vw,420px);min-height:clamp(320px,52vh,480px)}
+  .big-cards__track{scroll-snap-type:x proximity}
+}
