@@ -5,7 +5,7 @@ $page = [
   'title'      => $site['meta']['default_title'],
   'desc'       => $site['meta']['default_desc'],
   'body_class' => 'page-home',
-  'styles'     => ['home', 'home-experience'],
+  'styles'     => ['home', 'home-experience', 'home-marquee'],
   'scripts'    => ['core/reveal'],
   'modules'    => ['preloader', 'home-experience', 'core/text-ink'],
   'importmap'  => json_encode([
@@ -122,6 +122,42 @@ $prev     = array_slice($featured, 0, 3);
       <span class="big-card__num" aria-hidden="true">06</span>
     </article>
   </div>
+</section>
+
+<!-- LOGO MARQUEE -->
+
+<section class="logo-marquee">
+
+    <div class="logo-marquee__fade"></div>
+
+    <div class="logo-marquee__track">
+
+        <!-- Row duplicated for seamless loop -->
+
+        <div class="logo-marquee__group">
+
+            <img src="/public/img/logos/indigo.svg" alt="IndiGo">
+            <img src="/public/img/logos/quikr.svg" alt="Quikr">
+            <img src="/public/img/logos/intelegencia.svg" alt="Intelegencia">
+            <img src="/public/img/logos/client4.svg" alt="">
+            <img src="/public/img/logos/client5.svg" alt="">
+            <img src="/public/img/logos/client6.svg" alt="">
+
+        </div>
+
+        <div class="logo-marquee__group">
+
+            <img src="/public/img/logos/indigo.svg" alt="IndiGo">
+            <img src="/public/img/logos/quikr.svg" alt="Quikr">
+            <img src="/public/img/logos/intelegencia.svg" alt="Intelegencia">
+            <img src="/public/img/logos/client4.svg" alt="">
+            <img src="/public/img/logos/client5.svg" alt="">
+            <img src="/public/img/logos/client6.svg" alt="">
+
+        </div>
+
+    </div>
+
 </section>
 
 <!-- POSITIONING -->
