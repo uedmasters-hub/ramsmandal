@@ -171,8 +171,6 @@ function boot() {
 
   if (reduce) { gsap.set(stages, { autoAlpha: 0 }); gsap.set(stages[0], { autoAlpha: 1 }); return; }
 
-  revealContent();   // GSAP entrance animations for the sections below the hero
-
   initSmoothScroll();
   const lenis = initSmoothScroll();
   buildRail(); showRail(true);
@@ -318,6 +316,10 @@ function boot() {
     onEnter: () => { showRail(false); if (field) { field.idleMode = "rain"; field.targetBurst = 0; field.setMorph("grid", "grid", 0); gsap.to(field, { ink: 0.0, duration: 0.8 }); field._markActive(); } },
     onLeaveBack: () => { showRail(true); if (field) { field.idleMode = "burst"; field.targetRain = 0; field.ink = 0.4; field._markActive(); } },
   });
+
+  // content entrance animations — built AFTER the pin exists so positions are correct
+  revealContent();
+  ScrollTrigger.refresh();
 }
 
 function start() { if (window.__introDone) boot(); else addEventListener("intro:done", boot, { once: true }); }
