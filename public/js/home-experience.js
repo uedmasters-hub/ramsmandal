@@ -45,12 +45,30 @@ function holdMorph(p, list, edges) {
 const SNAP = DEVICES.map((_, k) => (EDGES[k] + EDGES[k + 1]) / 2);
 
 /* ---- story progress rail: Screen / Product / Platform / Ecosystem ---- */
-let railEl = null, railLabels = [], railSegs = [];
+const RAIL_ICONS = {
+  phone:   '<rect x="10" y="3" width="8" height="18" rx="2"/>',
+  tablet:  '<rect x="6" y="4" width="16" height="16" rx="2"/>',
+  laptop:  '<rect x="6" y="4" width="16" height="11" rx="1.2"/><path d="M3 19 L25 19 L22 15 L6 15 Z"/>',
+  desktop: '<rect x="4" y="3" width="20" height="13" rx="1.4"/><path d="M14 16 L14 19"/><path d="M9.5 20 L18.5 20"/>',
+};
+const RAIL_KINDS = ["phone", "tablet", "laptop", "desktop"];
+function railIconSVG(kind) {
+  return `<svg viewBox="0 0 28 24" fill="none" stroke="currentColor" stroke-width="1.4"
+    stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1.4 2.7">${RAIL_ICONS[kind]}</svg>`;
+}
+
+let railEl = null, railLabels = [], railSegs = [], railIcons = [];
 function buildRail() {
   if (railEl) return;
   railEl = document.createElement("div");
   railEl.className = "story-rail";
   railEl.setAttribute("aria-hidden", "true");
+  // dotted device icons, one per stage, above the labels
+  const icons = document.createElement("div"); icons.className = "story-rail__icons";
+  RAIL_KINDS.forEach((kind) => {
+    const ic = document.createElement("span"); ic.className = "ricon"; ic.innerHTML = railIconSVG(kind);
+    icons.appendChild(ic); railIcons.push(ic);
+  });
   const labs = document.createElement("div"); labs.className = "story-rail__labels";
   ["Screen", "Product", "Platform", "Ecosystem"].forEach((n) => {
     const s = document.createElement("span"); s.className = "srl"; s.textContent = n;
@@ -62,13 +80,14 @@ function buildRail() {
     const f = document.createElement("i"); f.className = "segfill";
     seg.appendChild(f); track.appendChild(seg); railSegs.push(f);
   }
-  railEl.appendChild(labs); railEl.appendChild(track);
+  railEl.appendChild(icons); railEl.appendChild(labs); railEl.appendChild(track);
   document.body.appendChild(railEl);
 }
 function renderRail(k, frac) {
   if (!railEl) return;
   railSegs.forEach((f, i) => { f.style.width = (i < k ? 1 : i === k ? frac : 0) * 100 + "%"; });
   railLabels.forEach((el, i) => el.classList.toggle("is-active", i === k));
+  railIcons.forEach((el, i) => el.classList.toggle("is-active", i === k));
 }
 function railStageFromScroll(p) {
   const n = DEVICES.length; let k = 0;
