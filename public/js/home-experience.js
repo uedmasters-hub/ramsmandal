@@ -9,6 +9,10 @@ import { initSmoothScroll, gsap, ScrollTrigger } from "./core/smooth-scroll.js";
 import { dotField } from "./core/dot-field.js";
 
 const DEVICES = ["phone", "tablet", "laptop", "spread"];
+// mobile: only stage 1 forms the phone; the tablet/laptop/spread silhouettes read
+// poorly at phone width, so stages 2-4 rest as a calm dotted grid and the rail icons
+// carry the device identity. Idle still bursts this field into the aesthetic ideal state.
+const MDEVICES = ["phone", "grid", "grid", "grid"];
 
 /* STAGE 1 (phone) holds longer. Weighted scroll slices: phone gets a bigger
    share, the other three keep an equal share. Because the track length scales
@@ -161,10 +165,13 @@ function boot() {
         snap: { snapTo: SNAP, duration: { min: 0.3, max: 0.8 }, delay: 0.05, ease: "power2.inOut" },
         onUpdate: (self) => {
           if (!field) return;
-          const m = holdMorph(self.progress, DEVICES, EDGES); // same, weighted
-          if (m.from === m.to) field.setMorph(m.from, m.to, 0);
-          else field.setMorphVia(m.from, "spread", m.to, m.mix);        // break into dots, reform
-          field.ink = self.progress < 0.72 ? 1 : 1 - (self.progress - 0.72) / 0.28 * 0.55;
+          const m = holdMorph(self.progress, MDEVICES, EDGES);   // phone -> grid -> grid -> grid
+          field.setMorph(m.from, m.to, m.mix);                   // gentle morph, no break-into-spread on mobile
+          // ink: phone reads as a device (dark); once it dissolves to grid, stay calm/subtle
+          const e1 = EDGES[1];
+          field.ink = self.progress < e1 - 0.05 ? 1
+            : self.progress > e1 + 0.05 ? 0.32
+            : 1 - (self.progress - (e1 - 0.05)) / 0.1 * 0.68;
         },
       },
     });
