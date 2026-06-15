@@ -1,19 +1,13 @@
 .logo-marquee{
-    position:relative;
     overflow:hidden;
     width:100%;
-    padding:3rem 0;
 }
 
 .logo-marquee__track{
-
     display:flex;
     align-items:center;
-
+    gap:6rem;
     width:max-content;
-
-    animation:marquee 30s linear infinite;
-
     will-change:transform;
 }
 
