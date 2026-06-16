@@ -3,121 +3,121 @@
 ========================================== */
 
 .philosophy{
-    padding:160px 0;
-    position:relative;
+    padding:140px 0;
 }
 
-.philosophy-inner{
+.philosophy-header{
     max-width:1200px;
-    margin:0 auto;
+    margin:0 auto 100px;
     padding:0 40px;
-    text-align:center;
 }
 
 .philosophy-label{
-    font-size:14px;
+    display:block;
+
+    font-size:13px;
     letter-spacing:.12em;
     text-transform:uppercase;
-    opacity:.6;
-    margin-bottom:32px;
+
+    opacity:.55;
+
+    margin-bottom:28px;
 }
 
 .philosophy-title{
-    font-size:clamp(4rem,10vw,8rem);
-    line-height:.9;
-    font-weight:700;
+    max-width:900px;
+
+    font-size:clamp(4rem,8vw,7rem);
+    line-height:.92;
     letter-spacing:-.05em;
+    font-weight:700;
+
     margin:0;
 }
 
-.philosophy-title span{
-    color:#4d6bff;
-    display:inline-block;
-    padding:0 .2em;
-}
-
 .philosophy-copy{
-    max-width:640px;
-    margin:32px auto 0;
+    max-width:620px;
+
+    margin-top:32px;
 
     font-size:20px;
     line-height:1.7;
-    opacity:.7;
-}
 
-.philosophy-icons{
-    margin-top:100px;
-
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:48px;
-    max-width:900px;
-    margin-left:auto;
-    margin-right:auto;
-}
-
-.philosophy-item{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:16px;
-
-    transition:
-        transform .35s ease,
-        opacity .35s ease;
-}
-
-.philosophy-item:hover{
-    transform:translateY(-6px);
-}
-
-.icon-circle{
-    width:90px;
-    height:90px;
-
-    border:1px dashed rgba(0,0,0,.18);
-    border-radius:999px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:32px;
-
-    position:relative;
-
-    transition:
-        transform .35s ease,
-        border-color .35s ease,
-        box-shadow .35s ease;
-}
-
-.philosophy-item:hover .icon-circle{
-    transform:scale(1.08);
-
-    border-color:#4d6bff;
-
-    box-shadow:
-        0 0 40px rgba(77,107,255,.18);
-}
-
-.philosophy-item span{
-    font-size:15px;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    opacity:.75;
+    opacity:.65;
 }
 
 /* ==========================================
-   DARK MODE
+   LIST
 ========================================== */
 
-[data-theme="dark"] .icon-circle{
-    border-color:rgba(255,255,255,.16);
+.philosophy-list{
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 40px;
 }
 
-[data-theme="dark"] .philosophy-title span{
-    color:#5f7dff;
+.philosophy-row{
+    display:grid;
+    grid-template-columns:80px 1fr;
+
+    align-items:center;
+
+    padding:40px 0;
+
+    border-top:1px solid rgba(0,0,0,.08);
+
+    transition:
+        padding-left .3s ease,
+        border-color .3s ease;
+}
+
+.philosophy-row:last-child{
+    border-bottom:1px solid rgba(0,0,0,.08);
+}
+
+.philosophy-number{
+    font-size:12px;
+    letter-spacing:.15em;
+
+    opacity:.45;
+}
+
+.philosophy-row h3{
+    margin:0;
+
+    font-size:clamp(2rem,4vw,3.5rem);
+    line-height:1;
+
+    font-weight:600;
+    letter-spacing:-.04em;
+
+    transition:
+        transform .3s ease,
+        color .3s ease;
+}
+
+.philosophy-row:hover{
+    padding-left:20px;
+}
+
+.philosophy-row:hover h3{
+    transform:translateX(10px);
+}
+
+/* ==========================================
+   LIGHT / DARK
+========================================== */
+
+[data-theme="dark"] .philosophy-row{
+    border-color:rgba(255,255,255,.08);
+}
+
+[data-theme="dark"] .philosophy-copy{
+    opacity:.7;
+}
+
+[data-theme="dark"] .philosophy-label{
+    opacity:.6;
 }
 
 /* ==========================================
@@ -130,30 +130,30 @@
         padding:100px 0;
     }
 
-    .philosophy-inner{
+    .philosophy-header,
+    .philosophy-list{
         padding:0 20px;
     }
 
+    .philosophy-header{
+        margin-bottom:60px;
+    }
+
     .philosophy-title{
-        font-size:clamp(3rem,15vw,5rem);
+        font-size:clamp(3rem,12vw,4.5rem);
     }
 
     .philosophy-copy{
         font-size:16px;
-        margin-top:24px;
+        line-height:1.7;
     }
 
-    .philosophy-icons{
-        margin-top:64px;
-
-        grid-template-columns:repeat(2,1fr);
-
-        gap:28px;
+    .philosophy-row{
+        grid-template-columns:50px 1fr;
+        padding:28px 0;
     }
 
-    .icon-circle{
-        width:72px;
-        height:72px;
-        font-size:24px;
+    .philosophy-row h3{
+        font-size:1.6rem;
     }
 }

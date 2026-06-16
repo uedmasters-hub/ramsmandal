@@ -1,66 +1,48 @@
 <section class="philosophy">
 
-    <div class="philosophy-inner">
+    <div class="philosophy-header">
 
-        <div class="philosophy-label">
+        <span class="philosophy-label">
             ● Philosophy
-        </div>
+        </span>
 
         <h2 class="philosophy-title">
-            Complexity
-            <span>→</span>
-            Clarity
+            Complexity into clarity.
         </h2>
 
         <p class="philosophy-copy">
-            A philosophy shaped through 17 years of designing
-            products, platforms, ecosystems and enterprise systems.
+            Seventeen years of designing products, platforms,
+            ecosystems and enterprise systems has shaped a simple belief:
+            clarity creates momentum.
         </p>
 
-        <div class="philosophy-icons">
+    </div>
 
-            <div class="philosophy-item">
-                <div class="icon-circle">
-                    ◎
-                </div>
-                <span>Research</span>
-            </div>
+    <div class="philosophy-list">
 
-            <div class="philosophy-item">
-                <div class="icon-circle">
-                    ◇
-                </div>
-                <span>Systems</span>
-            </div>
+        <div class="philosophy-row">
+            <span class="philosophy-number">01</span>
+            <h3>Research before decisions.</h3>
+        </div>
 
-            <div class="philosophy-item">
-                <div class="icon-circle">
-                    ✦
-                </div>
-                <span>Outcomes</span>
-            </div>
+        <div class="philosophy-row">
+            <span class="philosophy-number">02</span>
+            <h3>Systems before screens.</h3>
+        </div>
 
-            <div class="philosophy-item">
-                <div class="icon-circle">
-                    △
-                </div>
-                <span>Strategy</span>
-            </div>
+        <div class="philosophy-row">
+            <span class="philosophy-number">03</span>
+            <h3>Outcomes before outputs.</h3>
+        </div>
 
-            <div class="philosophy-item">
-                <div class="icon-circle">
-                    ⊕
-                </div>
-                <span>Leadership</span>
-            </div>
+        <div class="philosophy-row">
+            <span class="philosophy-number">04</span>
+            <h3>Leadership through alignment.</h3>
+        </div>
 
-            <div class="philosophy-item">
-                <div class="icon-circle">
-                    □
-                </div>
-                <span>Craft</span>
-            </div>
-
+        <div class="philosophy-row">
+            <span class="philosophy-number">05</span>
+            <h3>Craft without excess.</h3>
         </div>
 
     </div>
