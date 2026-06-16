@@ -3,7 +3,6 @@
    ========================================================================= */
 
 /* ---------- shared rhythm ---------- */
-.hero,.intro,.work,.scale,.cta{/* padding-left:clamp(20px,5vw,64px); *//* padding-right:clamp(20px,5vw,64px); */}
 .intro,.work,.scale,.cta{/* max-width:1320px; */margin-inline:auto;}
 
 /* ---------- HERO ---------- */
