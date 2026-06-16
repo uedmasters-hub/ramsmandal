@@ -1,95 +1,54 @@
 /* =========================================================================
-   theme.css
+   theme.css — THE colour system. Single source of truth for light + dark.
+
+   Universal law:
+     Every themed token is declared ONCE with light-dark(<light>, <dark>).
+     :root carries `color-scheme: light dark`, so with no explicit choice the
+     OS preference decides automatically. No duplicated dark block.
+
+   Local fix (explicit choice):
+     [data-theme="light"] / [data-theme="dark"] only flip `color-scheme`.
+     Every light-dark() token re-resolves from that one switch. theme.js sets
+     data-theme; the inline guard in base.php applies it before first paint.
+
+   Accent discipline:
+     One accent identity (--blue) = #1a46c9, strictly. The dark value is the
+     SAME blue, lightness-corrected so it clears contrast on a near-black
+     surface. It is not a second accent.
    ========================================================================= */
 
 :root {
+  color-scheme: light dark;          /* default: follow the OS */
 
-  /* Backgrounds */
-  --bg: #f5f5f2;
-  --bg-elevated: #ffffff;
+  /* surfaces */
+  --bg:          light-dark(#f5f5f3, #0e0e0d);
+  --bg-elevated: light-dark(#ffffff, #161614);
 
-  /* Text */
-  --text-primary: #111111;
-  --text-secondary: #4d4d4d;
-  --text-muted: #7a7a7a;
+  /* ink */
+  --text-primary:   light-dark(#0f0f0f, #f4f4f1);
+  --text-secondary: light-dark(#444444, #c9c9c4);
+  --text-muted:     light-dark(#5d5d59, #9b9b95);   /* AA-safe on --bg */
 
-  /* Accent */
-  --blue: #4a63ff;
-  --blue-dark: #3750f7;
+  /* accent (one locked identity, lightness-corrected for dark) */
+  --blue:       light-dark(#1a46c9, #6f93ff);
+  --blue-dark:  light-dark(#1339a8, #8aa6ff);        /* hover: darker in light, brighter in dark */
+  --accent-ink: light-dark(#ffffff, #0b1020);        /* text/icon ON an accent fill */
 
-  /* Borders */
-  --border: rgba(0,0,0,.08);
-  --border-hover: rgba(0,0,0,.14);
+  /* lines */
+  --border:       light-dark(rgba(0,0,0,.10), rgba(255,255,255,.10));
+  --border-hover: light-dark(rgba(0,0,0,.16), rgba(255,255,255,.18));
 
-  /* Components */
-  --home-muted: #6d6d6d;
-  --home-radius: 14px;
+  /* component tokens */
+  --home-muted: var(--text-muted);
 
-  /* Menu */
-  --menu-bg: #ffffff;
-  --menu-fg: #111111;
-  --menu-fg-dim: #777777;
-  --menu-line: rgba(0,0,0,.08);
-  --menu-shadow: 0 30px 80px -20px rgba(0,0,0,.15);
-
-  color-scheme: light;
+  /* menu */
+  --menu-bg:     light-dark(#ffffff, #1b1b19);
+  --menu-fg:     light-dark(#0f0f0f, #f4f4f1);
+  --menu-fg-dim: light-dark(#5d5d59, #9b9b95);
+  --menu-line:   light-dark(rgba(0,0,0,.08), rgba(255,255,255,.08));
+  --menu-shadow: 0 30px 80px -20px light-dark(rgba(0,0,0,.15), rgba(0,0,0,.55));
 }
 
-/* =========================================================================
-   DARK MODE
-   ========================================================================= */
-
-:root[data-theme="dark"] {
-
-  --bg: #0e0e0d;
-  --bg-elevated: #161614;
-
-  --text-primary: #f4f4f1;
-  --text-secondary: #c9c9c4;
-  --text-muted: #9b9b95;
-
-  --home-muted: #9b9b95;
-
-  --blue: #6f93ff;
-  --blue-dark: #8aa6ff;
-
-  --border: rgba(255,255,255,.10);
-  --border-hover: rgba(255,255,255,.18);
-
-  --menu-bg: #1b1b19;
-  --menu-fg: #f4f4f1;
-  --menu-fg-dim: #9b9b95;
-  --menu-line: rgba(255,255,255,.08);
-
-  color-scheme: dark;
-}
-
-/* Auto Dark Mode */
-
-@media (prefers-color-scheme: dark) {
-
-  :root:not([data-theme]) {
-
-    --bg: #0e0e0d;
-    --bg-elevated: #161614;
-
-    --text-primary: #f4f4f1;
-    --text-secondary: #c9c9c4;
-    --text-muted: #9b9b95;
-
-    --home-muted: #9b9b95;
-
-    --blue: #6f93ff;
-    --blue-dark: #8aa6ff;
-
-    --border: rgba(255,255,255,.10);
-    --border-hover: rgba(255,255,255,.18);
-
-    --menu-bg: #1b1b19;
-    --menu-fg: #f4f4f1;
-    --menu-fg-dim: #9b9b95;
-    --menu-line: rgba(255,255,255,.08);
-
-    color-scheme: dark;
-  }
-}
+/* The ONLY job of an explicit choice: pin the scheme so light-dark() resolves. */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark;  }

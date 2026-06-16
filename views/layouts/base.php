@@ -21,8 +21,25 @@ $current = $currentKey         ?? '';
   <title><?= e($title) ?></title>
   <meta name="description" content="<?= e($desc) ?>">
 
-  <!-- FOUC + entrance guard (the one accepted inline-JS exception) -->
-  <script>document.documentElement.className = "js";</script>
+  <!-- theme-color: light default, kept in sync by the guard below + core/theme.js -->
+  <meta name="theme-color" content="#f5f5f3" id="theme-color-meta">
+
+  <!-- FOUC + theme guard (the one accepted inline-JS exception): apply the saved
+       theme and matching browser-chrome colour before first paint, no flash -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.className = "js";
+      var dark = false;
+      try {
+        var t = localStorage.getItem("rm-theme");
+        if (t === "light" || t === "dark") { d.setAttribute("data-theme", t); dark = t === "dark"; }
+        else { dark = matchMedia("(prefers-color-scheme: dark)").matches; }
+      } catch (e) {}
+      var m = document.getElementById("theme-color-meta");
+      if (m) m.content = dark ? "#0e0e0d" : "#f5f5f3";
+    })();
+  </script>
 
   <meta property="og:title" content="<?= e($title) ?>">
   <meta property="og:description" content="<?= e($desc) ?>">
@@ -32,7 +49,6 @@ $current = $currentKey         ?? '';
 
   <link rel="icon" type="image/svg+xml" href="<?= asset('icons/favicon.svg') ?>">
   <link rel="icon" type="image/x-icon" href="<?= asset('icons/favicon.ico') ?>">
-  <meta name="theme-color" content="#0f0f0f">
 
   <!-- global stylesheets: tokens first -->
   <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
