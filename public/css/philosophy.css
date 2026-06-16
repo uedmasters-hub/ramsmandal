@@ -5,7 +5,10 @@
 .philosophy-banner{
     padding:80px 0;
 
-    background:rgba(0,0,0,.02);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:transparent;
+}
 
     transition:
         background-color .6s ease,
