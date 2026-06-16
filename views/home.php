@@ -313,31 +313,6 @@ $prev     = array_slice($featured, 0, 3);
 
 </section>
 
-<!-- WORK INDEX -->
-<section class="work" id="work">
-  <header class="work__head" data-reveal>
-    <h2>Selected work</h2>
-    <a class="work__all" href="<?= url('/work') ?>">All work
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </a>
-  </header>
-  <ul class="work-list">
-    <?php foreach ($featured as $p): ?>
-    <li class="work-list__row" data-reveal>
-      <a class="work-list__link" href="<?= url('/work/' . $p['slug']) ?>">
-        <span class="work-list__year"><?= e($p['year']) ?></span>
-        <span class="work-list__title"><?= e($p['title']) ?></span>
-        <span class="work-list__meta"><?= e($p['company']) ?> &middot; <?= e($p['category']) ?></span>
-        <span class="work-list__metric"><?php if (!empty($p['metric'])): ?><b><?= e($p['metric']['value']) ?></b> <?= e($p['metric']['label']) ?><?php endif; ?></span>
-        <span class="work-list__arrow" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
-        </span>
-      </a>
-    </li>
-    <?php endforeach; ?>
-  </ul>
-</section>
-
 <!-- SCALE -->
 <section class="scale" data-reveal>
   <p class="scale__line">Seventeen years. Aviation, SaaS, and enterprise. Products used by millions.</p>
