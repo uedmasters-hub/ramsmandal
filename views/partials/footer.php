@@ -46,6 +46,14 @@
     <div class="poster-wall">
 
         <!-- ROW 1 -->
+         <div class="poster poster-lg p1">
+            <div class="poster-art">
+                RM
+            </div>
+            <span>
+                Experience Architect
+            </span>
+        </div>
 
         <div class="poster poster-md p1">
             <div class="poster-art">✈️</div>
