@@ -313,3 +313,17 @@ $prev     = array_slice($featured, 0, 3);
     </div>
 
 </section>
+
+<!-- SCALE -->
+<section class="scale" data-reveal>
+  <p class="scale__line">
+      Seventeen years. Aviation, SaaS, and enterprise.
+      Products used by millions.
+  </p>
+
+  <ul class="scale__orgs">
+      <li>IndiGo</li>
+      <li>Intelegencia</li>
+      <li>Quikr</li>
+  </ul>
+</section>
