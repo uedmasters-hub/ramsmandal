@@ -6,15 +6,16 @@
     position:relative;
     overflow:hidden;
 
-    padding:80px 80px 60px;
+    padding:80px 80px 100px;
+
     background:#050505;
     color:#fff;
 }
 
 .footer-inner{
     display:grid;
-    grid-template-columns:1fr auto;
-    gap:120px;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:100px;
     align-items:start;
 }
 
@@ -27,10 +28,10 @@
 .footer-title{
     max-width:900px;
 
-    font-size:clamp(3.5rem,8vw,6rem);
-    line-height:.95;
+    font-size:clamp(3.5rem,8vw,6.5rem);
+    line-height:.92;
+    letter-spacing:-0.06em;
     font-weight:700;
-    letter-spacing:-0.05em;
 }
 
 .footer-title em{
@@ -40,7 +41,7 @@
 
 .footer-right{
     display:flex;
-    gap:80px;
+    gap:72px;
     padding-top:12px;
 }
 
@@ -52,17 +53,17 @@
 
 .footer-label{
     font-size:13px;
-    opacity:.55;
-    text-transform:uppercase;
     letter-spacing:.12em;
+    text-transform:uppercase;
+    opacity:.5;
     margin-bottom:8px;
 }
 
 .footer-nav-group a{
-    color:#fff;
+    color:inherit;
     text-decoration:none;
-    font-size:20px;
-    transition:opacity .25s ease;
+    font-size:22px;
+    transition:opacity .2s ease;
 }
 
 .footer-nav-group a:hover{
@@ -74,18 +75,18 @@
 ========================================= */
 
 .poster-wall{
-    max-width:1400px;
-
-    margin:-40px auto 0;
+    margin-top:80px;
 
     display:flex;
     flex-wrap:wrap;
     justify-content:center;
     align-items:flex-end;
 
-    gap:0;
+    gap:10px;
 
-    position:relative;
+    max-width:1400px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 /* =========================================
@@ -98,8 +99,6 @@
     background:#fff;
     color:#111;
 
-    border:1px solid rgba(0,0,0,.05);
-
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -109,36 +108,45 @@
 
     padding:18px;
 
+    border:1px solid rgba(0,0,0,.06);
+
     box-shadow:
-        0 8px 24px rgba(0,0,0,.06);
+        0 10px 30px rgba(0,0,0,.08);
 
     transition:
         transform .25s ease,
         box-shadow .25s ease;
 
-    cursor:default;
+    will-change:transform;
 }
 
 .poster:hover{
-    z-index:20;
+    z-index:10;
 
     transform:
-        translateY(-4px)
-        scale(1.015)
+        translateY(-6px)
+        scale(1.025)
         rotate(var(--r));
 
     box-shadow:
-        0 16px 32px rgba(0,0,0,.12);
+        0 20px 40px rgba(0,0,0,.14);
 }
 
 .poster-art{
-    font-size:40px;
+    font-size:38px;
     margin-bottom:14px;
+    line-height:1;
+}
+
+.poster-signature{
+    font-size:52px;
+    font-weight:700;
+    letter-spacing:-0.04em;
 }
 
 .poster span{
     font-size:14px;
-    line-height:1.4;
+    line-height:1.45;
 }
 
 /* =========================================
@@ -146,79 +154,64 @@
 ========================================= */
 
 .poster-sm{
-    width:130px;
+    width:135px;
     height:170px;
 }
 
 .poster-md{
-    width:150px;
-    height:190px;
+    width:155px;
+    height:195px;
 }
 
 .poster-lg{
     width:180px;
-    height:230px;
+    height:225px;
 }
 
 /* =========================================
-   ORGANIC STACKING
+   ORGANIC STAGGER
 ========================================= */
 
-.poster:nth-child(1){margin-top:120px;}
-.poster:nth-child(2){margin-top:60px;}
-.poster:nth-child(3){margin-top:130px;}
-.poster:nth-child(4){margin-top:40px;}
-.poster:nth-child(5){margin-top:110px;}
-.poster:nth-child(6){margin-top:70px;}
-.poster:nth-child(7){margin-top:150px;}
-.poster:nth-child(8){margin-top:90px;}
-.poster:nth-child(9){margin-top:40px;}
-.poster:nth-child(10){margin-top:120px;}
-.poster:nth-child(11){margin-top:80px;}
-.poster:nth-child(12){margin-top:160px;}
-.poster:nth-child(13){margin-top:60px;}
-.poster:nth-child(14){margin-top:20px;}
-.poster:nth-child(15){margin-top:130px;}
-.poster:nth-child(16){margin-top:70px;}
-.poster:nth-child(17){margin-top:110px;}
-.poster:nth-child(18){margin-top:50px;}
-.poster:nth-child(19){margin-top:140px;}
-.poster:nth-child(20){margin-top:80px;}
-.poster:nth-child(21){margin-top:30px;}
-.poster:nth-child(22){margin-top:120px;}
-.poster:nth-child(23){margin-top:60px;}
-.poster:nth-child(24){margin-top:100px;}
+.poster:nth-child(3n){
+    margin-top:40px;
+}
 
-/* overlap */
+.poster:nth-child(4n){
+    margin-top:70px;
+}
 
-.poster + .poster{
-    margin-left:-14px;
+.poster:nth-child(5n){
+    margin-top:20px;
+}
+
+.poster:nth-child(7n){
+    margin-top:90px;
 }
 
 /* =========================================
    ROTATIONS
 ========================================= */
 
-.p1{--r:-8deg;transform:rotate(-8deg);}
-.p2{--r:6deg;transform:rotate(6deg);}
-.p3{--r:-4deg;transform:rotate(-4deg);}
-.p4{--r:8deg;transform:rotate(8deg);}
-.p5{--r:-7deg;transform:rotate(-7deg);}
-.p6{--r:4deg;transform:rotate(4deg);}
-.p7{--r:-3deg;transform:rotate(-3deg);}
-.p8{--r:7deg;transform:rotate(7deg);}
-.p9{--r:-5deg;transform:rotate(-5deg);}
-.p10{--r:3deg;transform:rotate(3deg);}
-.p11{--r:-8deg;transform:rotate(-8deg);}
-.p12{--r:5deg;transform:rotate(5deg);}
-.p13{--r:-4deg;transform:rotate(-4deg);}
-.p14{--r:8deg;transform:rotate(8deg);}
-.p15{--r:-6deg;transform:rotate(-6deg);}
-.p16{--r:4deg;transform:rotate(4deg);}
-.p17{--r:-2deg;transform:rotate(-2deg);}
-.p18{--r:7deg;transform:rotate(7deg);}
-.p19{--r:-5deg;transform:rotate(-5deg);}
-.p20{--r:3deg;transform:rotate(3deg);}
+.p1  { --r:-6deg; transform:rotate(-6deg); }
+.p2  { --r:5deg;  transform:rotate(5deg); }
+.p3  { --r:-3deg; transform:rotate(-3deg); }
+.p4  { --r:7deg;  transform:rotate(7deg); }
+.p5  { --r:-5deg; transform:rotate(-5deg); }
+.p6  { --r:4deg;  transform:rotate(4deg); }
+.p7  { --r:-2deg; transform:rotate(-2deg); }
+.p8  { --r:6deg;  transform:rotate(6deg); }
+.p9  { --r:-4deg; transform:rotate(-4deg); }
+.p10 { --r:3deg;  transform:rotate(3deg); }
+.p11 { --r:-7deg; transform:rotate(-7deg); }
+.p12 { --r:5deg;  transform:rotate(5deg); }
+.p13 { --r:-3deg; transform:rotate(-3deg); }
+.p14 { --r:7deg;  transform:rotate(7deg); }
+.p15 { --r:-5deg; transform:rotate(-5deg); }
+.p16 { --r:4deg;  transform:rotate(4deg); }
+.p17 { --r:-2deg; transform:rotate(-2deg); }
+.p18 { --r:6deg;  transform:rotate(6deg); }
+.p19 { --r:-4deg; transform:rotate(-4deg); }
+.p20 { --r:3deg;  transform:rotate(3deg); }
 
 /* =========================================
    LIGHT MODE
@@ -226,10 +219,6 @@
 
 [data-theme="light"] .playground-footer{
     background:#f4f4f2;
-    color:#111;
-}
-
-[data-theme="light"] .footer-nav-group a{
     color:#111;
 }
 
@@ -245,29 +234,17 @@
 @media (max-width:1024px){
 
     .playground-footer{
-        padding:64px 40px;
+        padding:64px 40px 80px;
     }
 
     .footer-inner{
         grid-template-columns:1fr;
-        gap:40px;
+        gap:48px;
     }
 
     .footer-right{
-        gap:60px;
+        gap:48px;
     }
-}
-
-/* =========================================
-   DESKTOP
-========================================= */
-
-@media (min-width:1200px){
-
-    .poster-wall{
-        transform:translateY(-40px);
-    }
-
 }
 
 /* =========================================
@@ -277,52 +254,48 @@
 @media (max-width:768px){
 
     .playground-footer{
-        padding:48px 20px;
+        padding:48px 20px 60px;
     }
 
     .footer-title{
-        font-size:clamp(3rem,12vw,4.5rem);
+        font-size:clamp(3rem,14vw,4.5rem);
     }
 
     .footer-right{
-        flex-wrap:wrap;
         gap:40px;
+        flex-wrap:wrap;
     }
 
     .poster-wall{
+        margin-top:48px;
+
         display:grid;
         grid-template-columns:repeat(2,1fr);
-
-        gap:16px;
-
-        margin-top:40px;
-
-        transform:none;
+        gap:18px;
     }
 
     .poster{
-        margin-top:0 !important;
-        margin-left:0 !important;
-
-        width:100%;
+        width:100% !important;
         height:180px;
+
+        margin-top:0 !important;
     }
 
-    .poster + .poster{
-        margin-left:0;
+    .poster-sm,
+    .poster-md,
+    .poster-lg{
+        width:100%;
     }
 
     .poster-art{
         font-size:30px;
     }
 
-    .poster span{
-        font-size:12px;
+    .poster-signature{
+        font-size:42px;
     }
 
-    .poster-lg,
-    .poster-md,
-    .poster-sm{
-        width:100%;
+    .poster span{
+        font-size:13px;
     }
 }
