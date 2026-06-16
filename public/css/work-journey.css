@@ -1,139 +1,185 @@
-.work-journey{
-    padding:120px 0;
+/* ======================================
+   WORK V2
+====================================== */
+
+.work-v2{
+    max-width:1400px;
+    margin:0 auto;
+    padding:140px 0;
 }
 
 .work-header{
     display:grid;
-    grid-template-columns:1fr 420px;
+    grid-template-columns:1fr 380px;
     gap:120px;
-
     margin-bottom:80px;
 }
 
-.eyebrow{
+.work-label{
     display:block;
-    margin-bottom:16px;
     font-size:14px;
+    margin-bottom:20px;
+    opacity:.7;
 }
 
-.work-title h2{
-    font-size:64px;
-    line-height:1;
-    font-weight:500;
+.work-title{
+    font-size:clamp(3rem,5vw,5rem);
+    line-height:.95;
+    letter-spacing:-0.05em;
+    max-width:900px;
 }
 
-.work-intro p{
-    color:#666;
-    line-height:1.7;
+.work-header-right p{
+    font-size:28px;
+    line-height:1.4;
+    opacity:.7;
 }
 
-.work-item{
+/* ======================================
+   LIST
+====================================== */
+
+.work-list{
     border-top:1px solid rgba(0,0,0,.08);
 }
 
-.work-row{
+.work-item{
     display:grid;
-    grid-template-columns:2fr 2fr 2fr auto;
+    grid-template-columns:140px 1.8fr 1fr 220px;
 
-    gap:40px;
+    gap:32px;
 
-    padding:36px 0;
+    padding:42px 0;
 
-    cursor:pointer;
-}
+    border-bottom:1px solid rgba(0,0,0,.08);
 
-.work-company{
-    font-size:28px;
-}
-
-.work-company span{
-    display:block;
-    font-size:14px;
-    color:#888;
-    margin-top:8px;
-}
-
-.work-role{
-    font-size:18px;
-}
-
-.work-desc{
-    color:#666;
-}
-
-.work-tags{
-    display:flex;
-    gap:10px;
-}
-
-.work-tags span{
-    padding:8px 14px;
-    border-radius:999px;
-    background:#f3f3f3;
-    font-size:13px;
-}
-
-.work-expand{
-    display:none;
-
-    padding:0 0 48px;
-
-    grid-template-columns:1.5fr 1fr;
-    gap:48px;
-}
-
-.work-item.active .work-expand{
-    display:grid;
-}
-
-.work-gallery{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:16px;
-}
-
-.work-gallery img{
-    width:100%;
-    aspect-ratio:1.1;
-    object-fit:cover;
-    border-radius:16px;
-}
-
-.work-details{
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-}
-
-.work-details p{
-    line-height:1.8;
-    color:#666;
-}
-
-.work-details a{
-    font-weight:600;
     text-decoration:none;
-    color:#111;
+    color:inherit;
+
+    transition:.25s ease;
 }
 
-@media(max-width:1024px){
+.work-item:hover{
+    padding-left:18px;
+}
+
+.work-year{
+    font-size:14px;
+    opacity:.5;
+}
+
+.work-project{
+    font-size:42px;
+    font-weight:600;
+    line-height:1;
+    letter-spacing:-0.04em;
+}
+
+.work-meta{
+    font-size:18px;
+    opacity:.65;
+    align-self:center;
+}
+
+.work-impact{
+    font-size:18px;
+    text-align:right;
+    align-self:center;
+    font-weight:500;
+}
+
+/* ======================================
+   HOVER
+====================================== */
+
+.work-item:hover .work-project{
+    transform:translateX(8px);
+}
+
+.work-project{
+    transition:.25s ease;
+}
+
+/* ======================================
+   LIGHT
+====================================== */
+
+[data-theme="light"] .work-item{
+    border-color:rgba(0,0,0,.08);
+}
+
+/* ======================================
+   DARK
+====================================== */
+
+[data-theme="dark"] .work-item{
+    border-color:rgba(255,255,255,.08);
+}
+
+[data-theme="dark"] .work-header-right p,
+[data-theme="dark"] .work-year{
+    opacity:.6;
+}
+
+/* ======================================
+   TABLET
+====================================== */
+
+@media (max-width:1024px){
 
     .work-header{
         grid-template-columns:1fr;
         gap:40px;
     }
 
-    .work-row{
-        grid-template-columns:1fr;
-        gap:16px;
+    .work-header-right p{
+        font-size:22px;
+        max-width:700px;
     }
 
-    .work-expand{
-        grid-template-columns:1fr;
+    .work-item{
+        grid-template-columns:120px 1fr;
     }
 
-    .work-gallery{
-        grid-template-columns:1fr;
+    .work-meta,
+    .work-impact{
+        display:none;
     }
 
+    .work-project{
+        font-size:32px;
+    }
+}
+
+/* ======================================
+   MOBILE
+====================================== */
+
+@media (max-width:768px){
+
+    .work-v2{
+        padding:80px 0;
+    }
+
+    .work-title{
+        font-size:56px;
+    }
+
+    .work-item{
+        grid-template-columns:1fr;
+        gap:12px;
+        padding:28px 0;
+    }
+
+    .work-project{
+        font-size:28px;
+    }
+
+    .work-year{
+        margin-bottom:6px;
+    }
+
+    .work-item:hover{
+        padding-left:0;
+    }
 }

@@ -184,20 +184,20 @@ $prev     = array_slice($featured, 0, 3);
 
 <!-- WORK JOURNEY -->
 
-<section class="work-journey">
+<section class="work-v2" id="work">
 
     <div class="work-header">
 
-        <div class="work-title">
-            <span class="eyebrow">● Selected Work</span>
+        <div class="work-header-left">
+            <span class="work-label">● Selected Work</span>
 
-            <h2>
-                Explore My Product
-                Journey
+            <h2 class="work-title">
+                Products, platforms and systems
+                designed for scale.
             </h2>
         </div>
 
-        <div class="work-intro">
+        <div class="work-header-right">
             <p>
                 Seventeen years designing products,
                 platforms and ecosystems across aviation,
@@ -209,113 +209,105 @@ $prev     = array_slice($featured, 0, 3);
 
     <div class="work-list">
 
-        <!-- ITEM -->
+        <a href="/project/indigo-booking" class="work-item">
 
-        <article class="work-item active">
-
-            <div class="work-row">
-
-                <div class="work-company">
-                    IndiGo Airlines
-                    <span>2022 — 2024</span>
-                </div>
-
-                <div class="work-role">
-                    Booking Ecosystem
-                </div>
-
-                <div class="work-desc">
-                    Airline commerce platform
-                </div>
-
-                <div class="work-tags">
-                    <span>Product</span>
-                    <span>Platform</span>
-                </div>
-
+            <div class="work-year">
+                2022–2024
             </div>
 
-            <div class="work-expand">
-
-                <div class="work-gallery">
-
-                    <img src="/img/work/booking-1.jpg" alt="">
-                    <img src="/img/work/booking-2.jpg" alt="">
-                    <img src="/img/work/booking-3.jpg" alt="">
-
-                </div>
-
-                <div class="work-details">
-
-                    <p>
-                        Redesigned the complete booking
-                        ecosystem used by millions of travelers,
-                        improving ancillary conversion and
-                        simplifying complex purchase flows.
-                    </p>
-
-                    <a href="/work/indigo-booking">
-                        View Case Study →
-                    </a>
-
-                </div>
-
+            <div class="work-project">
+                IndiGo Booking Ecosystem
             </div>
 
-        </article>
-
-        <!-- DUPLICATE -->
-
-        <article class="work-item">
-
-            <div class="work-row">
-
-                <div class="work-company">
-                    IndiGo Airlines
-                    <span>2020 — 2023</span>
-                </div>
-
-                <div class="work-role">
-                    CrewPal Operations Platform
-                </div>
-
-                <div class="work-desc">
-                    Enterprise operations platform
-                </div>
-
-                <div class="work-tags">
-                    <span>Enterprise</span>
-                    <span>UX</span>
-                </div>
-
+            <div class="work-meta">
+                Airline commerce platform
             </div>
 
-            <div class="work-expand">
-
-                <div class="work-gallery">
-
-                    <img src="/img/work/crewpal-1.jpg" alt="">
-                    <img src="/img/work/crewpal-2.jpg" alt="">
-                    <img src="/img/work/crewpal-3.jpg" alt="">
-
-                </div>
-
-                <div class="work-details">
-
-                    <p>
-                        Unified crew planning and operations
-                        workflows across departments.
-                    </p>
-
-                    <a href="/work/crewpal">
-                        View Case Study →
-                    </a>
-
-                </div>
-
+            <div class="work-impact">
+                +22% ancillary revenue
             </div>
 
-        </article>
+        </a>
+
+        <a href="/project/crewpal" class="work-item">
+
+            <div class="work-year">
+                2020–2023
+            </div>
+
+            <div class="work-project">
+                CrewPal Operations Platform
+            </div>
+
+            <div class="work-meta">
+                Enterprise operations platform
+            </div>
+
+            <div class="work-impact">
+                +28% crew efficiency
+            </div>
+
+        </a>
+
+        <a href="/project/holidays" class="work-item">
+
+            <div class="work-year">
+                2023
+            </div>
+
+            <div class="work-project">
+                IndiGo Holidays Marketplace
+            </div>
+
+            <div class="work-meta">
+                Travel marketplace
+            </div>
+
+            <div class="work-impact">
+                +22% revenue growth
+            </div>
+
+        </a>
+
+        <a href="/project/design-system" class="work-item">
+
+            <div class="work-year">
+                2021–2024
+            </div>
+
+            <div class="work-project">
+                Enterprise Design System
+            </div>
+
+            <div class="work-meta">
+                Design infrastructure
+            </div>
+
+            <div class="work-impact">
+                +40% faster delivery
+            </div>
+
+        </a>
+
+        <a href="/project/quikr" class="work-item">
+
+            <div class="work-year">
+                2015–2018
+            </div>
+
+            <div class="work-project">
+                Quikr Marketplace Redesign
+            </div>
+
+            <div class="work-meta">
+                Marketplace platform
+            </div>
+
+            <div class="work-impact">
+                30M+ monthly users
+            </div>
+
+        </a>
 
     </div>
 
