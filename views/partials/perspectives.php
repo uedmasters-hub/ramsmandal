@@ -15,89 +15,55 @@
 
         <p class="perspectives-copy">
             Across aviation, enterprise and marketplace products,
-            the common thread has been bringing clarity to complex
-            systems and helping teams move forward.
+            the common thread has been bringing clarity to
+            complex systems and helping teams move forward.
         </p>
 
     </div>
 
-    <div class="perspectives-list">
+    <div class="perspectives-grid">
 
-        <article class="perspective-row">
-            <span class="perspective-index">01</span>
+        <article class="perspective-card">
 
-            <div class="perspective-content">
-                <h3>
-                    Turns ambiguity into structure.
-                </h3>
+            <p class="perspective-quote">
+                “Ramesh consistently transformed ambiguity into
+                structured product decisions and aligned multiple
+                teams around a shared direction.”
+            </p>
 
-                <p>
-                    Consistently translates complex business challenges
-                    into actionable product direction and aligned teams.
-                </p>
+            <div class="perspective-meta">
+                <strong>Director Product</strong>
+                <span>IndiGo Airlines</span>
             </div>
 
-            <div class="perspective-source">
-                Director Product<br>
-                IndiGo Airlines
-            </div>
         </article>
 
-        <article class="perspective-row">
-            <span class="perspective-index">02</span>
+        <article class="perspective-card">
 
-            <div class="perspective-content">
-                <h3>
-                    Aligns stakeholders around decisions.
-                </h3>
+            <p class="perspective-quote">
+                “His strength is not screens. It is understanding
+                systems, operations and the people behind them.”
+            </p>
 
-                <p>
-                    Creates clarity across leadership, product,
-                    engineering and operations teams.
-                </p>
+            <div class="perspective-meta">
+                <strong>Head of UX</strong>
+                <span>Enterprise Platform</span>
             </div>
 
-            <div class="perspective-source">
-                Enterprise Programs
-            </div>
         </article>
 
-        <article class="perspective-row">
-            <span class="perspective-index">03</span>
+        <article class="perspective-card">
 
-            <div class="perspective-content">
-                <h3>
-                    Designs systems, not screens.
-                </h3>
+            <p class="perspective-quote">
+                “The work balanced business goals, user needs and
+                engineering realities without compromising quality.”
+            </p>
 
-                <p>
-                    Focuses on long-term scalability,
-                    consistency and operational efficiency.
-                </p>
+            <div class="perspective-meta">
+                <strong>Engineering Leader</strong>
+                <span>Marketplace Product</span>
             </div>
 
-            <div class="perspective-source">
-                Design Leadership
-            </div>
-        </article>
-
-        <article class="perspective-row">
-            <span class="perspective-index">04</span>
-
-            <div class="perspective-content">
-                <h3>
-                    Balances users, technology and business.
-                </h3>
-
-                <p>
-                    Finds practical solutions that create value
-                    without adding unnecessary complexity.
-                </p>
-            </div>
-
-            <div class="perspective-source">
-                Product & Platform Teams
-            </div>
         </article>
 
     </div>

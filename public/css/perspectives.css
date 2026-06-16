@@ -1,27 +1,23 @@
-/* ==========================================
+/* ====================================
    PERSPECTIVES
-========================================== */
+==================================== */
 
 .perspectives{
     padding:140px 0;
-    border-top:1px solid var(--border-subtle,#e6e6e6);
 }
 
 .perspectives-header{
     display:grid;
-    grid-template-columns:1.2fr .8fr;
-    gap:80px;
+    grid-template-columns:1fr 380px;
+    gap:120px;
 
-    margin-bottom:80px;
+    margin-bottom:64px;
 }
 
 .perspectives-label{
     display:block;
-
-    font-size:13px;
-    letter-spacing:.04em;
-
-    opacity:.6;
+    font-size:14px;
+    opacity:.65;
 
     margin-bottom:20px;
 }
@@ -29,119 +25,116 @@
 .perspectives-title{
     font-size:clamp(3rem,5vw,5rem);
     line-height:.95;
-    letter-spacing:-0.04em;
+    letter-spacing:-0.05em;
 
-    max-width:720px;
+    max-width:700px;
 }
 
 .perspectives-copy{
-    font-size:18px;
-    line-height:1.7;
-
-    opacity:.72;
-
-    max-width:480px;
-}
-
-/* ==========================================
-   ROWS
-========================================== */
-
-.perspectives-list{
-    border-top:1px solid rgba(0,0,0,.08);
-}
-
-.perspective-row{
-    display:grid;
-    grid-template-columns:100px 1fr 240px;
-
-    gap:40px;
-
-    padding:48px 0;
-
-    border-bottom:1px solid rgba(0,0,0,.08);
-
-    transition:.25s ease;
-}
-
-.perspective-row:hover{
-    padding-left:12px;
-}
-
-.perspective-index{
-    font-size:14px;
-    opacity:.45;
-}
-
-.perspective-content h3{
-    font-size:40px;
-    line-height:1.05;
-    letter-spacing:-0.03em;
-
-    margin:0 0 16px;
-}
-
-.perspective-content p{
-    max-width:640px;
-
-    font-size:17px;
-    line-height:1.7;
-
-    opacity:.72;
-}
-
-.perspective-source{
-    font-size:14px;
+    font-size:22px;
     line-height:1.6;
+    opacity:.65;
+}
 
+.perspectives-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+}
+
+.perspective-card{
+    background:var(--surface,#fff);
+
+    border:1px solid rgba(0,0,0,.08);
+
+    padding:40px;
+
+    min-height:280px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.perspective-card:hover{
+    transform:translateY(-6px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.06);
+}
+
+.perspective-quote{
+    font-size:28px;
+    line-height:1.45;
+    letter-spacing:-0.03em;
+}
+
+.perspective-meta{
+    padding-top:32px;
+}
+
+.perspective-meta strong{
+    display:block;
+    font-size:16px;
+}
+
+.perspective-meta span{
+    display:block;
+
+    margin-top:4px;
+
+    font-size:14px;
     opacity:.55;
 }
 
-/* ==========================================
-   DARK MODE
-========================================== */
+/* ==========================
+   DARK
+========================== */
 
-[data-theme="dark"] .perspectives{
+[data-theme="dark"] .perspective-card{
     border-color:rgba(255,255,255,.08);
 }
 
-[data-theme="dark"] .perspectives-list{
-    border-color:rgba(255,255,255,.08);
-}
+/* ==========================
+   TABLET
+========================== */
 
-[data-theme="dark"] .perspective-row{
-    border-color:rgba(255,255,255,.08);
-}
-
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media (max-width:900px){
-
-    .perspectives{
-        padding:100px 0;
-    }
+@media (max-width:1024px){
 
     .perspectives-header{
         grid-template-columns:1fr;
         gap:32px;
-
-        margin-bottom:56px;
     }
 
-    .perspective-row{
+    .perspectives-copy{
+        max-width:700px;
+    }
+
+    .perspectives-grid{
         grid-template-columns:1fr;
-        gap:16px;
+    }
+}
 
-        padding:36px 0;
+/* ==========================
+   MOBILE
+========================== */
+
+@media (max-width:768px){
+
+    .perspectives{
+        padding:80px 0;
     }
 
-    .perspective-content h3{
-        font-size:32px;
+    .perspective-card{
+        padding:28px;
+        min-height:auto;
     }
 
-    .perspective-content p{
-        font-size:15px;
+    .perspective-quote{
+        font-size:22px;
     }
 }
