@@ -265,10 +265,9 @@
 
     .poster-wall{
         margin-top:48px;
-
         display:grid;
-        grid-template-columns:repeat(2,1fr);
-        gap:18px;
+        grid-template-columns: repeat(3,1fr);
+        /* gap:18px; */
     }
 
     .poster{
