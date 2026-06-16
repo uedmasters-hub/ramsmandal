@@ -8,7 +8,7 @@
     padding:140px 0;
     padding-top: clamp(48px, 11vh, 100px);
     padding-bottom: clamp(48px, 8vh, 96px);
-    padding-left: clamp(20px, 5vw, 64px);
+    /* padding-left: clamp(20px, 5vw, 64px); */
 }
 
 .work-header{
