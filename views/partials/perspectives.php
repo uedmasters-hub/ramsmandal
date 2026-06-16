@@ -1,72 +1,105 @@
 <section class="perspectives">
 
-    <div class="perspectives-center">
+    <div class="perspectives-header">
 
-        <div class="perspectives-ring">
-            <span>CLARITY</span>
-            <span>SYSTEMS</span>
-            <span>PRODUCTS</span>
-            <span>STRATEGY</span>
-            <span>LEADERSHIP</span>
-            <span>EXECUTION</span>
+        <div>
+            <span class="perspectives-label">
+                ● Selected Perspectives
+            </span>
+
+            <h2 class="perspectives-title">
+                What people remember
+                after working together.
+            </h2>
         </div>
 
-        <div class="perspectives-core">
-            <span>17+</span>
-            <small>Years</small>
-        </div>
+        <p class="perspectives-copy">
+            Across aviation, enterprise and marketplace products,
+            the common thread has been bringing clarity to complex
+            systems and helping teams move forward.
+        </p>
 
     </div>
 
-    <article class="perspective-card card-a">
-        <p>
-            “Ramesh consistently transformed ambiguity
-            into structured product decisions and aligned
-            multiple teams around a shared direction.”
-        </p>
+    <div class="perspectives-list">
 
-        <div class="perspective-meta">
-            <strong>Director Product</strong>
-            <span>IndiGo Airlines</span>
-        </div>
-    </article>
+        <article class="perspective-row">
+            <span class="perspective-index">01</span>
 
-    <article class="perspective-card card-b">
-        <p>
-            “Complex operational workflows became
-            surprisingly easy to use without sacrificing
-            business depth.”
-        </p>
+            <div class="perspective-content">
+                <h3>
+                    Turns ambiguity into structure.
+                </h3>
 
-        <div class="perspective-meta">
-            <strong>Operations Lead</strong>
-            <span>CrewPal Platform</span>
-        </div>
-    </article>
+                <p>
+                    Consistently translates complex business challenges
+                    into actionable product direction and aligned teams.
+                </p>
+            </div>
 
-    <article class="perspective-card card-c">
-        <p>
-            “What stands out most is his ability to
-            balance user needs, technology constraints
-            and business priorities.”
-        </p>
+            <div class="perspective-source">
+                Director Product<br>
+                IndiGo Airlines
+            </div>
+        </article>
 
-        <div class="perspective-meta">
-            <strong>Product Manager</strong>
-            <span>Enterprise Programs</span>
-        </div>
-    </article>
+        <article class="perspective-row">
+            <span class="perspective-index">02</span>
 
-    <article class="perspective-card card-d">
-        <p>
-            “He doesn't just design screens.
-            He designs systems that scale.”
-        </p>
+            <div class="perspective-content">
+                <h3>
+                    Aligns stakeholders around decisions.
+                </h3>
 
-        <div class="perspective-meta">
-            <strong>Design Leader</strong>
-            <span>Marketplace Products</span>
-        </div>
-    </article>
+                <p>
+                    Creates clarity across leadership, product,
+                    engineering and operations teams.
+                </p>
+            </div>
+
+            <div class="perspective-source">
+                Enterprise Programs
+            </div>
+        </article>
+
+        <article class="perspective-row">
+            <span class="perspective-index">03</span>
+
+            <div class="perspective-content">
+                <h3>
+                    Designs systems, not screens.
+                </h3>
+
+                <p>
+                    Focuses on long-term scalability,
+                    consistency and operational efficiency.
+                </p>
+            </div>
+
+            <div class="perspective-source">
+                Design Leadership
+            </div>
+        </article>
+
+        <article class="perspective-row">
+            <span class="perspective-index">04</span>
+
+            <div class="perspective-content">
+                <h3>
+                    Balances users, technology and business.
+                </h3>
+
+                <p>
+                    Finds practical solutions that create value
+                    without adding unnecessary complexity.
+                </p>
+            </div>
+
+            <div class="perspective-source">
+                Product & Platform Teams
+            </div>
+        </article>
+
+    </div>
 
 </section>
