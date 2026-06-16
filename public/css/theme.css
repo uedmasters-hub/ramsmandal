@@ -1,25 +1,95 @@
 /* =========================================================================
-   theme.css — dark mode + home/menu tokens (additive; link after variables)
+   theme.css
    ========================================================================= */
+
 :root {
-  --home-muted: #5d5d59;
+
+  /* Backgrounds */
+  --bg: #f5f5f2;
+  --bg-elevated: #ffffff;
+
+  /* Text */
+  --text-primary: #111111;
+  --text-secondary: #4d4d4d;
+  --text-muted: #7a7a7a;
+
+  /* Accent */
+  --blue: #4a63ff;
+  --blue-dark: #3750f7;
+
+  /* Borders */
+  --border: rgba(0,0,0,.08);
+  --border-hover: rgba(0,0,0,.14);
+
+  /* Components */
+  --home-muted: #6d6d6d;
   --home-radius: 14px;
-  --menu-bg: #141413; --menu-fg: #f4f4f1; --menu-fg-dim: #8a8a85;
-  --menu-line: rgba(255,255,255,0.10); --menu-shadow: 0 30px 80px -20px rgba(0,0,0,0.55);
+
+  /* Menu */
+  --menu-bg: #ffffff;
+  --menu-fg: #111111;
+  --menu-fg-dim: #777777;
+  --menu-line: rgba(0,0,0,.08);
+  --menu-shadow: 0 30px 80px -20px rgba(0,0,0,.15);
+
+  color-scheme: light;
 }
+
+/* =========================================================================
+   DARK MODE
+   ========================================================================= */
+
 :root[data-theme="dark"] {
-  --bg:#0e0e0d; --bg-elevated:#161614;
-  --text-primary:#f4f4f1; --text-secondary:#c9c9c4; --text-muted:#9b9b95; --home-muted:#9b9b95;
-  --blue:#6f93ff; --blue-dark:#8aa6ff;
-  --border:rgba(255,255,255,0.11); --border-hover:rgba(255,255,255,0.18);
-  --menu-bg:#1b1b19; color-scheme: dark;
+
+  --bg: #0e0e0d;
+  --bg-elevated: #161614;
+
+  --text-primary: #f4f4f1;
+  --text-secondary: #c9c9c4;
+  --text-muted: #9b9b95;
+
+  --home-muted: #9b9b95;
+
+  --blue: #6f93ff;
+  --blue-dark: #8aa6ff;
+
+  --border: rgba(255,255,255,.10);
+  --border-hover: rgba(255,255,255,.18);
+
+  --menu-bg: #1b1b19;
+  --menu-fg: #f4f4f1;
+  --menu-fg-dim: #9b9b95;
+  --menu-line: rgba(255,255,255,.08);
+
+  color-scheme: dark;
 }
+
+/* Auto Dark Mode */
+
 @media (prefers-color-scheme: dark) {
+
   :root:not([data-theme]) {
-    --bg:#0e0e0d; --bg-elevated:#161614;
-    --text-primary:#f4f4f1; --text-secondary:#c9c9c4; --text-muted:#9b9b95; --home-muted:#9b9b95;
-    --blue:#6f93ff; --blue-dark:#8aa6ff;
-    --border:rgba(255,255,255,0.11); --border-hover:rgba(255,255,255,0.18);
-    --menu-bg:#1b1b19; color-scheme: dark;
+
+    --bg: #0e0e0d;
+    --bg-elevated: #161614;
+
+    --text-primary: #f4f4f1;
+    --text-secondary: #c9c9c4;
+    --text-muted: #9b9b95;
+
+    --home-muted: #9b9b95;
+
+    --blue: #6f93ff;
+    --blue-dark: #8aa6ff;
+
+    --border: rgba(255,255,255,.10);
+    --border-hover: rgba(255,255,255,.18);
+
+    --menu-bg: #1b1b19;
+    --menu-fg: #f4f4f1;
+    --menu-fg-dim: #9b9b95;
+    --menu-line: rgba(255,255,255,.08);
+
+    color-scheme: dark;
   }
 }
