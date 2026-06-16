@@ -101,6 +101,14 @@ function revealContent() {
       onUpdate: () => { el.textContent = pre + o.v.toFixed(dec) + post; } }), { threshold: 0.4 });
   };
 
+  document.querySelectorAll(".work__head h2, .cta__title").forEach(maskReveal);
+  [".intro__lead", ".work__all", ".scale", ".cta__actions", ".about__lead"].forEach((sel) =>
+    document.querySelectorAll(sel).forEach((el) => rise(el)));
+  document.querySelectorAll(".intro__disciplines").forEach((ul) => {
+    const items = ul.querySelectorAll("li");
+    gsap.set(items, { autoAlpha: 0, y: 16 });
+    onceInView(ul, () => gsap.to(items, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out", stagger: 0.06 }), { threshold: 0.3 });
+  });
   gsap.utils.toArray(".work-list__row").forEach((row) => {
     gsap.set(row, { autoAlpha: 0, y: 28 });
     onceInView(row, () => gsap.to(row, { autoAlpha: 1, y: 0, duration: 0.7, ease: "power3.out" }), { threshold: 0.12 });
