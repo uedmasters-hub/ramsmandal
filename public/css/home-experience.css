@@ -58,7 +58,7 @@
 
 @media (max-width:760px){
   /* STAGE 1 only: typography leads, the phone is allowed to crop behind it */
-  .he-stage:nth-child(1){--dev-w:min(80vw,30rem);padding:30vh 18px 12vh}
+  .he-stage:nth-child(1){--dev-w:min(80vw,30rem);padding: 11vh 18px 12vh;}
   .he-stage:nth-child(1) .he-headline{font-size:clamp(2rem,10vw,3.6rem);line-height:1.04;letter-spacing:-.025em}
   /* STAGE 2 only: wide tablet, hero headline + supporting copy */
   .he-stage:nth-child(2){--dev-w:min(88vw,34rem);padding:16vh 18px 10vh}
