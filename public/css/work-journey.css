@@ -3,9 +3,12 @@
 ====================================== */
 
 .work-v2{
-    max-width:1400px;
+    max-width: 1320px;
     margin:0 auto;
     padding:140px 0;
+    padding-top: clamp(48px, 8vh, 96px);
+    padding-bottom: clamp(48px, 8vh, 96px);
+    padding-left: clamp(20px, 5vw, 64px);
 }
 
 .work-header{
