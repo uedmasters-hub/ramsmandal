@@ -1,0 +1,140 @@
+/* ====================================
+   PERSPECTIVES
+==================================== */
+
+.perspectives{
+    padding:140px 0;
+}
+
+.perspectives-header{
+    display:grid;
+    grid-template-columns:1fr 380px;
+    gap:120px;
+
+    margin-bottom:64px;
+}
+
+.perspectives-label{
+    display:block;
+    font-size:14px;
+    opacity:.65;
+
+    margin-bottom:20px;
+}
+
+.perspectives-title{
+    font-size:clamp(3rem,5vw,5rem);
+    line-height:.95;
+    letter-spacing:-0.05em;
+
+    max-width:700px;
+}
+
+.perspectives-copy{
+    font-size:22px;
+    line-height:1.6;
+    opacity:.65;
+}
+
+.perspectives-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+}
+
+.perspective-card{
+    background:var(--surface,#fff);
+
+    border:1px solid rgba(0,0,0,.08);
+
+    padding:40px;
+
+    min-height:280px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.perspective-card:hover{
+    transform:translateY(-6px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.06);
+}
+
+.perspective-quote{
+    font-size:28px;
+    line-height:1.45;
+    letter-spacing:-0.03em;
+}
+
+.perspective-meta{
+    padding-top:32px;
+}
+
+.perspective-meta strong{
+    display:block;
+    font-size:16px;
+}
+
+.perspective-meta span{
+    display:block;
+
+    margin-top:4px;
+
+    font-size:14px;
+    opacity:.55;
+}
+
+/* ==========================
+   DARK
+========================== */
+
+[data-theme="dark"] .perspective-card{
+    border-color:rgba(255,255,255,.08);
+}
+
+/* ==========================
+   TABLET
+========================== */
+
+@media (max-width:1024px){
+
+    .perspectives-header{
+        grid-template-columns:1fr;
+        gap:32px;
+    }
+
+    .perspectives-copy{
+        max-width:700px;
+    }
+
+    .perspectives-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media (max-width:768px){
+
+    .perspectives{
+        padding:80px 0;
+    }
+
+    .perspective-card{
+        padding:28px;
+        min-height:auto;
+    }
+
+    .perspective-quote{
+        font-size:22px;
+    }
+}

@@ -5,7 +5,7 @@ $page = [
   'title'      => $site['meta']['default_title'],
   'desc'       => $site['meta']['default_desc'],
   'body_class' => 'page-home',
-  'styles'     => ['home', 'home-experience', 'home-marquee', 'work-journey'],
+  'styles'     => ['home', 'home-experience', 'home-marquee', 'work-journey', 'perspectives']
   'scripts'    => ['core/reveal', 'work-journey'],
   'modules'    => ['preloader', 'home-experience', 'core/text-ink', 'logo-marquee'],
   'importmap'  => json_encode([
@@ -313,6 +313,8 @@ $prev     = array_slice($featured, 0, 3);
     </div>
 
 </section>
+
+<?php require VIEW_DIR . '/partials/perspectives.php'; ?>
 
 <!-- SCALE -->
 <section class="scale" data-reveal>
