@@ -91,8 +91,12 @@
 .poster{
     position:relative;
 
-    background:#fff;
-    color:#111;
+    background:transparent;
+    color:inherit;
+
+    border:1px solid var(--border);
+
+    box-shadow:none;
 
     display:flex;
     flex-direction:column;
@@ -118,10 +122,13 @@
 .poster:hover{
     z-index:10;
 
-    transform:
-        translateY(-6px)
-        scale(1.025)
-        rotate(var(--r));
+    .poster:hover{ 
+        transform:
+            translateY(-2px)
+            rotate(var(--r));
+
+    border-color:var(--blue);
+}
 
     box-shadow:
         0 20px 40px rgba(0,0,0,.14);
