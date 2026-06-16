@@ -1,61 +1,23 @@
-<section class="philosophy">
+<section class="philosophy-banner">
 
     <div class="container">
 
-        <div class="philosophy-header">
+        <div class="philosophy-content">
 
             <span class="philosophy-label">
                 ● Philosophy
             </span>
 
-            <h2 class="philosophy-title">
-                Complexity
-                <span>→</span>
-                Clarity
+            <h2 class="philosophy-heading">
+                The principles behind
+                every product I design.
             </h2>
 
             <p class="philosophy-copy">
-                Seventeen years designing products, platforms,
-                ecosystems and enterprise systems has shaped a
-                simple belief: clarity creates momentum.
+                Seventeen years designing products,
+                platforms and ecosystems has taught me
+                that clarity is rarely the starting point.
             </p>
-
-        </div>
-
-        <div class="philosophy-orbit">
-
-            <div class="node node-1">
-                <span>Research</span>
-            </div>
-
-            <div class="node node-2">
-                <span>Systems</span>
-            </div>
-
-            <div class="node node-3">
-                <span>Outcomes</span>
-            </div>
-
-            <div class="node node-4">
-                <span>Strategy</span>
-            </div>
-
-            <div class="node node-5">
-                <span>Leadership</span>
-            </div>
-
-            <div class="node node-6">
-                <span>Craft</span>
-            </div>
-
-            <div class="philosophy-center">
-
-                <div class="center-circle">
-                    <strong>17+</strong>
-                    <span>Years</span>
-                </div>
-
-            </div>
 
         </div>
 

@@ -1,202 +1,94 @@
 /* =========================================
-   PHILOSOPHY
+   PHILOSOPHY BANNER
 ========================================= */
 
-.philosophy{
-    padding:160px 0;
-    position:relative;
+.philosophy-banner{
+    padding:80px 0;
+
+    background:rgba(0,0,0,.02);
+
+    transition:
+        background-color .6s ease,
+        color .6s ease;
 }
 
-.philosophy .container{
-    max-width:1200px;
+.philosophy-banner .container{
+    max-width:1100px;
     margin:0 auto;
     padding:0 32px;
 }
 
-/* =========================================
-   HEADER
-========================================= */
-
-.philosophy-header{
+.philosophy-content{
     text-align:center;
-    margin-bottom:120px;
 }
 
 .philosophy-label{
     display:inline-block;
 
+    margin-bottom:20px;
+
     font-size:13px;
-    text-transform:uppercase;
     letter-spacing:.14em;
+    text-transform:uppercase;
 
     opacity:.55;
 
-    margin-bottom:24px;
+    transition:color .6s ease;
 }
 
-.philosophy-title{
-    font-size:clamp(4rem,9vw,8rem);
-    line-height:.9;
-    letter-spacing:-0.06em;
-    font-weight:700;
-}
+.philosophy-heading{
+    max-width:760px;
 
-.philosophy-title span{
-    color:#4a63ff;
+    margin:0 auto;
+
+    font-size:clamp(2.75rem,5vw,4.5rem);
+    line-height:1;
+    letter-spacing:-0.05em;
+    font-weight:600;
+
+    transition:color .6s ease;
 }
 
 .philosophy-copy{
-    max-width:720px;
-    margin:32px auto 0;
+    max-width:700px;
 
-    font-size:24px;
-    line-height:1.6;
+    margin:28px auto 0;
+
+    font-size:clamp(1.125rem,2vw,1.5rem);
+    line-height:1.7;
 
     opacity:.7;
-}
-
-/* =========================================
-   ORBIT
-========================================= */
-
-.philosophy-orbit{
-    position:relative;
-
-    width:100%;
-    height:650px;
-}
-
-.philosophy-center{
-    position:absolute;
-
-    top:50%;
-    left:50%;
-
-    transform:translate(-50%,-50%);
-}
-
-.center-circle{
-    width:220px;
-    height:220px;
-
-    border:1px solid rgba(0,0,0,.08);
-    border-radius:999px;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-
-    background:rgba(255,255,255,.5);
-    backdrop-filter:blur(12px);
-}
-
-.center-circle strong{
-    font-size:72px;
-    line-height:1;
-    color:#4a63ff;
-}
-
-.center-circle span{
-    margin-top:8px;
-
-    text-transform:uppercase;
-    letter-spacing:.16em;
-
-    font-size:12px;
-}
-
-/* =========================================
-   NODES
-========================================= */
-
-.node{
-    position:absolute;
-
-    width:180px;
-    height:180px;
-
-    border-radius:999px;
-
-    border:1px dashed rgba(0,0,0,.1);
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
 
     transition:
-        transform .45s ease,
-        border-color .45s ease;
-}
-
-.node span{
-    font-size:20px;
-    letter-spacing:.04em;
-}
-
-.node:hover{
-    transform:scale(1.08);
-    border-color:#4a63ff;
-}
-
-/* positions */
-
-.node-1{
-    top:0;
-    left:50%;
-    transform:translateX(-50%);
-}
-
-.node-2{
-    top:110px;
-    right:120px;
-}
-
-.node-3{
-    bottom:120px;
-    right:80px;
-}
-
-.node-4{
-    bottom:0;
-    left:50%;
-    transform:translateX(-50%);
-}
-
-.node-5{
-    bottom:120px;
-    left:80px;
-}
-
-.node-6{
-    top:110px;
-    left:120px;
+        color .6s ease,
+        opacity .6s ease;
 }
 
 /* =========================================
-   LIGHT MODE
+   HOVER STATE
 ========================================= */
 
-[data-theme="light"] .center-circle{
-    background:rgba(255,255,255,.8);
+.philosophy-banner:hover{
+    background:#4a63ff;
+}
+
+.philosophy-banner:hover .philosophy-label,
+.philosophy-banner:hover .philosophy-heading,
+.philosophy-banner:hover .philosophy-copy{
+    color:#fff;
+    opacity:1;
 }
 
 /* =========================================
    DARK MODE
 ========================================= */
 
-[data-theme="dark"] .node{
-    border-color:rgba(255,255,255,.12);
+[data-theme="dark"] .philosophy-banner{
+    background:rgba(255,255,255,.03);
 }
 
-[data-theme="dark"] .center-circle{
-    background:rgba(20,20,20,.8);
-    border-color:rgba(255,255,255,.08);
-}
-
-[data-theme="dark"] .philosophy-title,
-[data-theme="dark"] .node span{
-    color:#fff;
+[data-theme="dark"] .philosophy-banner:hover{
+    background:#4a63ff;
 }
 
 /* =========================================
@@ -205,56 +97,20 @@
 
 @media (max-width:768px){
 
-    .philosophy{
-        padding:100px 0;
+    .philosophy-banner{
+        padding:64px 0;
+    }
+
+    .philosophy-banner .container{
+        padding:0 24px;
+    }
+
+    .philosophy-heading{
+        font-size:clamp(2rem,10vw,3rem);
     }
 
     .philosophy-copy{
         font-size:18px;
-    }
-
-    .philosophy-orbit{
-        height:auto;
-
-        display:grid;
-        grid-template-columns:repeat(2,1fr);
-        gap:20px;
-    }
-
-    .philosophy-center{
-        position:relative;
-        top:auto;
-        left:auto;
-        transform:none;
-
-        grid-column:1 / -1;
-
-        display:flex;
-        justify-content:center;
-
-        margin-bottom:20px;
-    }
-
-    .center-circle{
-        width:160px;
-        height:160px;
-    }
-
-    .center-circle strong{
-        font-size:48px;
-    }
-
-    .node{
-        position:relative;
-
-        top:auto;
-        left:auto;
-        right:auto;
-        bottom:auto;
-
-        width:100%;
-        height:120px;
-
-        transform:none !important;
+        line-height:1.6;
     }
 }
