@@ -1,71 +1,72 @@
 <section class="perspectives">
 
-    <div class="perspectives-header">
+    <div class="perspectives-center">
 
-        <div>
-            <span class="perspectives-label">
-                ● Selected Perspectives
-            </span>
-
-            <h2 class="perspectives-title">
-                What people remember
-                after working together.
-            </h2>
+        <div class="perspectives-ring">
+            <span>CLARITY</span>
+            <span>SYSTEMS</span>
+            <span>PRODUCTS</span>
+            <span>STRATEGY</span>
+            <span>LEADERSHIP</span>
+            <span>EXECUTION</span>
         </div>
 
-        <p class="perspectives-copy">
-            Across aviation, enterprise and marketplace products,
-            the common thread has been bringing clarity to
-            complex systems and helping teams move forward.
+        <div class="perspectives-core">
+            <span>17+</span>
+            <small>Years</small>
+        </div>
+
+    </div>
+
+    <article class="perspective-card card-a">
+        <p>
+            “Ramesh consistently transformed ambiguity
+            into structured product decisions and aligned
+            multiple teams around a shared direction.”
         </p>
 
-    </div>
+        <div class="perspective-meta">
+            <strong>Director Product</strong>
+            <span>IndiGo Airlines</span>
+        </div>
+    </article>
 
-    <div class="perspectives-grid">
+    <article class="perspective-card card-b">
+        <p>
+            “Complex operational workflows became
+            surprisingly easy to use without sacrificing
+            business depth.”
+        </p>
 
-        <article class="perspective-card">
+        <div class="perspective-meta">
+            <strong>Operations Lead</strong>
+            <span>CrewPal Platform</span>
+        </div>
+    </article>
 
-            <p class="perspective-quote">
-                “Ramesh consistently transformed ambiguity into
-                structured product decisions and aligned multiple
-                teams around a shared direction.”
-            </p>
+    <article class="perspective-card card-c">
+        <p>
+            “What stands out most is his ability to
+            balance user needs, technology constraints
+            and business priorities.”
+        </p>
 
-            <div class="perspective-meta">
-                <strong>Director Product</strong>
-                <span>IndiGo Airlines</span>
-            </div>
+        <div class="perspective-meta">
+            <strong>Product Manager</strong>
+            <span>Enterprise Programs</span>
+        </div>
+    </article>
 
-        </article>
+    <article class="perspective-card card-d">
+        <p>
+            “He doesn't just design screens.
+            He designs systems that scale.”
+        </p>
 
-        <article class="perspective-card">
-
-            <p class="perspective-quote">
-                “His strength is not screens. It is understanding
-                systems, operations and the people behind them.”
-            </p>
-
-            <div class="perspective-meta">
-                <strong>Head of UX</strong>
-                <span>Enterprise Platform</span>
-            </div>
-
-        </article>
-
-        <article class="perspective-card">
-
-            <p class="perspective-quote">
-                “The work balanced business goals, user needs and
-                engineering realities without compromising quality.”
-            </p>
-
-            <div class="perspective-meta">
-                <strong>Engineering Leader</strong>
-                <span>Marketplace Product</span>
-            </div>
-
-        </article>
-
-    </div>
+        <div class="perspective-meta">
+            <strong>Design Leader</strong>
+            <span>Marketplace Products</span>
+        </div>
+    </article>
 
 </section>
