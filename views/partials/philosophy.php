@@ -14,7 +14,7 @@
             </h2>
 
             <p class="philosophy-copy">
-                Seventeen years designing products,
+                17 years designing products,
                 platforms and ecosystems has taught me
                 that clarity is rarely the starting point.
             </p>
