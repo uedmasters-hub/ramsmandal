@@ -1,54 +1,108 @@
 /* =========================================================================
-   theme.css — THE colour system. Single source of truth for light + dark.
+   theme.css — THE colour system. Light + dark, on the [data-theme] attribute
+   that the rest of the codebase already uses (e.g. [data-theme="dark"]
+   .work-item, .perspective-card, the topbar icon swap). One reliable switch.
 
-   Universal law:
-     Every themed token is declared ONCE with light-dark(<light>, <dark>).
-     :root carries `color-scheme: light dark`, so with no explicit choice the
-     OS preference decides automatically. No duplicated dark block.
+   Universal law (automatic):
+     :root is light. With NO explicit choice, the OS preference decides via
+     @media (prefers-color-scheme: dark) on :root:not([data-theme]).
 
-   Local fix (explicit choice):
-     [data-theme="light"] / [data-theme="dark"] only flip `color-scheme`.
-     Every light-dark() token re-resolves from that one switch. theme.js sets
-     data-theme; the inline guard in base.php applies it before first paint.
+   Local fix (explicit choice always wins):
+     :root[data-theme="dark"] / [data-theme="light"]. theme.js sets the
+     attribute; the inline guard in base.php applies it before first paint.
 
    Accent discipline:
      One accent identity (--blue) = #1a46c9, strictly. The dark value is the
-     SAME blue, lightness-corrected so it clears contrast on a near-black
-     surface. It is not a second accent.
+     SAME blue, lightness-corrected to clear contrast on near-black. It is not
+     a second accent.
+
+   Note: the dark token values intentionally appear twice (the system media
+   query and the explicit selector) so dark works with and without a saved
+   choice. They are the only two places dark values live.
    ========================================================================= */
 
+/* ---- LIGHT (universal default) -------------------------------------- */
 :root {
-  color-scheme: light dark;          /* default: follow the OS */
+  color-scheme: light;
 
-  /* surfaces */
-  --bg:          light-dark(#f5f5f3, #0e0e0d);
-  --bg-elevated: light-dark(#ffffff, #161614);
+  --bg:          #f5f5f3;
+  --bg-elevated: #ffffff;
 
-  /* ink */
-  --text-primary:   light-dark(#0f0f0f, #f4f4f1);
-  --text-secondary: light-dark(#444444, #c9c9c4);
-  --text-muted:     light-dark(#5d5d59, #9b9b95);   /* AA-safe on --bg */
+  --text-primary:   #0f0f0f;
+  --text-secondary: #444444;
+  --text-muted:     #5d5d59;            /* AA-safe on --bg */
 
-  /* accent (one locked identity, lightness-corrected for dark) */
-  --blue:       light-dark(#1a46c9, #6f93ff);
-  --blue-dark:  light-dark(#1339a8, #8aa6ff);        /* hover: darker in light, brighter in dark */
-  --accent-ink: light-dark(#ffffff, #0b1020);        /* text/icon ON an accent fill */
+  --blue:       #1a46c9;                /* locked accent */
+  --blue-dark:  #1339a8;                /* hover (darker) */
+  --accent-ink: #ffffff;               /* text/icon ON an accent fill */
 
-  /* lines */
-  --border:       light-dark(rgba(0,0,0,.10), rgba(255,255,255,.10));
-  --border-hover: light-dark(rgba(0,0,0,.16), rgba(255,255,255,.18));
+  --border:       rgba(0,0,0,.10);
+  --border-hover: rgba(0,0,0,.16);
 
-  /* component tokens */
   --home-muted: var(--text-muted);
 
-  /* menu */
-  --menu-bg:     light-dark(#ffffff, #1b1b19);
-  --menu-fg:     light-dark(#0f0f0f, #f4f4f1);
-  --menu-fg-dim: light-dark(#5d5d59, #9b9b95);
-  --menu-line:   light-dark(rgba(0,0,0,.08), rgba(255,255,255,.08));
-  --menu-shadow: 0 30px 80px -20px light-dark(rgba(0,0,0,.15), rgba(0,0,0,.55));
+  --menu-bg:     #ffffff;
+  --menu-fg:     #0f0f0f;
+  --menu-fg-dim: #5d5d59;
+  --menu-line:   rgba(0,0,0,.08);
+  --menu-shadow: 0 30px 80px -20px rgba(0,0,0,.15);
 }
 
-/* The ONLY job of an explicit choice: pin the scheme so light-dark() resolves. */
+/* ---- DARK tokens, shared by both dark paths below -------------------- */
+/* (defined as a documented block; repeated in the two selectors that need
+    them because a media query and an attribute selector cannot be merged) */
+
+/* Universal law: follow the OS when the visitor has made no explicit choice. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+
+    --bg:          #0e0e0d;
+    --bg-elevated: #161614;
+
+    --text-primary:   #f4f4f1;
+    --text-secondary: #c9c9c4;
+    --text-muted:     #9b9b95;
+
+    --blue:       #6f93ff;             /* same blue, lightness-corrected */
+    --blue-dark:  #8aa6ff;             /* hover: brighter in dark */
+    --accent-ink: #0b1020;            /* dark ink on the lighter accent */
+
+    --border:       rgba(255,255,255,.10);
+    --border-hover: rgba(255,255,255,.18);
+
+    --menu-bg:     #1b1b19;
+    --menu-fg:     #f4f4f1;
+    --menu-fg-dim: #9b9b95;
+    --menu-line:   rgba(255,255,255,.08);
+    --menu-shadow: 0 30px 80px -20px rgba(0,0,0,.55);
+  }
+}
+
+/* Local fix: an explicit dark choice always wins. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg:          #0e0e0d;
+  --bg-elevated: #161614;
+
+  --text-primary:   #f4f4f1;
+  --text-secondary: #c9c9c4;
+  --text-muted:     #9b9b95;
+
+  --blue:       #6f93ff;
+  --blue-dark:  #8aa6ff;
+  --accent-ink: #0b1020;
+
+  --border:       rgba(255,255,255,.10);
+  --border-hover: rgba(255,255,255,.18);
+
+  --menu-bg:     #1b1b19;
+  --menu-fg:     #f4f4f1;
+  --menu-fg-dim: #9b9b95;
+  --menu-line:   rgba(255,255,255,.08);
+  --menu-shadow: 0 30px 80px -20px rgba(0,0,0,.55);
+}
+
+/* Local fix: an explicit light choice always wins (light already in :root). */
 :root[data-theme="light"] { color-scheme: light; }
-:root[data-theme="dark"]  { color-scheme: dark;  }
