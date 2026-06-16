@@ -46,40 +46,6 @@
 .intro__disciplines li{font-size:14px;color:var(--text-secondary);border:1px solid var(--border);
   padding:7px 14px;border-radius:var(--radius-pill)}
 
-/* ---------- WORK INDEX ---------- */
-.work{padding-top:clamp(48px,8vh,96px);padding-bottom:clamp(48px,8vh,96px)}
-.work__head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:clamp(20px,3vh,36px)}
-.work__head h2{font-family:var(--font-display);font-weight:700;font-size:clamp(1.1rem,2vw,1.35rem);letter-spacing:-.01em;color:var(--text-primary)}
-.work__all{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-muted);
-  transition:color var(--t-base) var(--ease-out),gap var(--t-base) var(--ease-out)}
-@media (hover:hover) and (pointer:fine){.work__all:hover{color:var(--text-primary);gap:9px}}
-
-.work-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--border)}
-.work-list__row{border-bottom:1px solid var(--border)}
-.work-list__link{display:grid;align-items:center;gap:6px 28px;padding:clamp(22px,3.4vh,34px) 8px;
-  grid-template-columns:1fr;color:var(--text-primary);
-  transition:padding-left var(--t-base) var(--ease-spring)}
-.work-list__year{font-size:13px;color:var(--text-muted);font-variant-numeric:tabular-nums;order:1}
-.work-list__title{font-family:var(--font-display);font-weight:700;letter-spacing:-.025em;
-  font-size:clamp(1.6rem,4.2vw,2.8rem);line-height:1.05;order:2}
-.work-list__meta{font-size:14px;color:var(--text-secondary);order:3}
-.work-list__metric{font-size:14px;color:var(--text-muted);order:4}
-.work-list__metric b{color:var(--text-primary);font-weight:600}
-.work-list__arrow{display:none;color:var(--text-muted)}
-@media (min-width:860px){
-  .work-list__link{grid-template-columns:84px minmax(0,1fr) 220px 200px 28px;gap:0 28px}
-  .work-list__year{order:0}.work-list__title{order:0}.work-list__meta{order:0;text-align:left}
-  .work-list__metric{order:0;text-align:right}
-  .work-list__arrow{order:0;display:grid;place-items:center;opacity:0;transform:translate(-6px,2px);
-    transition:opacity var(--t-base) var(--ease-out),transform var(--t-base) var(--ease-spring)}
-}
-@media (hover:hover) and (pointer:fine){
-  .work-list__link:hover{padding-left:18px}
-  .work-list__link:hover .work-list__title{color:var(--blue)}
-  .work-list__link:hover .work-list__arrow{opacity:1;transform:none;color:var(--blue)}
-}
-.work-list__link:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
-
 /* ---------- SCALE / CREDIBILITY ---------- */
 .scale{padding-top:clamp(56px,10vh,140px);padding-bottom:clamp(56px,10vh,140px);
   border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
