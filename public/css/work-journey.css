@@ -28,14 +28,15 @@
 }
 
 .work-title{
-    font-size:clamp(3rem,5vw,5rem);
+    font-size:clamp(2.4rem,4vw,4rem);
     line-height:.95;
     letter-spacing:-0.05em;
     max-width:900px;
 }
 
 .work-header-right p{
-    font-size:28px;
+    font-size:22px;
+    max-width:28ch;
     line-height:1.4;
     opacity:.7;
 }
