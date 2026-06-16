@@ -1,128 +1,207 @@
-/* ==========================================
+/* =========================================
    PHILOSOPHY
-========================================== */
+========================================= */
 
 .philosophy{
-    padding:140px 0;
+    padding:160px 0;
+    position:relative;
 }
 
-.philosophy-header{
+.philosophy .container{
     max-width:1200px;
-    margin:0 auto 100px;
-    padding:0 40px;
+    margin:0 auto;
+    padding:0 32px;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.philosophy-header{
+    text-align:center;
+    margin-bottom:120px;
 }
 
 .philosophy-label{
-    display:block;
+    display:inline-block;
 
     font-size:13px;
-    letter-spacing:.12em;
     text-transform:uppercase;
+    letter-spacing:.14em;
 
     opacity:.55;
 
-    margin-bottom:28px;
+    margin-bottom:24px;
 }
 
 .philosophy-title{
-    max-width:900px;
-
-    font-size:clamp(4rem,8vw,7rem);
-    line-height:.92;
-    letter-spacing:-.05em;
+    font-size:clamp(4rem,9vw,8rem);
+    line-height:.9;
+    letter-spacing:-0.06em;
     font-weight:700;
+}
 
-    margin:0;
+.philosophy-title span{
+    color:#4a63ff;
 }
 
 .philosophy-copy{
-    max-width:620px;
+    max-width:720px;
+    margin:32px auto 0;
 
-    margin-top:32px;
+    font-size:24px;
+    line-height:1.6;
 
-    font-size:20px;
-    line-height:1.7;
-
-    opacity:.65;
-}
-
-/* ==========================================
-   LIST
-========================================== */
-
-.philosophy-list{
-    max-width:1200px;
-    margin:0 auto;
-    padding:0 40px;
-}
-
-.philosophy-row{
-    display:grid;
-    grid-template-columns:80px 1fr;
-
-    align-items:center;
-
-    padding:40px 0;
-
-    border-top:1px solid rgba(0,0,0,.08);
-
-    transition:
-        padding-left .3s ease,
-        border-color .3s ease;
-}
-
-.philosophy-row:last-child{
-    border-bottom:1px solid rgba(0,0,0,.08);
-}
-
-.philosophy-number{
-    font-size:12px;
-    letter-spacing:.15em;
-
-    opacity:.45;
-}
-
-.philosophy-row h3{
-    margin:0;
-
-    font-size:clamp(2rem,4vw,3.5rem);
-    line-height:1;
-
-    font-weight:600;
-    letter-spacing:-.04em;
-
-    transition:
-        transform .3s ease,
-        color .3s ease;
-}
-
-.philosophy-row:hover{
-    padding-left:20px;
-}
-
-.philosophy-row:hover h3{
-    transform:translateX(10px);
-}
-
-/* ==========================================
-   LIGHT / DARK
-========================================== */
-
-[data-theme="dark"] .philosophy-row{
-    border-color:rgba(255,255,255,.08);
-}
-
-[data-theme="dark"] .philosophy-copy{
     opacity:.7;
 }
 
-[data-theme="dark"] .philosophy-label{
-    opacity:.6;
+/* =========================================
+   ORBIT
+========================================= */
+
+.philosophy-orbit{
+    position:relative;
+
+    width:100%;
+    height:650px;
 }
 
-/* ==========================================
+.philosophy-center{
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+}
+
+.center-circle{
+    width:220px;
+    height:220px;
+
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:999px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(255,255,255,.5);
+    backdrop-filter:blur(12px);
+}
+
+.center-circle strong{
+    font-size:72px;
+    line-height:1;
+    color:#4a63ff;
+}
+
+.center-circle span{
+    margin-top:8px;
+
+    text-transform:uppercase;
+    letter-spacing:.16em;
+
+    font-size:12px;
+}
+
+/* =========================================
+   NODES
+========================================= */
+
+.node{
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    border-radius:999px;
+
+    border:1px dashed rgba(0,0,0,.1);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    transition:
+        transform .45s ease,
+        border-color .45s ease;
+}
+
+.node span{
+    font-size:20px;
+    letter-spacing:.04em;
+}
+
+.node:hover{
+    transform:scale(1.08);
+    border-color:#4a63ff;
+}
+
+/* positions */
+
+.node-1{
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.node-2{
+    top:110px;
+    right:120px;
+}
+
+.node-3{
+    bottom:120px;
+    right:80px;
+}
+
+.node-4{
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.node-5{
+    bottom:120px;
+    left:80px;
+}
+
+.node-6{
+    top:110px;
+    left:120px;
+}
+
+/* =========================================
+   LIGHT MODE
+========================================= */
+
+[data-theme="light"] .center-circle{
+    background:rgba(255,255,255,.8);
+}
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+[data-theme="dark"] .node{
+    border-color:rgba(255,255,255,.12);
+}
+
+[data-theme="dark"] .center-circle{
+    background:rgba(20,20,20,.8);
+    border-color:rgba(255,255,255,.08);
+}
+
+[data-theme="dark"] .philosophy-title,
+[data-theme="dark"] .node span{
+    color:#fff;
+}
+
+/* =========================================
    MOBILE
-========================================== */
+========================================= */
 
 @media (max-width:768px){
 
@@ -130,30 +209,52 @@
         padding:100px 0;
     }
 
-    .philosophy-header,
-    .philosophy-list{
-        padding:0 20px;
-    }
-
-    .philosophy-header{
-        margin-bottom:60px;
-    }
-
-    .philosophy-title{
-        font-size:clamp(3rem,12vw,4.5rem);
-    }
-
     .philosophy-copy{
-        font-size:16px;
-        line-height:1.7;
+        font-size:18px;
     }
 
-    .philosophy-row{
-        grid-template-columns:50px 1fr;
-        padding:28px 0;
+    .philosophy-orbit{
+        height:auto;
+
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:20px;
     }
 
-    .philosophy-row h3{
-        font-size:1.6rem;
+    .philosophy-center{
+        position:relative;
+        top:auto;
+        left:auto;
+        transform:none;
+
+        grid-column:1 / -1;
+
+        display:flex;
+        justify-content:center;
+
+        margin-bottom:20px;
+    }
+
+    .center-circle{
+        width:160px;
+        height:160px;
+    }
+
+    .center-circle strong{
+        font-size:48px;
+    }
+
+    .node{
+        position:relative;
+
+        top:auto;
+        left:auto;
+        right:auto;
+        bottom:auto;
+
+        width:100%;
+        height:120px;
+
+        transform:none !important;
     }
 }

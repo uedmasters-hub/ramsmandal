@@ -1,48 +1,62 @@
 <section class="philosophy">
 
-    <div class="philosophy-header">
+    <div class="container">
 
-        <span class="philosophy-label">
-            ● Philosophy
-        </span>
+        <div class="philosophy-header">
 
-        <h2 class="philosophy-title">
-            Complexity into clarity.
-        </h2>
+            <span class="philosophy-label">
+                ● Philosophy
+            </span>
 
-        <p class="philosophy-copy">
-            Seventeen years of designing products, platforms,
-            ecosystems and enterprise systems has shaped a simple belief:
-            clarity creates momentum.
-        </p>
+            <h2 class="philosophy-title">
+                Complexity
+                <span>→</span>
+                Clarity
+            </h2>
 
-    </div>
+            <p class="philosophy-copy">
+                Seventeen years designing products, platforms,
+                ecosystems and enterprise systems has shaped a
+                simple belief: clarity creates momentum.
+            </p>
 
-    <div class="philosophy-list">
-
-        <div class="philosophy-row">
-            <span class="philosophy-number">01</span>
-            <h3>Research before decisions.</h3>
         </div>
 
-        <div class="philosophy-row">
-            <span class="philosophy-number">02</span>
-            <h3>Systems before screens.</h3>
-        </div>
+        <div class="philosophy-orbit">
 
-        <div class="philosophy-row">
-            <span class="philosophy-number">03</span>
-            <h3>Outcomes before outputs.</h3>
-        </div>
+            <div class="node node-1">
+                <span>Research</span>
+            </div>
 
-        <div class="philosophy-row">
-            <span class="philosophy-number">04</span>
-            <h3>Leadership through alignment.</h3>
-        </div>
+            <div class="node node-2">
+                <span>Systems</span>
+            </div>
 
-        <div class="philosophy-row">
-            <span class="philosophy-number">05</span>
-            <h3>Craft without excess.</h3>
+            <div class="node node-3">
+                <span>Outcomes</span>
+            </div>
+
+            <div class="node node-4">
+                <span>Strategy</span>
+            </div>
+
+            <div class="node node-5">
+                <span>Leadership</span>
+            </div>
+
+            <div class="node node-6">
+                <span>Craft</span>
+            </div>
+
+            <div class="philosophy-center">
+
+                <div class="center-circle">
+                    <strong>17+</strong>
+                    <span>Years</span>
+                </div>
+
+            </div>
+
         </div>
 
     </div>
