@@ -5,6 +5,13 @@ p{line-height:1.55}
 .prose p+p{margin-top:var(--space-4)}
 main{display:block}
 
+/* universal container */
+.site-container{
+    max-width:1280px;
+    margin:0 auto;
+    padding:0 40px;
+}
+
 /* scroll reveal (driven by core/reveal.js IntersectionObserver) */
 [data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease-out),transform .8s var(--ease-spring)}
 [data-reveal].in-view{opacity:1;transform:none}
