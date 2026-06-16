@@ -314,7 +314,7 @@ $prev     = array_slice($featured, 0, 3);
 
 </section>
 
-<?php require VIEW_DIR . '/partials/perspectives.php'; ?>
+<!-- <?php require VIEW_DIR . '/partials/perspectives.php'; ?> -->
 
 <!-- SCALE -->
 <section class="scale" data-reveal>
