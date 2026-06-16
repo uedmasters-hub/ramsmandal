@@ -124,6 +124,7 @@ $prev     = array_slice($featured, 0, 3);
   </div>
 </section>
 
+<div class="site-container">
 <!-- POSITIONING -->
 <section class="intro">
   <p class="intro__lead" data-reveal>
