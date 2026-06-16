@@ -182,6 +182,145 @@ $prev     = array_slice($featured, 0, 3);
 
 </section>
 
+<!-- WORK JOURNEY -->
+
+<section class="work-journey">
+
+    <div class="work-header">
+
+        <div class="work-title">
+            <span class="eyebrow">● Selected Work</span>
+
+            <h2>
+                Explore My Product
+                Journey
+            </h2>
+        </div>
+
+        <div class="work-intro">
+            <p>
+                Seventeen years designing products,
+                platforms and ecosystems across aviation,
+                enterprise and marketplace businesses.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="work-list">
+
+        <!-- ITEM -->
+
+        <article class="work-item active">
+
+            <div class="work-row">
+
+                <div class="work-company">
+                    IndiGo Airlines
+                    <span>2022 — 2024</span>
+                </div>
+
+                <div class="work-role">
+                    Booking Ecosystem
+                </div>
+
+                <div class="work-desc">
+                    Airline commerce platform
+                </div>
+
+                <div class="work-tags">
+                    <span>Product</span>
+                    <span>Platform</span>
+                </div>
+
+            </div>
+
+            <div class="work-expand">
+
+                <div class="work-gallery">
+
+                    <img src="/img/work/booking-1.jpg" alt="">
+                    <img src="/img/work/booking-2.jpg" alt="">
+                    <img src="/img/work/booking-3.jpg" alt="">
+
+                </div>
+
+                <div class="work-details">
+
+                    <p>
+                        Redesigned the complete booking
+                        ecosystem used by millions of travelers,
+                        improving ancillary conversion and
+                        simplifying complex purchase flows.
+                    </p>
+
+                    <a href="/work/indigo-booking">
+                        View Case Study →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+        <!-- DUPLICATE -->
+
+        <article class="work-item">
+
+            <div class="work-row">
+
+                <div class="work-company">
+                    IndiGo Airlines
+                    <span>2020 — 2023</span>
+                </div>
+
+                <div class="work-role">
+                    CrewPal Operations Platform
+                </div>
+
+                <div class="work-desc">
+                    Enterprise operations platform
+                </div>
+
+                <div class="work-tags">
+                    <span>Enterprise</span>
+                    <span>UX</span>
+                </div>
+
+            </div>
+
+            <div class="work-expand">
+
+                <div class="work-gallery">
+
+                    <img src="/img/work/crewpal-1.jpg" alt="">
+                    <img src="/img/work/crewpal-2.jpg" alt="">
+                    <img src="/img/work/crewpal-3.jpg" alt="">
+
+                </div>
+
+                <div class="work-details">
+
+                    <p>
+                        Unified crew planning and operations
+                        workflows across departments.
+                    </p>
+
+                    <a href="/work/crewpal">
+                        View Case Study →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
 <!-- WORK INDEX -->
 <section class="work" id="work">
   <header class="work__head" data-reveal>
