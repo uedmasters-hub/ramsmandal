@@ -65,7 +65,7 @@
 }
 
 .work-item:hover{
-    padding-left:18px;
+    padding-left:8px;
 }
 
 .work-year{
@@ -100,7 +100,7 @@
 ====================================== */
 
 .work-item:hover .work-project{
-    transform:translateX(8px);
+    transform:translateX(4px);
 }
 
 .work-project{

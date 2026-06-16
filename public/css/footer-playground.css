@@ -216,20 +216,6 @@
 .p20 { --r:3deg;  transform:rotate(3deg); }
 
 /* =========================================
-   LIGHT MODE
-========================================= */
-
-[data-theme="light"] .playground-footer{
-    background:#f4f4f2;
-    color:#111;
-}
-
-[data-theme="light"] .poster{
-    background:#fff;
-    color:#111;
-}
-
-/* =========================================
    TABLET
 ========================================= */
 
