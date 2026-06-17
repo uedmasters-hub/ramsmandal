@@ -43,7 +43,7 @@
 }
 
 .perspective-card{
-    background:var(--surface,#fff);
+    background:var(--bg-elevated);
 
     border:1px solid rgba(0,0,0,.08);
 

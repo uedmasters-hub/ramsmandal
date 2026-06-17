@@ -2,9 +2,9 @@
    home.css — editorial multi-section home. Restrained, typographic, mature.
    ========================================================================= */
 
-:root{ --page-bg:#f5f5f2; --text:#111111; --muted:#6f6f6f; --line:rgba(0,0,0,.08); --accent:#4a63ff; }
+/* page colour tokens come from theme.css (light/dark aware) */
 
-body{ background:var(--page-bg); color:var(--text); }
+body{ background:var(--bg); color:var(--text-primary); }
 
 /* ---------- shared rhythm ---------- */
 .intro,.work,.scale,.cta{/* max-width:1320px; */margin-inline:auto;}
