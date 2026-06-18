@@ -16,6 +16,12 @@ $cards = $home['disciplines'];
     <article class="<?= $cls ?>">
       <span class="big-card__eyebrow"><?= $n ?> / Practice</span>
       <div class="big-card__media">
+        <?php if (!empty($c['image'])): ?>
+          <img class="big-card__img" src="<?= asset('img/disciplines/' . $c['image']) ?>"
+              alt="<?= e($c['image_alt'] ?? '') ?>" loading="lazy" decoding="async" draggable="false">
+        <?php endif; ?>
+      </div>
+      <div class="big-card__media">
         <?php if ($img !== ''): ?>
         <img class="big-card__img" src="<?= e($img) ?>"
              alt="<?= e($c['image_alt'] ?? $c['title']) ?>"
