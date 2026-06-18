@@ -118,20 +118,28 @@ html.intro-done .preloader{display:none}
 .ink-letter[style*="transparent"] { -webkit-text-fill-color: transparent; }
 
 /* ===================== BIG CARDS — draggable discipline rail ===================== */
-.big-cards{padding:clamp(36px,7vh,84px) 0;overflow:hidden}
+.big-cards{
+  padding:clamp(36px,7vh,84px) 0;
+  overflow:hidden;                            /* clips internal x-scroll, no page scrollbar */
+  /* leading gutter = the page grid line. It lives as a margin on the first
+     card (below), NOT as track padding, so it SCROLLS AWAY and the cards can
+     travel fully edge to edge. --shell mirrors .site-container's max-width. */
+  --rail-lead:max(24px, calc((100vw - var(--shell, 1280px)) / 2));
+}
 .big-cards__track{
   display:flex;gap:clamp(16px,1.6vw,26px);
-  padding-inline:clamp(20px,5vw,64px);        /* first card aligns to the page gutter */
+  /* full-bleed: no padding-inline. cards scroll from the grid line to both edges. */
   overflow-x:auto;overflow-y:hidden;
-  scroll-snap-type:x mandatory;
   cursor:grab;scrollbar-width:none;-webkit-overflow-scrolling:touch;
   overscroll-behavior-x:contain;
 }
 .big-cards__track::-webkit-scrollbar{display:none}
-.big-cards__track.is-dragging{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto}
+.big-cards__track.is-dragging{cursor:grabbing;scroll-behavior:auto}
+/* first card opens on the grid line; this margin scrolls off so the card
+   reaches the left edge. No trailing margin: the last card reaches the right edge. */
+.big-card:first-child{margin-inline-start:var(--rail-lead)}
 .big-card{
   flex:0 0 clamp(280px,38vw,520px);           /* ~2.5 cards visible on desktop */
-  scroll-snap-align:start;
   min-height:clamp(360px,56vh,600px);
   border-radius:24px;border:1px solid var(--border);background:var(--bg-elevated,#fff);
   padding:clamp(24px,2.6vw,40px);
@@ -149,13 +157,40 @@ html.intro-done .preloader{display:none}
 .big-card__num{position:absolute;right:-.06em;bottom:-.22em;z-index:0;pointer-events:none;
   font-family:var(--font-display);font-weight:200;font-size:clamp(7rem,15vw,13rem);line-height:.8;
   color:var(--text-primary);opacity:.045}
+/* media slot: grows to fill the card between the eyebrow and the title block.
+   Holds an <img> when one is supplied; otherwise reads as a quiet framed panel. */
+.big-card__media{
+  position:relative;z-index:1;flex:1 1 auto;min-height:clamp(120px,18vh,200px);
+  border-radius:14px;overflow:hidden;border:1px solid var(--border);
+  background:
+    radial-gradient(130% 130% at 28% 18%, color-mix(in srgb, var(--blue) 10%, transparent), transparent 62%),
+    var(--bg);
+}
+.big-card__img{
+  position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;
+  transform:scale(1.02);                      /* hairline overscan, no edge gaps on hover ease */
+  transition:transform .6s var(--ease-out);
+  will-change:transform;
+}
+@media (hover:hover) and (pointer:fine){
+  .big-card:hover .big-card__img{transform:scale(1.06)}
+}
+@media (prefers-reduced-motion:reduce){
+  .big-card__img{transition:none;transform:none}
+}
+
 /* accent card */
 .big-card--accent{background:var(--blue);border-color:transparent}
 .big-card--accent .big-card__title{color:#fff}
 .big-card--accent .big-card__eyebrow{color:rgba(255,255,255,.7)}
 .big-card--accent .big-card__desc{color:rgba(255,255,255,.82)}
 .big-card--accent .big-card__num{color:#fff;opacity:.12}
+.big-card--accent .big-card__media{
+  border-color:rgba(255,255,255,.24);
+  background:
+    radial-gradient(130% 130% at 28% 18%, rgba(255,255,255,.14), transparent 60%),
+    rgba(255,255,255,.05);
+}
 @media (max-width:760px){
   .big-card{flex-basis:min(82vw,420px);min-height:clamp(320px,52vh,480px)}
-  .big-cards__track{scroll-snap-type:x proximity}
 }
