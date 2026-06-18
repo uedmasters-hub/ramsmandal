@@ -159,3 +159,33 @@ html.intro-done .preloader{display:none}
   .big-card{flex-basis:min(82vw,420px);min-height:clamp(320px,52vh,480px)}
   .big-cards__track{scroll-snap-type:x proximity}
 }
+
+/* ===== big-cards: grid-aligned left gap on load, edge-to-edge on scroll ===== */
+.big-cards__track{ padding-inline:0; scroll-snap-type:none; }   /* remove old padding/snap */
+.big-card{ scroll-snap-align:none; }
+.big-card:first-child{
+  /* opens on your 1280 grid line (80px at 1440), min 24px gap on narrow.
+     it's a margin, so it scrolls away and cards still reach the edge. */
+  margin-inline-start:max(24px, calc((100vw - 1280px) / 2));
+}
+
+/* ===== image slot inside each card ===== */
+.big-card__media{
+  position:relative; z-index:1; flex:1 1 auto; min-height:clamp(120px,18vh,200px);
+  border-radius:14px; overflow:hidden; border:1px solid var(--border);
+  background:
+    radial-gradient(130% 130% at 28% 18%, color-mix(in srgb, var(--blue) 10%, transparent), transparent 62%),
+    var(--bg);
+}
+.big-card__img{
+  position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:cover;
+  transition:transform .6s var(--ease-out);
+}
+@media (hover:hover) and (pointer:fine){ .big-card:hover .big-card__img{ transform:scale(1.06); } }
+@media (prefers-reduced-motion:reduce){ .big-card__img{ transition:none; transform:none; } }
+.big-card--accent .big-card__media{
+  border-color:rgba(255,255,255,.24);
+  background:
+    radial-gradient(130% 130% at 28% 18%, rgba(255,255,255,.14), transparent 60%),
+    rgba(255,255,255,.05);
+}
