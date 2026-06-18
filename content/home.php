@@ -72,6 +72,7 @@ return [
         ['src' => '/public/img/logos/indigo.svg',       'alt' => 'IndiGo'],
         ['src' => '/public/img/logos/quikr.svg',        'alt' => 'Quikr'],
         ['src' => '/public/img/logos/intelegencia.svg', 'alt' => 'Intelegencia'],
+        ['src' => '/public/img/logos/indigo.svg',       'alt' => 'IndiGo'],
     ],
 
     /* ---- selected work: header copy (the LIST comes from projects.php) ---- */
