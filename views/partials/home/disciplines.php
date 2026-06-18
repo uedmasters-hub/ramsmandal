@@ -21,13 +21,13 @@ $cards = $home['disciplines'];
               alt="<?= e($c['image_alt'] ?? '') ?>" loading="lazy" decoding="async" draggable="false">
         <?php endif; ?>
       </div>
-      <!-- <div class="big-card__media">
+      <div class="big-card__media">
         <?php if ($img !== ''): ?>
         <img class="big-card__img" src="<?= e($img) ?>"
              alt="<?= e($c['image_alt'] ?? $c['title']) ?>"
              loading="lazy" decoding="async" draggable="false">
         <?php endif; ?>
-      </div> -->
+      </div>
       <div class="big-card__body">
         <h3 class="big-card__title"><?= e($c['title']) ?></h3>
         <p class="big-card__desc"><?= e($c['desc']) ?></p>
