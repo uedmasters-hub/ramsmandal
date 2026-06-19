@@ -17,6 +17,7 @@ return function (): void {
     $uri    = '/' . trim($uri, '/');
     $uri    = $uri === '/' ? '/' : rtrim($uri, '/');
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+    if ($method === 'HEAD') $method = 'GET';   // HEAD resolves like GET (server drops the body)
 
     foreach ($routes as $route) {
         [$rMethod, $pattern, $handler] = $route;
