@@ -19,7 +19,6 @@ $current = $currentKey         ?? '';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title><?= e($title) ?></title>
-  <meta name="description" content="<?= e($desc) ?>">
 
   <!-- theme-color: light default, kept in sync by the guard below + core/theme.js -->
   <meta name="theme-color" content="#f5f5f3" id="theme-color-meta">
@@ -41,11 +40,7 @@ $current = $currentKey         ?? '';
     })();
   </script>
 
-  <meta property="og:title" content="<?= e($title) ?>">
-  <meta property="og:description" content="<?= e($desc) ?>">
-  <meta property="og:type" content="website">
-  <?php if (APP_URL): ?><meta property="og:image" content="<?= e(APP_URL . $site['meta']['og_image']) ?>"><?php endif; ?>
-  <meta name="twitter:card" content="summary_large_image">
+  <?php require VIEW_DIR . '/partials/seo.php'; ?>
 
   <link rel="icon" type="image/svg+xml" href="<?= asset_v('icons/favicon.svg') ?>">
   <link rel="icon" type="image/png" sizes="32x32" href="<?= asset_v('icons/favicon-32.png') ?>">

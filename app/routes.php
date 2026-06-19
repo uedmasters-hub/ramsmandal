@@ -47,4 +47,10 @@ return [
         // TODO: validate + send. Stub keeps the route alive.
         view('contact', ['currentKey' => 'contact', 'sent' => true]);
     }],
+
+    ['GET', '/sitemap.xml', function () {
+        header('Content-Type: application/xml; charset=UTF-8');
+        echo sitemap_xml(content('site'), content('projects'));
+        exit;
+    }],
 ];

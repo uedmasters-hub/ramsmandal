@@ -28,6 +28,7 @@ if (is_file($autoload)) {
 }
 
 require __DIR__ . '/helpers.php';
+require __DIR__ . '/seo.php';
 
 /* ---- environment ---- */
 define('APP_ENV',  env('APP_ENV', 'production'));

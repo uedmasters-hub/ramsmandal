@@ -27,8 +27,9 @@ return [
     ],
 
     'meta' => [
+        'url'           => 'https://ramsmandal.com',   // canonical origin for SEO
         'default_title' => 'Ramesh Mandal — Experience Architect',
         'default_desc'  => 'Experience Architect with 17 years across aviation, SaaS, and enterprise platforms. I transform complexity into clarity.',
-        'og_image'      => '/public/og/og-default.jpg',
+        'og_image'      => 'og/og-default.jpg',
     ],
 ];
