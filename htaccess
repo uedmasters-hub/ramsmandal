@@ -1,0 +1,70 @@
+# =========================================================================
+# ramsmandal.com — Apache config: front-controller routing, perf, security.
+# Without this, clean URLs and the custom 404 never reach index.php.
+# =========================================================================
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # If the site runs in a subfolder on XAMPP, set this (e.g. /ramsmandal/).
+  # On a root deploy (ramsmandal.com) leave it commented.
+  # RewriteBase /
+
+  # Force HTTPS in production. Commented so it does not fight http:// localhost.
+  # RewriteCond %{HTTPS} !=on
+  # RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Drop a trailing slash (except root) so URLs have one canonical form.
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # Everything that is NOT a real file or directory goes to the front controller.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.php [L]
+</IfModule>
+
+# Fallback if mod_rewrite is unavailable: still hand 404s to the app.
+ErrorDocument 404 /index.php
+
+# ---- hardening ----------------------------------------------------------
+Options -Indexes
+ServerSignature Off
+
+# Block dotfiles and sensitive paths (.env, .git, etc.)
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+RedirectMatch 404 (?i)/\.(git|env|htaccess)
+RedirectMatch 404 (?i)/(storage|app|content)/
+
+# ---- security headers ---------------------------------------------------
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  Header always set X-XSS-Protection "0"
+</IfModule>
+
+# ---- compression --------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml application/xml
+</IfModule>
+
+# ---- caching: long for fingerprinted/static assets, none for HTML -------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                      "access plus 1 month"
+  ExpiresByType text/html             "access plus 0 seconds"
+  ExpiresByType application/xml       "access plus 0 seconds"
+  ExpiresByType text/css              "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/webp            "access plus 1 year"
+  ExpiresByType image/png             "access plus 1 year"
+  ExpiresByType image/jpeg            "access plus 1 year"
+  ExpiresByType image/svg+xml         "access plus 1 year"
+  ExpiresByType image/x-icon          "access plus 1 year"
+  ExpiresByType font/woff2            "access plus 1 year"
+</IfModule>
