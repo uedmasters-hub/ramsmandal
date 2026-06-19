@@ -106,8 +106,4 @@ return [
         'orgs' => ['IndiGo', 'Intelegencia', 'Quikr'],
     ],
 
-    ['title' => 'Product & platform design', 'desc' => '...', 'image' => 'product.webp',         'image_alt' => 'Product design work'],
-    ['title' => 'Enterprise UX',             'desc' => '...', 'image' => 'enterprise.webp',      'image_alt' => 'Enterprise UX work'],
-    ['title' => 'Design systems',            'desc' => '...', 'image' => 'design-systems.webp',  'image_alt' => 'Design system work'],
-    // ...the rest
 ];

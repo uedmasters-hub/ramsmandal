@@ -51,17 +51,17 @@ $current = $currentKey         ?? '';
   <link rel="icon" type="image/x-icon" href="<?= asset('icons/favicon.ico') ?>">
 
   <!-- global stylesheets: tokens first -->
-  <link rel="stylesheet" href="<?= asset('css/fonts.css') ?>">
-  <link rel="stylesheet" href="<?= asset('css/variables.css') ?>">
-  <link rel="stylesheet" href="<?= asset('css/theme.css') ?>">
-  <link rel="stylesheet" href="<?= asset('css/reset.css') ?>">
-  <link rel="stylesheet" href="<?= asset('css/base.css') ?>">
-  <link rel="stylesheet" href="<?= asset('css/topbar.css') ?>">
-  <link rel="stylesheet" href="<?= asset('css/menu.css') ?>">
-  <link rel="stylesheet" href="<?= asset('css/footer.css') ?>">
-  <link rel="stylesheet" href="<?= asset('css/footer-playground.css') ?>">
+  <link rel="stylesheet" href="<?= asset_v('css/fonts.css') ?>">
+  <link rel="stylesheet" href="<?= asset_v('css/variables.css') ?>">
+  <link rel="stylesheet" href="<?= asset_v('css/theme.css') ?>">
+  <link rel="stylesheet" href="<?= asset_v('css/reset.css') ?>">
+  <link rel="stylesheet" href="<?= asset_v('css/base.css') ?>">
+  <link rel="stylesheet" href="<?= asset_v('css/topbar.css') ?>">
+  <link rel="stylesheet" href="<?= asset_v('css/menu.css') ?>">
+  <link rel="stylesheet" href="<?= asset_v('css/footer.css') ?>">
+  <link rel="stylesheet" href="<?= asset_v('css/footer-playground.css') ?>">
   <?php foreach ($styles as $s): ?>
-  <link rel="stylesheet" href="<?= asset("css/{$s}.css") ?>">
+  <link rel="stylesheet" href="<?= asset_v("css/{$s}.css") ?>">
   <?php endforeach; ?>
   <?php if (!empty($page['importmap'])): ?>
   <script type="importmap"><?= $page['importmap'] ?></script>

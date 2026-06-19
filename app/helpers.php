@@ -25,6 +25,15 @@ function asset(string $path): string {
     return APP_BASE . '/public/' . ltrim($path, '/');
 }
 
+/** Static asset URL with a cache-busting ?v=<mtime>, so an updated CSS/JS file
+    is fetched fresh instead of served from the browser cache. */
+function asset_v(string $path): string {
+    $rel  = ltrim($path, '/');
+    $file = BASE_DIR . '/public/' . $rel;
+    $v    = is_file($file) ? filemtime($file) : null;
+    return APP_BASE . '/public/' . $rel . ($v ? '?v=' . $v : '');
+}
+
 /** Load a content data file from /content and return what it yields. */
 function content(string $name) {
     $file = CONTENT_DIR . '/' . $name . '.php';
