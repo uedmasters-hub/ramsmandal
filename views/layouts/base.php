@@ -47,8 +47,11 @@ $current = $currentKey         ?? '';
   <?php if (APP_URL): ?><meta property="og:image" content="<?= e(APP_URL . $site['meta']['og_image']) ?>"><?php endif; ?>
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="icon" type="image/svg+xml" href="<?= asset('icons/favicon.svg') ?>">
-  <link rel="icon" type="image/x-icon" href="<?= asset('icons/favicon.ico') ?>">
+  <link rel="icon" type="image/svg+xml" href="<?= asset_v('icons/favicon.svg') ?>">
+  <link rel="icon" type="image/png" sizes="32x32" href="<?= asset_v('icons/favicon-32.png') ?>">
+  <link rel="icon" type="image/x-icon" href="<?= asset_v('icons/favicon.ico') ?>">
+  <link rel="apple-touch-icon" sizes="180x180" href="<?= asset_v('icons/apple-touch-icon.png') ?>">
+  <link rel="manifest" href="<?= asset('site.webmanifest') ?>">
 
   <!-- global stylesheets: tokens first -->
   <link rel="stylesheet" href="<?= asset_v('css/fonts.css') ?>">

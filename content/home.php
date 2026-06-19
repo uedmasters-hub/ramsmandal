@@ -50,9 +50,9 @@ return [
 
     /* ---- big-cards discipline rail (first card carries the accent) ---- */
     'disciplines' => [
-        ['title' => 'Product & platform design', 'desc' => 'Customer-facing and enterprise products shaped from the first flow to the shipped system.', 'image' => '', 'image_alt' => ''],
-        ['title' => 'Enterprise UX',             'desc' => 'Complex internal tools and operations platforms made usable for the people who run the business.', 'image' => '', 'image_alt' => ''],
-        ['title' => 'Design systems',            'desc' => 'Reusable component systems and standards that keep teams fast and consistent at scale.', 'image' => '', 'image_alt' => ''],
+        ['title' => 'Product & platform design', 'desc' => 'Customer-facing and enterprise products shaped from the first flow to the shipped system.', 'image' => 'product.webp', 'image_alt' => 'Product and platform design work'],
+        ['title' => 'Enterprise UX',             'desc' => 'Complex internal tools and operations platforms made usable for the people who run the business.', 'image' => 'enterprise.webp', 'image_alt' => 'Enterprise UX work'],
+        ['title' => 'Design systems',            'desc' => 'Reusable component systems and standards that keep teams fast and consistent at scale.', 'image' => 'design-systems.webp', 'image_alt' => 'Design system work'],
         ['title' => 'Product strategy',          'desc' => 'Roadmaps grounded in user needs, business goals, and what engineering can realistically ship.', 'image' => '', 'image_alt' => ''],
         ['title' => 'Design engineering',        'desc' => 'Designs that survive contact with code, prototyped and built, not just drawn.', 'image' => '', 'image_alt' => ''],
         ['title' => 'Design leadership',         'desc' => 'Teams of fifteen-plus designers and researchers aligned around outcomes that matter.', 'image' => '', 'image_alt' => ''],
