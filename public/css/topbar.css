@@ -30,9 +30,8 @@
 .topbar.is-compact{ height:64px; }
 .topbar.is-compact .topbar__inner{
   max-width:230px;
-  gap:6px;
-  padding:7px 9px;
-  justify-content:center;
+  padding:7px 10px;
+  justify-content:space-between;
   background:color-mix(in srgb, var(--bg) 60%, transparent);
   -webkit-backdrop-filter:blur(18px) saturate(1.7);
   backdrop-filter:blur(18px) saturate(1.7);
@@ -43,6 +42,12 @@
 .topbar.is-compact .brand-name{ max-width:0; opacity:0; margin-left:-12px; }
 .topbar.is-compact .brand-mark{ width:34px; height:34px; font-size:14px; }
 .topbar.is-compact .ctrl-btn{ width:40px; height:40px; background:transparent; border-color:transparent; }
+
+/* sequenced entrance: the pill forms first, then its contents rise in from below */
+.topbar.is-compact .brand-mark{ animation:chipRise .5s var(--ease-spring) .28s backwards; }
+.topbar.is-compact .theme-btn { animation:chipRise .5s var(--ease-spring) .37s backwards; }
+.topbar.is-compact .menu-btn  { animation:chipRise .5s var(--ease-spring) .46s backwards; }
+@keyframes chipRise{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:translateY(0); } }
 @media (hover:hover) and (pointer:fine){
   .topbar.is-compact .ctrl-btn:hover{ background:color-mix(in srgb, var(--text-primary) 8%, transparent); }
 }
@@ -80,4 +85,5 @@ body.menu-open .menu-btn .bar.h{transform:translate(-50%,-50%) rotate(-45deg)}
 /* ---- reduced motion: snap between states, no morph ---- */
 @media (prefers-reduced-motion:reduce){
   .topbar,.topbar__inner,.brand-name,.brand-mark,.ctrl-btn{transition:none}
+  .topbar.is-compact .brand-mark,.topbar.is-compact .ctrl-btn{animation:none}
 }
