@@ -1,12 +1,152 @@
-/* about.css */
-.about{max-width:var(--reading-width);margin:0 auto;padding:calc(var(--nav-h) + clamp(24px,6vh,64px)) clamp(20px,5vw,64px) 0}
-.about__head h1{font-size:clamp(2.4rem,6vw,4.4rem);letter-spacing:-.04em;margin-bottom:24px}
-.about__head p{color:var(--text-secondary);font-size:1.1rem;line-height:1.6;margin-bottom:16px}
-.about__exp{margin-top:clamp(40px,7vh,80px)}
-.about__exp h2{font-size:1.5rem;margin-bottom:24px}
-.about__exp ol{list-style:none;margin:0;padding:0;display:grid;gap:28px}
-.about__exp-top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.about__exp-top strong{font-family:var(--font-display);font-size:1.1rem}
-.about__exp-top span{color:var(--text-muted);font-size:14px}
-.about__exp-role{color:var(--text-secondary);font-size:14px;margin:4px 0 8px}
-.about__exp li p{color:var(--text-secondary);line-height:1.55}
+/* =========================================================================
+   about.css — the About page. Mirrors the home section language
+   (mono labels, display headings at -0.05em, border-divided lists).
+   No new tokens: colours, accent, and easings all come from the system.
+   ========================================================================= */
+
+.about {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: calc(var(--nav-h, 88px) + clamp(44px, 9vh, 96px))
+           clamp(20px, 5vw, 48px)
+           clamp(40px, 8vh, 96px);
+}
+
+.about-eyebrow {
+  display: block;
+  font-size: 14px;
+  letter-spacing: .02em;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+/* ---- intro ---- */
+.about-intro { margin-bottom: clamp(56px, 9vh, 104px); }
+.about-lead {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: .96;
+  letter-spacing: -0.05em;
+  max-width: 16ch;
+  margin: 0 0 22px;
+}
+.about-meta {
+  font-family: var(--font-mono, "Space Mono", ui-monospace, monospace);
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 38px;
+}
+.about-intro__body {
+  max-width: var(--reading-width, 68ch);
+  display: grid;
+  gap: 18px;
+}
+.about-intro__body p {
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ---- numbers ---- */
+.about-numbers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: clamp(28px, 4vh, 44px) 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: clamp(56px, 9vh, 104px);
+}
+.about-stat__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.about-stat__label {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ---- section heads ---- */
+.about-section { margin-bottom: clamp(48px, 8vh, 96px); }
+.about-section:last-child { margin-bottom: 0; }
+.about-section__head { margin-bottom: clamp(26px, 4vh, 44px); }
+.about-section__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.6vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+/* ---- experience timeline ---- */
+.about-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+.about-role {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: clamp(20px, 4vw, 56px);
+  padding: clamp(24px, 3vh, 34px) 0;
+  border-bottom: 1px solid var(--border);
+}
+.about-role__period {
+  font-family: var(--font-mono, "Space Mono", ui-monospace, monospace);
+  font-size: 13px;
+  letter-spacing: .04em;
+  color: var(--text-muted);
+  padding-top: 6px;
+}
+.about-role__company {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+}
+.about-role__title {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0 0 12px;
+}
+.about-role__note {
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  line-height: 1.55;
+  color: var(--text-secondary);
+  max-width: 60ch;
+  margin: 0;
+}
+
+/* ---- recognition ---- */
+.about-creds {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: clamp(24px, 4vw, 56px);
+  border-top: 1px solid var(--border);
+}
+.about-cred {
+  padding: clamp(18px, 2.4vh, 26px) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  letter-spacing: -0.01em;
+}
+
+/* ---- responsive ---- */
+@media (max-width: 720px) {
+  .about-numbers { grid-template-columns: 1fr; gap: 26px; }
+  .about-role { grid-template-columns: 1fr; gap: 8px; }
+  .about-role__period { padding-top: 0; }
+  .about-creds { grid-template-columns: 1fr; }
+}

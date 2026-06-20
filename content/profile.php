@@ -6,6 +6,23 @@
 declare(strict_types=1);
 
 return [
+    'role'     => 'Experience Architect',
+    'tenure'   => '17 years',
+    'location' => 'India',
+
+    'lead'  => 'I design clarity into complex systems.',
+    'intro' => [
+        'With 17 years across aviation, SaaS, and enterprise platforms, I have moved from UI craft to UX strategy, leading high-scale products serving millions of users.',
+        'Today I integrate design systems, product thinking, and AI-driven workflows to accelerate decisions, improve usability, and deliver measurable business impact.',
+    ],
+
+    'numbers' => [
+        ['value' => '17+',      'label' => 'Years designing'],
+        ['value' => '15+',      'label' => 'Designers led'],
+        ['value' => 'Millions', 'label' => 'Users served'],
+    ],
+
+    /* kept for the Person schema (app/seo.php reads this) */
     'summary' => [
         'I design clarity into complex systems.',
         'With 17 years across aviation, SaaS, and enterprise platforms, I have moved from UI craft to UX strategy, leading high-scale products serving millions of users.',
