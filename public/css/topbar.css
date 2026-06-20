@@ -1,16 +1,67 @@
-/* topbar.css */
-.topbar{position:fixed;inset:0 0 auto 0;z-index:40;height:var(--nav-h);display:flex;align-items:center;
-  justify-content:space-between;padding:0 clamp(20px,5vw,64px);pointer-events:none}
-.topbar>*{pointer-events:auto}
+/* topbar.css — full bar at top, collapses to a liquid-glass chip on scroll.
+   No new tokens: glass is mixed from --bg / --border; springs from the system. */
+
+.topbar{
+  position:fixed; inset:0 0 auto 0; z-index:40;
+  height:var(--nav-h);
+  display:flex; align-items:center; justify-content:center;
+  padding:0 clamp(20px,5vw,64px);
+  pointer-events:none;
+  transition:height .45s var(--ease-spring);
+}
+
+/* the morphing element */
+.topbar__inner{
+  pointer-events:auto;
+  width:100%; max-width:1500px; margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:6px 0;
+  border:1px solid transparent;
+  border-radius:var(--radius-pill,999px);
+  background:transparent;
+  -webkit-backdrop-filter:none; backdrop-filter:none;
+  transition:max-width .55s var(--ease-spring), gap .5s var(--ease-spring),
+             padding .5s var(--ease-spring), background .4s var(--ease-out),
+             border-color .4s var(--ease-out), box-shadow .45s var(--ease-out),
+             backdrop-filter .4s var(--ease-out);
+}
+
+/* ---- compact chip (scrolled) ---- */
+.topbar.is-compact{ height:64px; }
+.topbar.is-compact .topbar__inner{
+  max-width:230px;
+  gap:6px;
+  padding:7px 9px;
+  justify-content:center;
+  background:color-mix(in srgb, var(--bg) 60%, transparent);
+  -webkit-backdrop-filter:blur(18px) saturate(1.7);
+  backdrop-filter:blur(18px) saturate(1.7);
+  border-color:color-mix(in srgb, var(--border) 75%, transparent);
+  box-shadow:0 10px 30px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.4);
+}
+/* name folds away; controls lose their own chrome so the chip reads as one piece */
+.topbar.is-compact .brand-name{ max-width:0; opacity:0; margin-left:-12px; }
+.topbar.is-compact .brand-mark{ width:34px; height:34px; font-size:14px; }
+.topbar.is-compact .ctrl-btn{ width:40px; height:40px; background:transparent; border-color:transparent; }
+@media (hover:hover) and (pointer:fine){
+  .topbar.is-compact .ctrl-btn:hover{ background:color-mix(in srgb, var(--text-primary) 8%, transparent); }
+}
+
+/* ---- brand ---- */
 .brand{display:inline-flex;align-items:center;gap:12px;font-weight:800;letter-spacing:-.01em;font-size:15px;color:var(--text-primary)}
 .brand-mark{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--text-primary);
-  color:var(--bg);font-weight:800;font-size:15px;letter-spacing:-.02em;transition:transform var(--t-base) var(--ease-spring),background var(--t-base) var(--ease-out)}
+  color:var(--bg);font-weight:800;font-size:15px;letter-spacing:-.02em;
+  transition:transform var(--t-base) var(--ease-spring),background var(--t-base) var(--ease-out),width .45s var(--ease-spring),height .45s var(--ease-spring)}
+.brand-name{max-width:240px;overflow:hidden;white-space:nowrap;
+  transition:max-width .5s var(--ease-spring),opacity .3s var(--ease-out),margin-left .5s var(--ease-spring)}
 @media (max-width:560px){.brand-name{display:none}}
 @media (hover:hover) and (pointer:fine){.brand:hover .brand-mark{transform:rotate(-8deg) scale(1.05)}}
+
+/* ---- controls ---- */
 .topbar-controls{display:inline-flex;align-items:center;gap:10px}
 .ctrl-btn{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--bg-elevated);
   border:1px solid var(--border);color:var(--text-primary);
-  transition:transform var(--t-fast) var(--ease-out),background var(--t-base) var(--ease-out),border-color var(--t-base) var(--ease-out)}
+  transition:transform var(--t-fast) var(--ease-out),background var(--t-base) var(--ease-out),border-color var(--t-base) var(--ease-out),width .45s var(--ease-spring),height .45s var(--ease-spring)}
 @media (hover:hover) and (pointer:fine){.ctrl-btn:hover{border-color:var(--border-hover);transform:translateY(-1px)}}
 .ctrl-btn:active{transform:scale(.95)}
 .theme-btn svg{width:20px;height:20px;display:block}
@@ -25,3 +76,8 @@
 .menu-btn .bar.h{transform:translate(-50%,-50%) rotate(0)}
 body.menu-open .menu-btn .bar.v{transform:translate(-50%,-50%) rotate(45deg)}
 body.menu-open .menu-btn .bar.h{transform:translate(-50%,-50%) rotate(-45deg)}
+
+/* ---- reduced motion: snap between states, no morph ---- */
+@media (prefers-reduced-motion:reduce){
+  .topbar,.topbar__inner,.brand-name,.brand-mark,.ctrl-btn{transition:none}
+}

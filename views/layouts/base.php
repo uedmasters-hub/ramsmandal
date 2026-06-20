@@ -80,6 +80,7 @@ $current = $currentKey         ?? '';
   <!-- global scripts -->
   <script src="<?= asset('js/core/theme.js') ?>" defer></script>
   <script src="<?= asset('js/core/menu.js') ?>" defer></script>
+  <script src="<?= asset('js/core/topbar.js') ?>" defer></script>
   <script src="<?= asset('js/core/cursor.js') ?>" defer></script>
   <?php foreach ($scripts as $j): ?>
   <script src="<?= asset("js/{$j}.js") ?>" defer></script>
