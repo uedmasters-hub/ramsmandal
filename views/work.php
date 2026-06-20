@@ -8,9 +8,12 @@ $page = ['title' => 'Work — Ramesh Mandal', 'desc' => 'Selected projects and t
     <p>Projects presented as journeys: the context, the constraints, the decisions, and the outcomes.</p>
   </header>
   <div class="work-index__grid">
-    <?php foreach (($projects ?? []) as $p): ?>
+    <?php foreach (($projects ?? []) as $p):
+      $img    = $p['image'] ?? ('work/' . $p['slug'] . '.webp');
+      $hasImg = is_file(BASE_DIR . '/public/img/' . $img); ?>
     <a class="work-tile" href="<?= url('/work/' . $p['slug']) ?>">
-      <div class="work-tile__thumb tone-<?= (int)($p['tone'] ?? 0) ?>">
+      <div class="work-tile__thumb tone-<?= (int)($p['tone'] ?? 0) ?><?= $hasImg ? ' has-img' : '' ?>">
+        <?php if ($hasImg): ?><img class="work-tile__img" src="<?= asset('img/' . $img) ?>" alt="<?= e($p['title']) ?>" loading="lazy" decoding="async"><?php endif; ?>
         <span class="tag"><?= e($p['company']) ?></span>
         <?php if (!empty($p['metric'])): ?><p class="metric"><?= e($p['metric']['value']) ?><small><?= e($p['metric']['label']) ?></small></p><?php endif; ?>
       </div>
