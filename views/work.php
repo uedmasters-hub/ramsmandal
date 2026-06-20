@@ -11,7 +11,7 @@ $page = ['title' => 'Work — Ramesh Mandal', 'desc' => 'Selected projects and t
     <?php foreach (($projects ?? []) as $p):
       $img    = $p['image'] ?? ('work/' . $p['slug'] . '.webp');
       $hasImg = is_file(BASE_DIR . '/public/img/' . $img); ?>
-    <a class="work-tile" href="<?= url('/work/' . $p['slug']) ?>">
+    <a class="work-tile" data-cursor="<?= (($p['type'] ?? '') === 'teardown') ? 'Audit' : 'Work' ?>" href="<?= url('/work/' . $p['slug']) ?>">
       <div class="work-tile__thumb tone-<?= (int)($p['tone'] ?? 0) ?><?= $hasImg ? ' has-img' : '' ?>">
         <?php if ($hasImg): ?><img class="work-tile__img" src="<?= asset('img/' . $img) ?>" alt="<?= e($p['title']) ?>" loading="lazy" decoding="async"><?php endif; ?>
         <span class="tag"><?= e($p['company']) ?></span>

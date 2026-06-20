@@ -1,11 +1,11 @@
 /* =========================================================================
-   core/cursor.js — the site-wide "Click" cursor.
-   Over any interactive element the native cursor is replaced by a small accent
-   disc that springs in. Label defaults to "Click"; override per element with
-   data-cursor="Open" etc. Opt out with data-no-cursor.
-   Additive only: elements stay fully keyboard- and pointer-operable.
-   Gated to (hover:hover)+(pointer:fine) and prefers-reduced-motion:no-preference.
-   No imports; loaded with defer. Reuses existing tokens (--blue, --ease-spring).
+   core/cursor.js — the site-wide adaptive cursor disc.
+   Content adapts to context, resolved from the nearest tagged element/section:
+     data-cursor="RM" / "Work" / "Audit"  -> that text
+     data-cursor-icon                      -> clone the element's visible <svg>
+     data-cursor-icon="menu"               -> built-in glyph
+     (nothing tagged)                      -> "Click"
+   Additive, keyboard-safe. Gated to (hover:hover)+(pointer:fine)+no-preference.
    ========================================================================= */
 (function () {
   'use strict';
@@ -13,13 +13,23 @@
   if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var SEL = 'a[href], button:not([disabled]), [role="button"], summary, label[for], [data-cursor]';
+  var SEL  = 'a[href], button:not([disabled]), [role="button"], summary, label[for], [data-cursor], [data-cursor-icon]';
+  var TAGGED = '[data-cursor], [data-cursor-icon]';
+
+  var GLYPH = {
+    menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'
+  };
 
   var el = document.createElement('div');
   el.className = 'site-cursor';
   el.setAttribute('aria-hidden', 'true');
-  el.innerHTML = '<span class="site-cursor__dot"><span class="site-cursor__label">Click</span></span>';
+  el.innerHTML = '<span class="site-cursor__dot">' +
+                   '<span class="site-cursor__label">Click</span>' +
+                   '<span class="site-cursor__icon"></span>' +
+                 '</span>';
+  var dot   = el.querySelector('.site-cursor__dot');
   var label = el.querySelector('.site-cursor__label');
+  var icon  = el.querySelector('.site-cursor__icon');
 
   function init() {
     document.body.appendChild(el);
@@ -28,8 +38,31 @@
   if (document.body) init();
   else document.addEventListener('DOMContentLoaded', init);
 
-  function place(e) {
-    el.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)';
+  function place(e) { el.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)'; }
+
+  function visibleSvg(node) {
+    var svgs = node.querySelectorAll('svg');
+    for (var i = 0; i < svgs.length; i++) {
+      if (svgs[i].getClientRects().length) return svgs[i];
+    }
+    return svgs[0] || null;
+  }
+
+  function setIcon(html) { icon.innerHTML = html; dot.classList.add('is-icon'); }
+  function setText(txt)  { label.textContent = txt; dot.classList.remove('is-icon'); }
+
+  function resolve(target) {
+    var src = target.closest(TAGGED);
+    if (src && src.hasAttribute('data-cursor-icon')) {
+      var kind = src.getAttribute('data-cursor-icon');
+      if (kind && GLYPH[kind]) { setIcon(GLYPH[kind]); return; }
+      var svg = visibleSvg(src);
+      if (svg) { setIcon(svg.outerHTML); return; }
+      setText(src.getAttribute('data-cursor') || 'Click');
+      return;
+    }
+    if (src && src.hasAttribute('data-cursor')) { setText(src.getAttribute('data-cursor')); return; }
+    setText('Click');
   }
 
   document.addEventListener('pointermove', function (e) {
@@ -41,7 +74,7 @@
     if (e.pointerType && e.pointerType !== 'mouse') return;
     var t = e.target.closest ? e.target.closest(SEL) : null;
     if (t && !t.hasAttribute('data-no-cursor')) {
-      label.textContent = t.getAttribute('data-cursor') || 'Click';
+      resolve(t);
       place(e);
       el.classList.add('is-on');
     }
@@ -53,7 +86,6 @@
     if (!to || to.hasAttribute('data-no-cursor')) el.classList.remove('is-on');
   }, { passive: true });
 
-  // hide when the pointer leaves the document or the window loses focus
   document.addEventListener('pointerleave', function () { el.classList.remove('is-on'); });
   window.addEventListener('blur', function () { el.classList.remove('is-on'); });
 })();
