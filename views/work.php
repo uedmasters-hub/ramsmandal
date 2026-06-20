@@ -1,6 +1,6 @@
 <?php
 /* views/work.php — index of journeys (stub layout, real data) */
-$page = ['title' => 'Work — Ramesh Mandal', 'desc' => 'Selected projects and teardowns.', 'body_class' => 'page-work', 'styles' => ['work-rail'], 'scripts' => ['core/reveal']];
+$page = ['title' => 'Work — Ramesh Mandal', 'desc' => 'Selected projects and teardowns.', 'body_class' => 'page-work', 'styles' => ['work-rail'], 'scripts' => ['core/reveal', 'work-tiles']];
 ?>
 <section class="work-index">
   <header class="work-index__head">
