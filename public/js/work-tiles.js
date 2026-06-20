@@ -1,13 +1,13 @@
 /* =========================================================================
    work-tiles.js — magic on the Work grid.
-   - hover / tap a tile  -> the card bursts into colourful dots (hero language:
-                            hsl(hue,70%,56%), 1.3–4.7px) and the cursor becomes
-                            a "Click" disc.
-   - click a tile        -> a dot burst from the pointer + a veil fade hands off
-                            to the project page.
+   - hover / tap a tile -> the card bursts into colourful dots (hero language:
+                           hsl(hue,70%,56%), 1.3–4.7px).
+   - click a tile       -> a dot burst from the pointer + a veil fade hands off
+                           to the project page.
+   The "Click" disc is handled globally by core/cursor.js (every link/button).
    Narrative purpose: anticipate (hover) + transition (click).
-   Gated: bursts/cursor only on (hover:hover)+(pointer:fine)+no reduced-motion.
-   Keyboard activation is never animated. No imports; loaded with defer.
+   Bursts gated to (hover:hover)+(pointer:fine)+no reduced-motion. Keyboard
+   activation is never animated. No imports; loaded with defer.
    ========================================================================= */
 (function () {
   'use strict';
@@ -59,7 +59,6 @@
     if (!raf) raf = requestAnimationFrame(tick);
   }
 
-  /* burst from points spread across a card's surface */
   function cardBurst(tile, n) {
     var r = tile.getBoundingClientRect();
     for (var i = 0; i < n; i++) {
@@ -88,35 +87,16 @@
     else { raf = 0; ctx.clearRect(0, 0, W, H); }
   }
 
-  /* ---------- custom "Click" cursor (fine + motion only) ---------- */
-  var cursor = null;
-  if (fine && !reduce) {
-    document.body.classList.add('tiles-fx');
-    cursor = document.createElement('div');
-    cursor.className = 'tile-cursor';
-    cursor.innerHTML = '<span class="tile-cursor__dot"><span>Click</span></span>';
-    document.body.appendChild(cursor);
-  }
-  function placeCursor(x, y) {
-    if (cursor) cursor.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-  }
-
-  /* ---------- hover wiring ---------- */
+  /* ---------- hover burst (fine + motion only) ---------- */
   if (fine && !reduce) {
     tiles.forEach(function (tile) {
       tile.addEventListener('pointerenter', function (e) {
         if (e.pointerType !== 'mouse') return;
-        if (cursor) { cursor.classList.add('is-on'); placeCursor(e.clientX, e.clientY); }
-        cardBurst(tile, 64);                       // the explosion
+        cardBurst(tile, 64);
       });
       tile.addEventListener('pointermove', function (e) {
         if (e.pointerType !== 'mouse') return;
-        placeCursor(e.clientX, e.clientY);
         if (Math.random() < 0.22) emit(e.clientX, e.clientY, 1, 6, 1.6, { grav: 0.01, decay: 0.03 });
-      });
-      tile.addEventListener('pointerleave', function (e) {
-        if (e.pointerType !== 'mouse') return;
-        if (cursor) cursor.classList.remove('is-on');
       });
     });
   }
@@ -125,8 +105,7 @@
   function warp(href, x, y) {
     if (navigating) return;
     navigating = true;
-    if (cursor) cursor.classList.remove('is-on');
-    emit(x, y, 140, 8, 7, { grav: 0, drag: 0.99, decay: 0.01 });   // big burst
+    emit(x, y, 140, 8, 7, { grav: 0, drag: 0.99, decay: 0.01 });
     var veil = document.createElement('div');
     veil.className = 'tile-warp';
     document.body.appendChild(veil);
@@ -137,21 +116,19 @@
   tiles.forEach(function (tile) {
     tile.addEventListener('click', function (e) {
       if (e.defaultPrevented || navigating) return;
-      // let keyboard activation (detail 0), modified clicks and middle-click pass through
       if (e.detail === 0 || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       var href = tile.getAttribute('href');
       if (!href) return;
-      if (reduce) return;                          // reduced motion: normal navigation
+      if (reduce) return;
       e.preventDefault();
       var r = tile.getBoundingClientRect();
       var x = e.clientX || (r.left + r.width / 2);
       var y = e.clientY || (r.top + r.height / 2);
-      if (!fine) cardBurst(tile, 64);              // touch: explode the card first
+      if (!fine) cardBurst(tile, 64);
       warp(href, x, y);
     });
   });
 
-  /* a fresh page should not inherit a frozen veil on bfcache restore */
   window.addEventListener('pageshow', function (e) {
     if (e.persisted) {
       navigating = false;

@@ -1,0 +1,41 @@
+/* =========================================================================
+   cursor.css — the site-wide "Click" disc (core/cursor.js).
+   No new tokens: accent disc on --blue, spring from --ease-spring.
+   ========================================================================= */
+
+/* hide the native cursor only over interactive targets, only while active */
+body.has-site-cursor :is(a[href], button:not([disabled]), [role="button"], summary, label[for], [data-cursor]):not([data-no-cursor]) {
+  cursor: none;
+}
+
+.site-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.site-cursor__dot {
+  display: grid;
+  place-items: center;
+  width: 64px; height: 64px;
+  margin: -32px 0 0 -32px;              /* centre on the pointer */
+  border-radius: 50%;
+  background: var(--blue, #1a46c9);
+  color: #fff;
+  font-family: var(--font-display, system-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: scale(.4);
+  transition: opacity .2s var(--ease-out, ease),
+              transform .32s var(--ease-spring, cubic-bezier(.16,1,.3,1));
+  will-change: transform, opacity;
+}
+.site-cursor.is-on .site-cursor__dot { opacity: 1; transform: scale(1); }
+
+@media (prefers-reduced-motion: reduce) { .site-cursor { display: none !important; } }
+@media (hover: none), (pointer: coarse)  { .site-cursor { display: none !important; } }

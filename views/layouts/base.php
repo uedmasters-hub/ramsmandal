@@ -58,6 +58,7 @@ $current = $currentKey         ?? '';
   <link rel="stylesheet" href="<?= asset_v('css/menu.css') ?>">
   <link rel="stylesheet" href="<?= asset_v('css/footer.css') ?>">
   <link rel="stylesheet" href="<?= asset_v('css/footer-playground.css') ?>">
+  <link rel="stylesheet" href="<?= asset_v('css/cursor.css') ?>">
   <?php foreach ($styles as $s): ?>
   <link rel="stylesheet" href="<?= asset_v("css/{$s}.css") ?>">
   <?php endforeach; ?>
@@ -79,6 +80,7 @@ $current = $currentKey         ?? '';
   <!-- global scripts -->
   <script src="<?= asset('js/core/theme.js') ?>" defer></script>
   <script src="<?= asset('js/core/menu.js') ?>" defer></script>
+  <script src="<?= asset('js/core/cursor.js') ?>" defer></script>
   <?php foreach ($scripts as $j): ?>
   <script src="<?= asset("js/{$j}.js") ?>" defer></script>
   <?php endforeach; ?>
