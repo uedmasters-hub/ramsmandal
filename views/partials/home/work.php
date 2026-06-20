@@ -25,7 +25,7 @@ $items    = array_values(array_filter($projects, fn($p) => !empty($p['featured']
       $impact = !empty($p['metric'])
         ? trim($p['metric']['value'] . ' ' . lcfirst($p['metric']['label']))
         : ''; ?>
-    <a href="<?= url('/project/' . $p['slug']) ?>" class="work-item">
+    <a href="<?= url('/work/' . $p['slug']) ?>" class="work-item">
       <div class="work-year"><?= e($p['year']) ?></div>
       <div class="work-project"><?= e($p['title']) ?></div>
       <div class="work-meta"><?= e($p['category']) ?></div>
