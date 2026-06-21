@@ -1,12 +1,12 @@
-/* project.css — single journey */
+/* project.css â€” single journey */
 .project__hero{min-height:60dvh;display:grid;align-items:end;padding:calc(var(--nav-h) + 40px) 0 clamp(40px,7vh,80px)}
 .project__hero-inner{width:100%;max-width:var(--container);margin-inline:auto;padding-inline:var(--gutter)}
 .project__hero-text{max-width:26ch}
-.project__eyebrow{font-size:13px;color:#fff;opacity:.82;font-weight:600}
-.project__title{color:#fff;font-size:clamp(2.4rem,7vw,5rem);letter-spacing:-.04em;margin-top:10px}
-.project__tagline{color:#fff;opacity:.9;margin-top:16px;font-size:1.1rem;max-width:40ch;line-height:1.5}
+.project__eyebrow{font-size:13px;/* color:#fff; */opacity:.82;font-weight:600}
+.project__title{/* color:#fff; */font-size:clamp(2.4rem,7vw,5rem);letter-spacing:-.04em;margin-top:10px}
+.project__tagline{/* color:#fff; */opacity:.9;margin-top:16px;font-size:1.1rem;max-width:40ch;line-height:1.5}
 .project__body{max-width:var(--container);margin:clamp(40px,8vh,96px) auto 0;padding:0 var(--gutter)}
-.project__reading{max-width:var(--reading-width)}
+.project__reading{/* max-width:var(--reading-width); */}
 .project__body p{margin-bottom:var(--space-4);color:var(--text-secondary);line-height:1.6}
 .project__placeholder{color:var(--text-muted)}
 .project__placeholder code{background:rgba(0,0,0,.06);padding:2px 6px;border-radius:6px;font-size:.9em}
@@ -14,7 +14,7 @@
 .project__back a{color:var(--blue);font-weight:600}
 
 /* ========================================================================
-   journey body — structured case-study vocabulary used by content/projects/*
+   journey body â€” structured case-study vocabulary used by content/projects/*
    ======================================================================== */
 .project__body .pj { margin-block: clamp(40px, 7vh, 72px); }
 .project__body .pj:first-of-type { margin-top: 0; }
