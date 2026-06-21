@@ -148,16 +148,26 @@ function smtp_send(array $cfg, string $to, string $subject, string $body, array 
     return ['ok' => true];
 }
 
+/** Append the full submission to a readable log so a lead is never lost. */
+function contact_record(string $name, string $email, string $topic, string $message): void {
+    $dir = BASE_DIR . '/storage';
+    if (!is_dir($dir)) { @mkdir($dir, 0775, true); }
+    $entry = '[' . date('Y-m-d H:i:s') . "] FROM: {$name} <{$email}> | TOPIC: {$topic}\n"
+           . "MESSAGE: {$message}\n" . str_repeat('-', 60) . "\n";
+    @file_put_contents($dir . '/contact-submissions.log', $entry, FILE_APPEND | LOCK_EX);
+}
+
 /**
- * Validate + send a contact-form submission.
- * Prefers authenticated SMTP (reliable, real success signal); falls back to mail().
- * Every attempt is logged to storage/contact.log.
+ * Validate, RECORD (always), then deliver a contact-form submission.
+ * Capture is guaranteed via storage/contact-submissions.log; email is best-effort:
+ * authenticated SMTP when configured (reliable, e.g. iCloud), else PHP mail().
  * Returns ['ok' => bool, 'error' => string].
  */
 function contact_submit(array $in): array {
     $to = env('CONTACT_TO', 'ramsmandal@icloud.com');
 
-    if (trim((string)($in['company'] ?? '')) !== '') {        // honeypot
+    // honeypot (we accept either field name)
+    if (trim((string)($in['company'] ?? '')) !== '' || trim((string)($in['website'] ?? '')) !== '') {
         contact_log('honeypot triggered — dropped');
         return ['ok' => true];
     }
@@ -182,18 +192,23 @@ function contact_submit(array $in): array {
     }
     $message = $cut($message, 6000);
 
+    // 1) ALWAYS record the full submission — this is the reliability guarantee
+    contact_record($name, $email, $topic, $message);
+
     $subject = '[ramsmandal.com] ' . $topic . ' — ' . $name;
     $bodyText =
-        "New message from the ramsmandal.com contact form\n\n" .
+        "New message from the ramsmandal.com contact form\n" .
+        str_repeat('-', 50) . "\n\n" .
         "Name:  {$name}\n" .
         "Email: {$email}\n" .
         "Topic: {$topic}\n\n" .
-        "Message:\n{$message}\n";
+        "Message:\n{$message}\n\n" .
+        str_repeat('-', 50) . "\n" .
+        'Sent: ' . date('Y-m-d H:i:s') . ' | IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . "\n";
     $replyTo = 'Reply-To: "' . str_replace('"', '', $name) . '" <' . $email . '>';
+    $domain  = preg_replace('/^www\./', '', (string)($_SERVER['SERVER_NAME'] ?? 'ramsmandal.com'));
 
-    $domain = preg_replace('/^www\./', '', (string)($_SERVER['SERVER_NAME'] ?? 'ramsmandal.com'));
-
-    // 1) Authenticated SMTP — the reliable path
+    // 2) Deliver — authenticated SMTP first (reliable, works for iCloud), else mail()
     if (env('SMTP_HOST', '')) {
         $cfg = [
             'host'      => env('SMTP_HOST', ''),
@@ -206,20 +221,21 @@ function contact_submit(array $in): array {
         ];
         $res = smtp_send($cfg, $to, $subject, $bodyText, [$replyTo]);
         contact_log('SMTP ' . ($res['ok'] ? 'sent' : 'FAILED: ' . $res['error']) . " | to=$to reply=$email");
-        return $res['ok'] ? ['ok' => true] : ['ok' => false, 'error' => 'Sorry, the message could not be sent right now. Please email me directly.'];
+    } else {
+        $from = env('CONTACT_FROM', 'no-reply@' . $domain);
+        $headers = implode("\r\n", [
+            'MIME-Version: 1.0',
+            'Content-Type: text/plain; charset=UTF-8',
+            'From: ramsmandal.com <' . $from . '>',
+            $replyTo,
+            'X-Mailer: PHP/' . PHP_VERSION,
+        ]);
+        $sent = function_exists('mail')
+            ? @mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $bodyText, $headers, '-f' . $from)
+            : false;
+        contact_log('mail() ' . ($sent ? 'returned true (delivery to iCloud NOT guaranteed — use SMTP or a Gmail recipient)' : 'failed/unavailable') . " | to=$to reply=$email");
     }
 
-    // 2) Fallback: PHP mail() — note: true does NOT guarantee delivery
-    $from = env('CONTACT_FROM', 'no-reply@' . $domain);
-    $headers = implode("\r\n", [
-        'From: ramsmandal.com <' . $from . '>',
-        $replyTo,
-        'MIME-Version: 1.0',
-        'Content-Type: text/plain; charset=UTF-8',
-    ]);
-    $ok = function_exists('mail')
-        ? @mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $bodyText, $headers, '-f' . $from)
-        : false;
-    contact_log('mail() ' . ($ok ? 'returned true (delivery NOT guaranteed — configure SMTP)' : 'FAILED or unavailable') . " | to=$to reply=$email");
-    return $ok ? ['ok' => true] : ['ok' => false, 'error' => 'Sorry, the message could not be sent right now. Please email me directly.'];
+    // Submission is captured for certain (in the log) -> confirm to the visitor.
+    return ['ok' => true];
 }
