@@ -1,0 +1,64 @@
+/* css/breadcrumbs.css
+   Breadcrumb trail. Tokens only (variables.css). No inline styles, no images. */
+
+.breadcrumbs {
+    width: 100%;
+    max-width: var(--reading-width);
+    margin-inline: auto;
+    padding-block: clamp(16px, 2.4vh, 24px);
+}
+
+.breadcrumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.breadcrumbs__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px 10px;
+}
+
+/* CSS-drawn chevron separator — decorative, no glyph/image dependency */
+.breadcrumbs__item:not(:first-child)::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid var(--text-muted);
+    border-bottom: 1.5px solid var(--text-muted);
+    transform: rotate(-45deg);
+    opacity: .55;
+    flex: none;
+}
+
+.breadcrumbs__link {
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: color .2s var(--ease-spring, ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .breadcrumbs__link:hover { color: var(--blue); }
+}
+.breadcrumbs__link:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 3px;
+}
+
+.breadcrumbs__current {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* tighten on small screens; the trail wraps gracefully */
+@media (max-width: 560px) {
+    .breadcrumbs__list { font-size: 13px; gap: 4px 8px; }
+}
