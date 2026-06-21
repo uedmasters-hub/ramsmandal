@@ -9,6 +9,8 @@ $site    = content('site');
 $title   = $page['title']      ?? $site['meta']['default_title'];
 $desc    = $page['desc']       ?? $site['meta']['default_desc'];
 $bodyCls = $page['body_class'] ?? '';
+$crumbs  = build_breadcrumbs($_SERVER['REQUEST_URI'] ?? '/');
+if (!empty($crumbs)) { $bodyCls = trim($bodyCls . ' has-breadcrumbs'); }
 $styles  = $page['styles']     ?? [];
 $scripts = $page['scripts']    ?? [];
 $current = $currentKey         ?? '';
@@ -58,6 +60,7 @@ $current = $currentKey         ?? '';
   <link rel="stylesheet" href="<?= asset_v('css/menu.css') ?>">
   <link rel="stylesheet" href="<?= asset_v('css/footer.css') ?>">
   <link rel="stylesheet" href="<?= asset_v('css/footer-playground.css') ?>">
+  <link rel="stylesheet" href="<?= asset_v('css/breadcrumbs.css') ?>">
   <link rel="stylesheet" href="<?= asset_v('css/cursor.css') ?>">
   <?php foreach ($styles as $s): ?>
   <link rel="stylesheet" href="<?= asset_v("css/{$s}.css") ?>">
@@ -72,7 +75,7 @@ $current = $currentKey         ?? '';
 
   <?php require VIEW_DIR . '/partials/topbar.php'; ?>
 
-  <main id="main-content"><?= $content ?></main>
+  <main id="main-content"><?php require VIEW_DIR . '/partials/breadcrumbs.php'; ?><?= $content ?></main>
 
   <?php require VIEW_DIR . '/partials/footer.php'; ?>
   <?php require VIEW_DIR . '/partials/menu.php'; ?>

@@ -239,3 +239,39 @@ function contact_submit(array $in): array {
     // Submission is captured for certain (in the log) -> confirm to the visitor.
     return ['ok' => true];
 }
+
+/**
+ * Breadcrumb trail for the current path, matched to this site's routes
+ * (/, /work, /work/{slug}, /about, /contact). Returns [] on home.
+ * Project titles are resolved from the projects registry.
+ */
+function build_breadcrumbs(string $path): array {
+    $clean = '/' . trim(parse_url($path, PHP_URL_PATH) ?: '/', '/');
+    if ($clean === '/') { return []; }
+
+    $labels = ['work' => 'Work', 'about' => 'About', 'contact' => 'Contact'];
+    $parts  = array_values(array_filter(explode('/', trim($clean, '/')), 'strlen'));
+    $section = $parts[0] ?? '';
+    $tc = static fn(string $s): string => ucwords(str_replace(['-', '_'], ' ', $s));
+
+    $crumbs = [['label' => 'Home', 'url' => '/']];
+
+    if (isset($labels[$section])) {
+        $isDetail = isset($parts[1]) && $parts[1] !== '';
+        $crumbs[] = ['label' => $labels[$section], 'url' => $isDetail ? '/' . $section : null];
+        if ($isDetail) {
+            $title = $tc($parts[1]);
+            if ($section === 'work') {
+                foreach ((content('projects') ?: []) as $p) {
+                    if (($p['slug'] ?? '') === $parts[1]) { $title = (string) $p['title']; break; }
+                }
+            }
+            $crumbs[] = ['label' => $title, 'url' => null];
+        }
+    } else {
+        $crumbs[] = ['label' => $tc($section), 'url' => null];
+    }
+
+    $crumbs[count($crumbs) - 1]['url'] = null;   // current page is never a link
+    return $crumbs;
+}
