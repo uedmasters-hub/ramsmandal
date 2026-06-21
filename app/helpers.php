@@ -59,3 +59,68 @@ function not_found(): void {
     view('404');
     exit;
 }
+/** True when the client expects a JSON response (fetch/AJAX). */
+function wants_json(): bool {
+    $xrw = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '');
+    $acc = $_SERVER['HTTP_ACCEPT'] ?? '';
+    return $xrw === 'fetch' || strpos($acc, 'application/json') !== false;
+}
+
+/**
+ * Validate + send a contact-form submission by email.
+ * Returns ['ok' => bool, 'error' => string].  No DB; mail() only.
+ */
+function contact_submit(array $in): array {
+    $to   = env('CONTACT_TO', 'ramsmandal@icloud.com');
+
+    // honeypot: bots fill the hidden "company" field — silently accept and drop
+    if (trim((string)($in['company'] ?? '')) !== '') {
+        return ['ok' => true];
+    }
+
+    $cut     = static function (string $s, int $n): string {
+        return function_exists('mb_substr') ? mb_substr($s, 0, $n) : substr($s, 0, $n);
+    };
+    $oneLine = static fn(string $s): string => trim(preg_replace('/[\r\n]+/', ' ', $s) ?? '');
+    $name    = $cut($oneLine((string)($in['name'] ?? '')), 120);
+    $email   = $oneLine((string)($in['email'] ?? ''));
+    $topic   = $cut($oneLine((string)($in['topic'] ?? '')), 120);
+    $message = trim((string)($in['message'] ?? ''));
+
+    $allowed = ['A role or opportunity', 'Consulting or design systems', 'A product audit or teardown', 'Something else'];
+    if (!in_array($topic, $allowed, true)) { $topic = 'Something else'; }
+
+    if ($name === '' || $message === '') {
+        return ['ok' => false, 'error' => 'Please add your name and a message.'];
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return ['ok' => false, 'error' => 'Please enter a valid email address.'];
+    }
+    $message = $cut($message, 6000);
+
+    $subject = '[ramsmandal.com] ' . $topic . ' — ' . $name;
+    $body =
+        "New message from the ramsmandal.com contact form\n\n" .
+        "Name:  {$name}\n" .
+        "Email: {$email}\n" .
+        "Topic: {$topic}\n\n" .
+        "Message:\n{$message}\n";
+
+    // From must be on the site's own domain for deliverability; visitor is the Reply-To
+    $domain = preg_replace('/^www\./', '', (string)($_SERVER['SERVER_NAME'] ?? 'ramsmandal.com'));
+    $from   = env('CONTACT_FROM', 'no-reply@' . $domain);
+    $headers = implode("\r\n", [
+        'From: Ramesh Mandal Website <' . $from . '>',
+        'Reply-To: ' . $name . ' <' . $email . '>',
+        'MIME-Version: 1.0',
+        'Content-Type: text/plain; charset=UTF-8',
+        'X-Mailer: PHP/' . phpversion(),
+    ]);
+    $encSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+
+    $ok = @mail($to, $encSubject, $body, $headers, '-f' . $from);
+    if (!$ok) {
+        return ['ok' => false, 'error' => 'Sorry, the message could not be sent right now. Please email me directly.'];
+    }
+    return ['ok' => true];
+}

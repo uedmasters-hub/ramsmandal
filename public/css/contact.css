@@ -94,3 +94,17 @@
 [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity .6s var(--ease-out, ease), transform .6s var(--ease-spring, ease); }
 [data-reveal].in-view { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { [data-reveal] { opacity: 1; transform: none; transition: none; } }
+
+/* ---- submission states ---- */
+.contact__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.contact__error { margin: 0; color: #b42318; font-size: 14px; }
+.contact__hint.is-error { color: #b42318; }
+.contact__sent {
+  padding: clamp(24px, 3vw, 36px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md, 14px);
+  background: var(--bg-elevated);
+  line-height: 1.6;
+}
+.contact__sent strong { display: block; font-family: var(--font-display); font-size: 1.25rem; color: var(--text-primary); margin-bottom: 6px; }
+.contact__sent span { color: var(--text-secondary); }

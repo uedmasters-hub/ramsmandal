@@ -1,10 +1,12 @@
 <?php
-/* views/contact.php — a working, useful contact page.
-   The form composes a professional email to the inbox (mailto), with a
-   no-JS fallback via the form's mailto action. */
+/* views/contact.php — useful contact page.
+   The form posts to POST /contact, which validates and emails the inbox.
+   JS submits via fetch (no reload); without JS the route renders the result. */
 $site   = content('site');
-$inbox  = 'ramsmandal@gmail.com';                 // inquiries route here
+$inbox  = 'ramsmandal@icloud.com';                // inquiries are emailed here
 $social = $site['social'] ?? [];
+$sent   = $sent  ?? false;
+$error  = $error ?? null;
 
 $page = [
   'title'      => 'Contact — Ramesh Mandal',
@@ -18,10 +20,8 @@ $page = [
 $lat = 28.484504; $lon = 77.110418; $dx = 0.045; $dy = 0.028;
 $bbox = implode('%2C', [$lon - $dx, $lat - $dy, $lon + $dx, $lat + $dy]);
 $mapSrc = 'https://www.openstreetmap.org/export/embed.html?bbox=' . $bbox . '&layer=mapnik';
-
-$mailFallback = 'mailto:' . $inbox . '?subject=' . rawurlencode('Inquiry via ramsmandal.com');
 ?>
-<div class="contact" data-contact data-inbox="<?= e($inbox) ?>">
+<div class="contact" data-contact>
 
   <header class="contact__head" data-reveal>
     <span class="contact__eyebrow">● Contact</span>
@@ -32,39 +32,52 @@ $mailFallback = 'mailto:' . $inbox . '?subject=' . rawurlencode('Inquiry via ram
   <div class="contact__grid">
 
     <section class="contact__panel" data-reveal>
-      <form class="contact__form" action="<?= e($mailFallback) ?>" method="post" enctype="text/plain" novalidate>
-        <div class="field">
-          <label for="cf-name">Name</label>
-          <input id="cf-name" name="name" type="text" autocomplete="name" required>
+      <?php if ($sent): ?>
+        <div class="contact__sent" role="status">
+          <strong>Message sent.</strong>
+          <span>Thanks for reaching out &mdash; I&rsquo;ll get back to you soon.</span>
         </div>
-        <div class="field">
-          <label for="cf-email">Email</label>
-          <input id="cf-email" name="email" type="email" autocomplete="email" inputmode="email" required>
-        </div>
-        <div class="field">
-          <label for="cf-topic">What&rsquo;s this about?</label>
-          <div class="select">
-            <select id="cf-topic" name="topic">
-              <option>A role or opportunity</option>
-              <option>Consulting or design systems</option>
-              <option>A product audit or teardown</option>
-              <option>Something else</option>
-            </select>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      <?php else: ?>
+        <form class="contact__form" action="<?= e(url('/contact')) ?>" method="post" novalidate>
+          <div class="field">
+            <label for="cf-name">Name</label>
+            <input id="cf-name" name="name" type="text" autocomplete="name" required>
           </div>
-        </div>
-        <div class="field">
-          <label for="cf-message">Message</label>
-          <textarea id="cf-message" name="message" rows="5" required></textarea>
-        </div>
-        <button class="contact__send" type="submit" data-cursor="Send">
-          <span>Send message</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </button>
-        <p class="contact__hint" data-contact-status aria-live="polite">
-          Opens in your email app, addressed to <a href="mailto:<?= e($inbox) ?>"><?= e($inbox) ?></a>.
-        </p>
-      </form>
+          <div class="field">
+            <label for="cf-email">Email</label>
+            <input id="cf-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <div class="field">
+            <label for="cf-topic">What&rsquo;s this about?</label>
+            <div class="select">
+              <select id="cf-topic" name="topic">
+                <option>A role or opportunity</option>
+                <option>Consulting or design systems</option>
+                <option>A product audit or teardown</option>
+                <option>Something else</option>
+              </select>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+          </div>
+          <div class="field">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" rows="5" required></textarea>
+          </div>
+
+          <!-- honeypot: bots fill this; humans never see it -->
+          <div class="contact__hp" aria-hidden="true">
+            <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <?php if ($error): ?><p class="contact__error" role="alert"><?= e($error) ?></p><?php endif; ?>
+
+          <button class="contact__send" type="submit" data-cursor="Send">
+            <span>Send message</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <p class="contact__hint" data-contact-status aria-live="polite">I usually reply within two business days.</p>
+        </form>
+      <?php endif; ?>
     </section>
 
     <aside class="contact__aside">

@@ -44,8 +44,17 @@ return [
     }],
 
     ['POST', '/contact', function () {
-        // TODO: validate + send. Stub keeps the route alive.
-        view('contact', ['currentKey' => 'contact', 'sent' => true]);
+        $res = contact_submit($_POST);
+        if (wants_json()) {
+            header('Content-Type: application/json; charset=UTF-8');
+            echo json_encode($res);
+            exit;
+        }
+        view('contact', [
+            'currentKey' => 'contact',
+            'sent'       => $res['ok'],
+            'error'      => $res['ok'] ? null : ($res['error'] ?? ''),
+        ]);
     }],
 
     ['GET', '/sitemap.xml', function () {
