@@ -5,11 +5,13 @@ p{line-height:1.55}
 .prose p+p{margin-top:var(--space-4)}
 main{display:block}
 
-/* universal container */
-.site-container{
-    max-width:1280px;
-    margin:0 auto;
-    /* padding:0 40px; */
+/* universal container — every region (header, page body, footer) aligns to this */
+.site-container,
+.u-container{
+    width:100%;
+    max-width:var(--container);
+    margin-inline:auto;
+    padding-inline:var(--gutter);
 }
 
 /* scroll reveal (driven by core/reveal.js IntersectionObserver) */

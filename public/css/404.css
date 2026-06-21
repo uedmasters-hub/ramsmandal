@@ -2,7 +2,7 @@
    404.css — not-found. Confident, editorial, left-aligned like the hero.
    ========================================================================= */
 .nf{min-height:78dvh;display:flex;flex-direction:column;justify-content:center;
-  max-width:1320px;margin-inline:auto;
+  max-width:var(--container);margin-inline:auto;
   padding:calc(var(--nav-h) + clamp(24px,6vh,64px)) clamp(20px,5vw,64px) clamp(40px,8vh,96px)}
 
 .nf__code{margin:0;font-size:14px;font-weight:500;color:var(--text-muted);

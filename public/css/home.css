@@ -7,12 +7,12 @@
 body{ background:var(--bg); color:var(--text-primary); }
 
 /* ---------- shared rhythm ---------- */
-.intro,.work,.scale,.cta{max-width:1320px;margin-inline:auto;padding: 80px 20px;}
+.intro,.work,.scale,.cta{padding-block:80px;}
 
 /* ---------- HERO ---------- */
 .hero{min-height:100dvh;display:flex;flex-direction:column;
   padding-top:calc(var(--nav-h) + clamp(20px,5vh,52px));padding-bottom:clamp(28px,5vh,56px);
-  max-width:1320px;margin-inline:auto}
+  max-width:var(--container);margin-inline:auto;padding-inline:var(--gutter)}
 .hero__role{font-size:14px;color:var(--text-muted);font-weight:500;margin:0}
 
 .hero__statement{

@@ -1,12 +1,12 @@
 /* project.css — single journey */
-.project__hero{min-height:60dvh;display:grid;align-items:end;padding:calc(var(--nav-h) + 40px) clamp(20px,5vw,64px) clamp(40px,7vh,80px)}
+.project__hero{min-height:60dvh;display:grid;align-items:end;padding:calc(var(--nav-h) + 40px) var(--gutter) clamp(40px,7vh,80px)}
 .project__hero-inner{max-width:24ch}
 .project__eyebrow{font-size:13px;color:#fff;opacity:.82;font-weight:600}
 .project__title{color:#fff;font-size:clamp(2.4rem,7vw,5rem);letter-spacing:-.04em;margin-top:10px}
 .project__tagline{color:#fff;opacity:.9;margin-top:16px;font-size:1.1rem;max-width:40ch;line-height:1.5}
-.project__body{max-width:var(--reading-width);margin:clamp(40px,8vh,96px) auto;padding:0 clamp(20px,5vw,64px)}
+.project__body{max-width:var(--reading-width);margin:clamp(40px,8vh,96px) auto;padding:0 var(--gutter)}
 .project__body p{margin-bottom:var(--space-4);color:var(--text-secondary);line-height:1.6}
 .project__placeholder{color:var(--text-muted)}
 .project__placeholder code{background:rgba(0,0,0,.06);padding:2px 6px;border-radius:6px;font-size:.9em}
-.project__back{padding:0 clamp(20px,5vw,64px) clamp(40px,8vh,96px)}
+.project__back{max-width:var(--container);margin-inline:auto;padding:0 var(--gutter) clamp(40px,8vh,96px)}
 .project__back a{color:var(--blue);font-weight:600}

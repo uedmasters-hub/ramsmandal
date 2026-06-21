@@ -26,4 +26,6 @@
 
   /* layout */
   --nav-h: 88px;
+  --container: 1280px;                  /* the one shared content column   */
+  --gutter: clamp(20px, 5vw, 64px);     /* the one shared page gutter       */
 }
