@@ -3,13 +3,22 @@
 $page = ['title' => $project['title'] . ' — Ramesh Mandal', 'desc' => $project['tagline'], 'body_class' => 'page-project', 'styles' => ['project'], 'scripts' => ['core/reveal', 'project']];
 ?>
 <article class="project">
-  <header class="project__hero tone-<?= (int)($project['tone'] ?? 0) ?>">
-    <div class="project__hero-inner">
+  <?php
+    $heroCover  = $project['image'] ?? ('work/' . $project['slug'] . '.webp');
+    $hasHeroImg = is_file(BASE_DIR . '/public/img/' . $heroCover);
+  ?>
+  <header class="project__hero tone-<?= (int)($project['tone'] ?? 0) ?><?= $hasHeroImg ? ' has-media' : '' ?>">
+    <div class="project__hero-inner<?= $hasHeroImg ? ' has-media' : '' ?>">
       <div class="project__hero-text">
         <span class="project__eyebrow"><?= e($project['company']) ?> · <?= e($project['year']) ?></span>
         <h1 class="project__title"><?= e($project['title']) ?></h1>
         <p class="project__tagline"><?= e($project['tagline']) ?></p>
       </div>
+      <?php if ($hasHeroImg): ?>
+      <figure class="project__hero-media">
+        <img src="<?= asset('img/' . $heroCover) ?>" alt="<?= e($project['title']) ?>" decoding="async" fetchpriority="high">
+      </figure>
+      <?php endif; ?>
     </div>
   </header>
   <div class="project__body">
