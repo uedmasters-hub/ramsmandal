@@ -21,28 +21,23 @@ body.has-site-cursor :is(a[href], button:not([disabled]), [role="button"], summa
   position: relative;
   display: grid;
   place-items: center;
-  width: 64px; height: 64px;
-  margin: -32px 0 0 -32px;                 /* centre on the pointer */
+  width: 62px; height: 62px;
+  margin: -31px 0 0 -31px;                 /* centre on the pointer */
   border-radius: 50%;
   overflow: hidden;
-  color: #fff;
+  color: var(--text-primary);              /* theme-aware: legible on the frost */
   font-family: var(--font-display, system-ui);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: .12em;
   text-transform: uppercase;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, .55);
 
-  /* liquid glass: near-clear body, the backdrop is REFRACTED through it (not blurred) */
-  background: color-mix(in srgb, var(--blue) 18%, transparent);
-  -webkit-backdrop-filter: url(#liquidGlass) brightness(1.06) saturate(1.1);
-  backdrop-filter: url(#liquidGlass) brightness(1.06) saturate(1.1);
-  border: 1px solid rgba(255, 255, 255, .42);
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, .55),   /* top edge light          */
-    inset 0 -7px 12px rgba(0, 0, 0, .10),        /* base shade              */
-    inset 0 0 12px 3px rgba(255, 255, 255, .10), /* inner rim glow (lens)   */
-    0 10px 26px rgba(0, 0, 0, .20);              /* contact shadow          */
+  /* frosted glass — identical material to the compact header pill */
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.7);
+  backdrop-filter: blur(18px) saturate(1.7);
+  border: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .16), inset 0 1px 0 rgba(255, 255, 255, .42);
 
   opacity: 0;
   transform: scale(.4);
@@ -51,29 +46,6 @@ body.has-site-cursor :is(a[href], button:not([disabled]), [role="button"], summa
   will-change: transform, opacity;
 }
 .site-cursor.is-on .site-cursor__dot { opacity: 1; transform: scale(1); }
-
-/* specular sheen — the "liquid" highlight that makes it read as glass, not frost */
-.site-cursor__dot::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  background: linear-gradient(180deg, rgba(255,255,255,.4), rgba(255,255,255,0) 42%);
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
-/* soft center scrim — keeps label legible on any backdrop, rim stays clear */
-.site-cursor__dot::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  background: radial-gradient(closest-side, rgba(10, 16, 44, .30), rgba(10, 16, 44, 0) 76%);
-  pointer-events: none;
-}
 
 /* content sits above the sheen */
 .site-cursor__label,

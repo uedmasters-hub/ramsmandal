@@ -34,19 +34,6 @@
   function init() {
     document.body.appendChild(el);
     document.body.classList.add('has-site-cursor');
-
-    // refraction filter — bends the backdrop through the disc (the "liquid" in liquid glass)
-    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', '0'); svg.setAttribute('height', '0');
-    svg.setAttribute('aria-hidden', 'true');
-    svg.style.cssText = 'position:absolute;width:0;height:0;pointer-events:none';
-    svg.innerHTML =
-      '<defs><filter id="liquidGlass" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">' +
-        '<feTurbulence type="fractalNoise" baseFrequency="0.011 0.013" numOctaves="2" seed="4" result="n"/>' +
-        '<feGaussianBlur in="n" stdDeviation="1.1" result="b"/>' +
-        '<feDisplacementMap in="SourceGraphic" in2="b" scale="48" xChannelSelector="R" yChannelSelector="G"/>' +
-      '</filter></defs>';
-    document.body.appendChild(svg);
   }
   if (document.body) init();
   else document.addEventListener('DOMContentLoaded', init);

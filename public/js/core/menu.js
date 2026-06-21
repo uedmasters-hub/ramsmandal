@@ -13,7 +13,7 @@
   // anchor the panel just below the trigger, on whichever side has room
   function positionPanel() {
     if (window.innerWidth <= 560) {           // phones: let CSS centre it
-      panel.style.top = panel.style.left = panel.style.right = panel.style.transformOrigin = "";
+      ["top", "left", "right", "transform-origin"].forEach(function (k) { panel.style.removeProperty(k); });
       return;
     }
     var r = trigger.getBoundingClientRect();
@@ -22,10 +22,10 @@
     var left = r.right - pw, origin = "top right";   // align panel's right edge to the button
     if (left < margin) { left = r.left; origin = "top left"; }  // no room left -> open rightward
     left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
-    panel.style.top = (r.bottom + gap) + "px";
-    panel.style.left = left + "px";
-    panel.style.right = "auto";
-    panel.style.transformOrigin = origin;
+    panel.style.setProperty("top", (r.bottom + gap) + "px", "important");
+    panel.style.setProperty("left", left + "px", "important");
+    panel.style.setProperty("right", "auto", "important");
+    panel.style.setProperty("transform-origin", origin, "important");
   }
 
   function setOpen(state) {
@@ -42,6 +42,7 @@
   if (scrim) scrim.addEventListener("click", function () { setOpen(false); });
   panel.addEventListener("click", function (e) { if (e.target.closest("a[href]")) setOpen(false); });
   window.addEventListener("resize", function () { if (open) positionPanel(); });
+  window.addEventListener("scroll", function () { if (open) positionPanel(); }, { passive: true });
   document.addEventListener("keydown", function (e) {
     if (!open) return;
     if (e.key === "Escape") { setOpen(false); return; }
