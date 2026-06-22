@@ -235,8 +235,8 @@ function boot() {
   setStage(0, false);
 
   // ---- content reveals below the hero ----
-  revealContent();
-  revealBigCards();
+  // revealContent();
+  // revealBigCards();
 }
 
 /* big cards: drag-to-scroll (always on) + entrance (IntersectionObserver) */
@@ -270,7 +270,7 @@ function revealBigCards() {
   onceInView(bigTrack, () => gsap.to(cards, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.08 }), { threshold: 0.15 });
 }
 
-function start() { if (window.__introDone) boot(); else addEventListener("intro:done", boot, { once: true }); }
-initBigCardsDrag();
-if (document.readyState !== "loading") start();
-else document.addEventListener("DOMContentLoaded", start);
+// function start() { if (window.__introDone) boot(); else addEventListener("intro:done", boot, { once: true }); }
+// initBigCardsDrag();
+// if (document.readyState !== "loading") start();
+// else document.addEventListener("DOMContentLoaded", start);
