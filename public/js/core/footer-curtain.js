@@ -1,20 +1,29 @@
 /* =========================================================================
    core/footer-curtain.js
 
-   Curtain reveal: the footer is pinned (fixed) at the bottom; a page-coloured
-   shutter covers it and lifts away on scroll so the body appears to slide up
-   off the footer. The live dot-field is raised just above the shutter, so its
-   real dots paint over the shutter and there is no flat seam.
+   Footer entrance. The footer lives in normal flow (the whole thing scrolls,
+   poster wall and all). When it scrolls into view, a GSAP timeline reveals it:
+   the closing statement rises, the contact nav staggers in, and the posters
+   cascade up into their rotations.
 
-   - One CSS var (--lift 0..1) drives the shutter's translateY. Transform only.
-   - Eased with a lerp so it is buttery on native and Lenis-smoothed scroll.
-   - rAF runs only while settling; reduced motion / no-JS / un-scrollable page
-     falls back to a static, colour-separated footer in normal flow.
+   - GSAP is reused from the page's importmap when present, otherwise pulled
+     from the CDN, so the entrance works site-wide.
+   - Pieces are hidden by CSS up-front (html.js) to avoid a flash; this module
+     animates them in, then clears inline styles so hover/rotation behave.
+   - Reduced motion, no GSAP, or no IntersectionObserver: reveal instantly.
    ========================================================================= */
 (function () {
   "use strict";
 
-  var root = document.documentElement;
+  function reveal(footer) { footer.classList.add("fx-done"); }
+
+  async function loadGsap() {
+    try { var m = await import("gsap"); return m.gsap || m.default; }
+    catch (e) {
+      try { var c = await import("https://unpkg.com/gsap@3.12.5/index.js"); return c.gsap || c.default; }
+      catch (e2) { return null; }
+    }
+  }
 
   function init() {
     var footer = document.querySelector(".playground-footer");
@@ -22,60 +31,55 @@
     if (!footer.id) footer.id = "site-footer";
 
     var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !("IntersectionObserver" in window)) { reveal(footer); return; }
 
-    function maxScroll() { return root.scrollHeight - window.innerHeight; }
-    function scrollable() { return maxScroll() > 40; }
+    var status  = footer.querySelector(".footer-status");
+    var title   = footer.querySelector(".footer-title");
+    var labels  = footer.querySelectorAll(".footer-label");
+    var links   = footer.querySelectorAll(".footer-nav-group a");
+    var posters = footer.querySelectorAll(".poster");
 
-    if (reduce || !scrollable() || !("IntersectionObserver" in window)) return;
+    // Safety net: if GSAP never resolves, reveal anyway.
+    var fallback = setTimeout(function () { reveal(footer); }, 2600);
 
-    // page-coloured shutter that covers the pinned footer, then lifts
-    var shutter = document.createElement("div");
-    shutter.className = "curtain-shutter";
-    shutter.setAttribute("aria-hidden", "true");
-    document.body.appendChild(shutter);
+    var started = false;
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting || started) return;
+      started = true;
+      io.disconnect();
 
-    root.classList.add("footer-fixed-on");
+      loadGsap().then(function (gsap) {
+        if (!gsap) { clearTimeout(fallback); reveal(footer); return; }
+        clearTimeout(fallback);
 
-    var lift = 0;      // current (eased) shutter lift 0..1
-    var target = 0;    // scroll-derived target
-    var raf = 0;
+        var rot = function (i, el) {
+          var r = parseFloat(getComputedStyle(el).getPropertyValue("--r"));
+          return isNaN(r) ? 0 : r;
+        };
 
-    function measure() {
-      var winH = window.innerHeight || 1;
-      var start = maxScroll() - winH;                   // runway = last viewport of scroll
-      var y = window.scrollY || window.pageYOffset || 0;
-      var t = (y - start) / winH;
-      target = t < 0 ? 0 : t > 1 ? 1 : t;
-    }
+        gsap.set([status, title], { y: 42, autoAlpha: 0 });
+        gsap.set([].slice.call(labels).concat([].slice.call(links)), { y: 24, autoAlpha: 0 });
+        gsap.set(posters, { y: 66, scale: 0.9, rotation: 0, autoAlpha: 0, transformOrigin: "50% 65%" });
 
-    function apply() { root.style.setProperty("--lift", lift.toFixed(4)); }
+        gsap.timeline({
+          defaults: { ease: "power3.out" },
+          onComplete: function () {
+            reveal(footer);
+            gsap.set([status, title], { clearProps: "all" });
+            gsap.set([].slice.call(labels).concat([].slice.call(links)), { clearProps: "all" });
+            gsap.set(posters, { clearProps: "all" });   // hand rotation + hover back to CSS
+          }
+        })
+        .to(status,  { y: 0, autoAlpha: 1, duration: 0.6 }, 0)
+        .to(title,   { y: 0, autoAlpha: 1, duration: 0.9 }, 0.05)
+        .to(labels,  { y: 0, autoAlpha: 1, duration: 0.5, stagger: 0.08 }, 0.2)
+        .to(links,   { y: 0, autoAlpha: 1, duration: 0.5, stagger: 0.06 }, 0.28)
+        .to(posters, { y: 0, scale: 1, rotation: rot, autoAlpha: 1, duration: 0.7,
+                       stagger: { each: 0.04, from: "random" } }, 0.18);
+      });
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.01 });
 
-    function frame() {
-      lift += (target - lift) * 0.16;
-      if (Math.abs(target - lift) < 0.001) lift = target;
-      apply();
-      raf = Math.abs(target - lift) > 0.0005 ? requestAnimationFrame(frame) : 0;
-    }
-
-    function kick() { measure(); if (!raf) raf = requestAnimationFrame(frame); }
-
-    function onScroll() { kick(); }
-
-    var resizeTimer;
-    function onResize() {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function () {
-        if (!scrollable()) { target = lift = 1; apply(); return; }  // can't scroll: leave open
-        kick();
-      }, 150);
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onResize, { passive: true });
-
-    measure();
-    lift = target;
-    apply();
+    io.observe(footer);
   }
 
   if (document.readyState === "loading") {
